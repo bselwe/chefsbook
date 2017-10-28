@@ -1,4 +1,5 @@
 using ChefsBook.Core;
+using ChefsBook.Environment;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -10,8 +11,8 @@ namespace ChefsBook.MigrationsApp
         {
             var opts = new DbContextOptionsBuilder<CoreDbContext>()
                 .UseSqlServer(
-                    @"Server=db;Database=master;User=sa;Password=MyVeryStrongPassword1!",
-                    cfg => cfg.MigrationsAssembly("Recipe.MigrationsApp"))
+                    MigrationsConfig.LoadConnectionString("WebApi"),
+                    cfg => cfg.MigrationsAssembly(ProjectConsts.Migrations))
                 .Options;
             return new CoreDbContext(opts);
         }
