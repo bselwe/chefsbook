@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+    recipe-api:
+        container_name: "chefsbook-webapi-container"
+        image: chefsbook-webapi-image
+        build: ./Apps/WebApiApp
+        ports:
+            - "5000:5000"
+        environment:
+            ASPNETCORE_URLS: "http://*:5000"
+            ASPNETCORE_ENVIRONMENT: "Development"
