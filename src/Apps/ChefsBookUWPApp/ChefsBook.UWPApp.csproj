@@ -99,6 +99,10 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IRecipeApiService.cs" />
+    <Compile Include="Services\FakeRecipeApiService.cs" />
+    <Compile Include="Services\RecipeApiService.cs" />
+    <Compile Include="Services\ViewModelLocator.cs" />
     <Compile Include="ViewModels\RecipeCollectionViewModel.cs" />
     <Compile Include="ViewModels\RecipeViewModel.cs" />
   </ItemGroup>
