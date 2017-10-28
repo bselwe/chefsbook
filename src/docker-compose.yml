@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-    recipe-api:
+    chefsbook-webapi:
         container_name: "chefsbook-webapi-container"
         image: chefsbook-webapi-image
         build: ./Apps/WebApiApp
@@ -10,3 +10,13 @@ services:
         environment:
             ASPNETCORE_URLS: "http://*:5000"
             ASPNETCORE_ENVIRONMENT: "Development"
+        links:
+            - chefsbook-database
+
+    chefsbook-database:
+        container_name: "chefsbook-database-container"
+        image: chefsbook-database-image
+        build: ./Apps/Database
+        environment:
+            SA_PASSWORD: "MyVeryStrongPassword1!"
+            ACCEPT_EULA: "Y"
