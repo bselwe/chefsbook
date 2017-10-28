@@ -1,4 +1,6 @@
 ﻿using System;
+using ChefsBook.Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChefsBook.Core
 {
