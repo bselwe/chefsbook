@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{883384BA-3FE4-4971-88C9-060DF9EBEAE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChefsBook UWP App", "Apps\ChefsBook UWP App\ChefsBook UWP App.csproj", "{FE821ECB-A032-49BF-9C86-42D9A6170F33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChefsBook UWP App", "App\ChefsBookUWPApp\ChefsBook.UWPApp.csproj", "{FE821ECB-A032-49BF-9C86-42D9A6170F33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
