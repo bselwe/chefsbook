@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ChefsBook.MigrationsApp.Migrations
 {
-    public partial class CreateEntityModels : Migration
+    public partial class CreateRecipeModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,10 +18,10 @@ namespace ChefsBook.MigrationsApp.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
-                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    Servings = table.Column<int>(type: "int", nullable: false),
+                    Servings = table.Column<int>(type: "int", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
@@ -59,7 +59,7 @@ namespace ChefsBook.MigrationsApp.Migrations
                     StepId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RecipeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Duration = table.Column<TimeSpan>(type: "time", nullable: false)
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: true)
                 },
                 constraints: table =>
                 {

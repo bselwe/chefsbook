@@ -12,7 +12,6 @@ namespace ChefsBook.Core
             CreateMap<Recipe, RecipeDTO>();
             CreateMap<Ingredient, IngredientDTO>();
             CreateMap<Step, StepDTO>();
-            CreateMap<Tag, TagDTO>();
         }
     }
 }
