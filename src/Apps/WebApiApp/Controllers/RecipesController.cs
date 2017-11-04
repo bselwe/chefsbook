@@ -62,6 +62,22 @@ namespace WebApiApp.Controllers
                 newRecipe.Servings,
                 newRecipe.Notes);
 
+            var ingredients = new List<Ingredient>();
+            foreach (var i in newRecipe.Ingredients)
+            {
+                var ingredient = Ingredient.Create(recipe, i.Name, i.Quantity);
+                ingredients.Add(ingredient);
+            }
+
+            var steps = new List<Step>();
+            foreach (var s in newRecipe.Steps)
+            {
+                var step = Step.Create(recipe, s.Duration, s.Description);
+                steps.Add(step);
+            }
+
+            recipe.AddIngredients(ingredients);
+            recipe.AddSteps(steps);
             recipesRepository.Add(recipe);
             await unitOfWork.CommitAsync();
 

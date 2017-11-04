@@ -11,8 +11,8 @@ using System;
 namespace ChefsBook.MigrationsApp.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20171104140138_CreateEntityModels")]
-    partial class CreateEntityModels
+    [Migration("20171104202959_CreateRecipeModels")]
+    partial class CreateRecipeModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,7 +47,7 @@ namespace ChefsBook.MigrationsApp.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(4000);
 
-                    b.Property<TimeSpan>("Duration");
+                    b.Property<TimeSpan?>("Duration");
 
                     b.Property<string>("Image")
                         .HasMaxLength(2000);
@@ -55,7 +55,7 @@ namespace ChefsBook.MigrationsApp.Migrations
                     b.Property<string>("Notes")
                         .HasMaxLength(2000);
 
-                    b.Property<int>("Servings");
+                    b.Property<int?>("Servings");
 
                     b.Property<string>("Title")
                         .HasMaxLength(200);
@@ -73,7 +73,7 @@ namespace ChefsBook.MigrationsApp.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<TimeSpan>("Duration");
+                    b.Property<TimeSpan?>("Duration");
 
                     b.HasKey("StepId", "RecipeId");
 
