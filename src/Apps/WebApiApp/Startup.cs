@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ChefsBook.Core;
+using ChefsBook.Core.Repositories;
+using ChefsBook.Environment;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,20 +18,29 @@ namespace ChefsBook.WebApiApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly string databaseConnStr;
+
+        public Startup(IHostingEnvironment hostingEnvironment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", true);
+            var configuration = builder.Build();
+
+            this.databaseConnStr = configuration.GetConnectionString("Database");
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CoreDbContext>(opts =>
+                opts.UseSqlServer(databaseConnStr, cfg =>
+                    cfg.MigrationsAssembly(ProjectConsts.Migrations))
+            );
+
+            services.AddSingleton<CoreUnitOfWork, CoreUnitOfWork>();
             services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
