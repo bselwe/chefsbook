@@ -1,5 +1,7 @@
 using System;
 using AutoMapper;
+using ChefsBook.Core.Contracts;
+using ChefsBook.Core.Models;
 
 namespace ChefsBook.Core
 {
@@ -7,6 +9,10 @@ namespace ChefsBook.Core
     {
         public CoreProfile()
         {
+            CreateMap<RecipeDTO, Recipe>();
+            CreateMap<IngredientDTO, Ingredient>();
+            CreateMap<StepDTO, Step>();
+            CreateMap<TagDTO, Tag>();
         }
     }
 }
