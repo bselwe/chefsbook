@@ -38,6 +38,7 @@ namespace ChefsBook.WebApiApp
             );
 
             services.AddSingleton<CoreUnitOfWork, CoreUnitOfWork>();
+            services.AddScoped<IRecipesRepository, RecipesRepository>();
             services.AddMvc();
         }
 
