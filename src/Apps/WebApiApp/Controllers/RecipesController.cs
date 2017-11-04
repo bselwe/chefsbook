@@ -9,6 +9,7 @@ using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using WebApiApp.Models;
 
 namespace WebApiApp.Controllers
 {
@@ -49,35 +50,23 @@ namespace WebApiApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe([FromForm] CreateRecipeDTO createRecipe)
+        public async Task<IActionResult> NewRecipe([FromBody] NewRecipeParams newRecipe)
         {
-            if (createRecipe == null)
+            if (newRecipe == null)
                 return BadRequest();
 
             var recipe = Recipe.Create(
-                createRecipe.Title, 
-                createRecipe.Description, 
-                createRecipe.Duration, 
-                createRecipe.Servings,
-                createRecipe.Notes);
+                newRecipe.Title, 
+                newRecipe.Description, 
+                newRecipe.Duration, 
+                newRecipe.Servings,
+                newRecipe.Notes);
 
             recipesRepository.Add(recipe);
             await unitOfWork.CommitAsync();
 
             return new StatusCodeResult((int) HttpStatusCode.Created);
         }
-
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> UpdateRecipe(Guid id, [FromForm] UpdateRecipeDTO updateRecipe) 
-        // {
-        //     var recipe = await recipesRepository.FindAsync(id);
-        //     if (recipe == null)
-        //         return NotFound();
-            
-        //     recipesRepository.Update(recipe);
-        //     await unitOfWork.CommitAsync();
-        //     return NoContent();
-        // }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(Guid id)
