@@ -37,7 +37,7 @@ namespace ChefsBook.WebApiApp
                     cfg.MigrationsAssembly(ProjectConsts.Migrations))
             );
 
-            services.AddSingleton<CoreUnitOfWork, CoreUnitOfWork>();
+            services.AddScoped<CoreUnitOfWork, CoreUnitOfWork>();
             services.AddScoped<IRecipesRepository, RecipesRepository>();
             services.AddMvc();
         }

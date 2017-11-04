@@ -20,19 +20,16 @@ namespace ChefsBook.Core.Repositories
         public void Add(Recipe recipe)
         {
             dbContext.Recipes.Add(recipe);
-            unitOfWork.CommitAsync();
         }
 
         public void Update(Recipe recipe)
         {
             dbContext.Recipes.Update(recipe);
-            unitOfWork.CommitAsync();
         }
 
         public void Remove(Recipe recipe)
         {
             dbContext.Recipes.Remove(recipe);
-            unitOfWork.CommitAsync();
         }
 
         public Task<List<Recipe>> AllAsync()
