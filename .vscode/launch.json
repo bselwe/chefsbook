@@ -12,7 +12,7 @@
              // If you have changed target frameworks, make sure to update the program path.
              "program": "${workspaceRoot}/src/Apps/WebApiApp/bin/Debug/netcoreapp2.0/ChefsBook.WebApiApp.dll",
              "args": [],
-             "cwd": "${workspaceRoot}",
+             "cwd": "${workspaceRoot}/src/Apps/WebApiApp",
              "stopAtEntry": false,
              "internalConsoleOptions": "openOnSessionStart",
              "launchBrowser": {
