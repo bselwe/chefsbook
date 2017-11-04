@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using ChefsBook.Core;
 using ChefsBook.Core.Repositories;
 using ChefsBook.Environment;
@@ -40,6 +41,7 @@ namespace ChefsBook.WebApiApp
             services.AddScoped<CoreUnitOfWork, CoreUnitOfWork>();
             services.AddScoped<IRecipesRepository, RecipesRepository>();
             services.AddMvc();
+            services.AddAutoMapper();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
