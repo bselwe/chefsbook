@@ -9,7 +9,6 @@ using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using WebApiApp.ControllersParams;
 
 namespace WebApiApp.Controllers
 {
@@ -50,29 +49,35 @@ namespace WebApiApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe([FromForm] RecipeParams @params)
+        public async Task<IActionResult> CreateRecipe([FromForm] CreateRecipeDTO createRecipe)
         {
-            if (@params == null)
+            if (createRecipe == null)
                 return BadRequest();
 
-            var recipe = Recipe.Create(@params.Title, @params.Description, @params.Duration, @params.Servings, @params.Notes);
+            var recipe = Recipe.Create(
+                createRecipe.Title, 
+                createRecipe.Description, 
+                createRecipe.Duration, 
+                createRecipe.Servings,
+                createRecipe.Notes);
+
             recipesRepository.Add(recipe);
             await unitOfWork.CommitAsync();
 
             return new StatusCodeResult((int) HttpStatusCode.Created);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRecipe(Guid id, [FromForm] RecipeParams @params) 
-        {
-            var recipe = await recipesRepository.FindAsync(id);
-            if (recipe == null)
-                return NotFound();
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> UpdateRecipe(Guid id, [FromForm] UpdateRecipeDTO updateRecipe) 
+        // {
+        //     var recipe = await recipesRepository.FindAsync(id);
+        //     if (recipe == null)
+        //         return NotFound();
             
-            recipesRepository.Update(recipe);
-            await unitOfWork.CommitAsync();
-            return NoContent();
-        }
+        //     recipesRepository.Update(recipe);
+        //     await unitOfWork.CommitAsync();
+        //     return NoContent();
+        // }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(Guid id)

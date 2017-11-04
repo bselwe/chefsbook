@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 
-namespace WebApiApp.ControllersParams
+namespace ChefsBook.Core.Contracts
 {
-    public class RecipeParams
+    public class CreateRecipeDTO
     {
         public string Title { get; set; }
         public string Description { get; set; }
