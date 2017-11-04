@@ -9,10 +9,10 @@ namespace ChefsBook.Core
     {
         public CoreProfile()
         {
-            CreateMap<RecipeDTO, Recipe>();
-            CreateMap<IngredientDTO, Ingredient>();
-            CreateMap<StepDTO, Step>();
-            CreateMap<TagDTO, Tag>();
+            CreateMap<Recipe, RecipeDTO>();
+            CreateMap<Ingredient, IngredientDTO>();
+            CreateMap<Step, StepDTO>();
+            CreateMap<Tag, TagDTO>();
         }
     }
 }
