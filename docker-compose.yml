@@ -4,7 +4,9 @@ services:
     chefsbook-webapi:
         container_name: "chefsbook-webapi-container"
         image: chefsbook-webapi-image
-        build: ./Apps/WebApiApp
+        build: 
+            context: ./src
+            dockerfile: ./Apps/WebApiApp/Dockerfile
         ports:
             - "5000:5000"
         environment:
@@ -16,7 +18,7 @@ services:
     chefsbook-database:
         container_name: "chefsbook-database-container"
         image: chefsbook-database-image
-        build: ./Apps/Database
+        build: ./database
         ports:
             - "1433:1433"
         environment:
