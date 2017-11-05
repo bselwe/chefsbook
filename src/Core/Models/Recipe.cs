@@ -20,8 +20,15 @@ namespace ChefsBook.Core.Models
         public IReadOnlyList<Step> Steps => steps;
         public IReadOnlyList<Tag> Tags => tags;
 
+        private Recipe() { }
+
         public static Recipe Create(string title, string description, TimeSpan? duration, int? servings, string notes)
         {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("Title cannot be empty or whitespace.");
+            }
+
             return new Recipe
             {
                 Id = Guid.NewGuid(),
@@ -33,6 +40,20 @@ namespace ChefsBook.Core.Models
             };
         }
 
+        public void Update(string title, string description, TimeSpan? duration, int? servings, string notes)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("Title cannot be empty or whitespace.");
+            }
+
+            Title = title;
+            Description = description;
+            Duration = duration;
+            Servings = servings;
+            Notes = notes;
+        }
+
         public void AddIngredients(IList<Ingredient> ingredients)
         {
             this.ingredients.AddRange(ingredients);
@@ -40,6 +61,18 @@ namespace ChefsBook.Core.Models
 
         public void AddSteps(IList<Step> steps)
         {
+            this.steps.AddRange(steps);
+        }
+
+        public void UpdateIngredients(IList<Ingredient> ingredients)
+        {
+            this.ingredients.Clear();
+            this.ingredients.AddRange(ingredients);
+        }
+
+        public void UpdateSteps(IList<Step> steps)
+        {
+            this.steps.Clear();
             this.steps.AddRange(steps);
         }
     }

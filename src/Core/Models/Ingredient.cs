@@ -10,6 +10,8 @@ namespace ChefsBook.Core.Models
         public string Name { get; private set; }
         public string Quantity { get; private set; }
 
+        private Ingredient() { }
+
         public static Ingredient Create(Recipe recipe, string name, string quantity)
         {
             return new Ingredient

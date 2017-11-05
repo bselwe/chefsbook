@@ -8,8 +8,8 @@ using ChefsBook.Core;
 using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Repositories;
+using Core.Contracts.Commands;
 using Microsoft.AspNetCore.Mvc;
-using WebApiApp.Models;
 
 namespace WebApiApp.Controllers
 {
@@ -50,7 +50,7 @@ namespace WebApiApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> NewRecipe([FromBody] NewRecipeParams newRecipe)
+        public async Task<IActionResult> NewRecipe([FromBody] NewRecipeDTO newRecipe)
         {
             if (newRecipe == null)
                 return BadRequest();
@@ -62,26 +62,43 @@ namespace WebApiApp.Controllers
                 newRecipe.Servings,
                 newRecipe.Notes);
 
-            var ingredients = new List<Ingredient>();
-            foreach (var i in newRecipe.Ingredients)
-            {
-                var ingredient = Ingredient.Create(recipe, i.Name, i.Quantity);
-                ingredients.Add(ingredient);
-            }
-
-            var steps = new List<Step>();
-            foreach (var s in newRecipe.Steps)
-            {
-                var step = Step.Create(recipe, s.Duration, s.Description);
-                steps.Add(step);
-            }
-
+            var ingredients = newRecipe.Ingredients.Select(i => Ingredient.Create(recipe, i.Name, i.Quantity)).ToList();
+            var steps = newRecipe.Steps.Select(s => Step.Create(recipe, s.Duration, s.Description)).ToList();
             recipe.AddIngredients(ingredients);
             recipe.AddSteps(steps);
+
             recipesRepository.Add(recipe);
             await unitOfWork.CommitAsync();
 
             return new StatusCodeResult((int) HttpStatusCode.Created);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRecipe(Guid id, [FromBody] UpdateRecipeDTO updateRecipe)
+        {
+            if (updateRecipe == null)
+                return BadRequest();
+
+            var recipe = await recipesRepository.FindAsync(id);
+            if (recipe == null)
+                return NotFound();
+
+            recipe.Update(
+                updateRecipe.Title, 
+                updateRecipe.Description, 
+                updateRecipe.Duration, 
+                updateRecipe.Servings,
+                updateRecipe.Notes);
+
+            var ingredients = updateRecipe.Ingredients.Select(i => Ingredient.Create(recipe, i.Name, i.Quantity)).ToList();
+            var steps = updateRecipe.Steps.Select(s => Step.Create(recipe, s.Duration, s.Description)).ToList();
+            recipe.UpdateIngredients(ingredients);
+            recipe.UpdateSteps(steps);
+
+            recipesRepository.Update(recipe);
+            await unitOfWork.CommitAsync();
+
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -93,7 +110,8 @@ namespace WebApiApp.Controllers
             
             recipesRepository.Remove(recipe);
             await unitOfWork.CommitAsync();
-            return NoContent();
+            
+            return Ok();
         }
     }
 }
