@@ -10,6 +10,8 @@ namespace ChefsBook.Core.Models
         public TimeSpan? Duration { get; private set; }
         public string Description { get; private set; }
 
+        private Step() { }
+
         public static Step Create(Recipe recipe, TimeSpan? duration, string description)
         {
             return new Step
