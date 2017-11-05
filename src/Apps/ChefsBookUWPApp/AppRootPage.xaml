@@ -12,7 +12,7 @@
             Loaded="NavigationView_Loaded" 
             Margin="0,12,0,0" 
             SelectionChanged="NavigationView_SelectionChanged"
-            x:Name="nvSample"
+            x:Name="navigationMenu"
             IsTabStop="False"
             IsSettingsVisible="False"
             Header="Chefs' Book">
@@ -29,7 +29,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
-            <Frame x:Name="contentFrame">
+            <Frame x:Name="contentFrame" Navigating="OnNavigatingToPage">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
                         <NavigationThemeTransition>

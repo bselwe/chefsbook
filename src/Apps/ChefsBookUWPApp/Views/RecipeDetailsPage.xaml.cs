@@ -1,5 +1,7 @@
 ﻿using ChefsBook_UWP_App.ViewModels;
 using System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -27,6 +29,11 @@ namespace ChefsBook_UWP_App.Views
 
             var selectedRecipeId = (Guid)e.Parameter;
             recipeDetailsVM.GetRecipeDetails(selectedRecipeId);
+
+            if (Frame.CanGoBack)
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            else
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
     }
 }
