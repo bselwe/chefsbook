@@ -3,11 +3,58 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ChefsBook_UWP_App.Views"
+    xmlns:viewModels="using:ChefsBook_UWP_App.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=RecipeCollection}"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <DataTemplate x:Key="RecipeTileTemplate" x:DataType="viewModels:RecipeViewModel">
+            <Grid Width="300" Margin="3, 10, 3, 10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="190" />
+                    <RowDefinition Height="80" />
+                </Grid.RowDefinitions>
+                <Image 
+                    Grid.Row="0" 
+                    Grid.RowSpan="2" 
+                    Source="{Binding Image}" 
+                    Stretch="UniformToFill"/>
+                <Grid Grid.Row="1">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#262626" Opacity="0.75" />
+                    </Grid.Background>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock 
+                        Grid.Row="0" 
+                        Text="{x:Bind Title}"   
+                        Opacity="1" 
+                        Style="{StaticResource TitleTextBlockStyle}" 
+                        FontSize="22" TextWrapping="WrapWholeWords"
+                        Foreground="#FFEBEBEB" 
+                        Margin="8,0,0,0"/>
+                    <TextBlock 
+                        Grid.Row="1" 
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource BaseTextBlockStyle}" 
+                        FontSize="11" 
+                        FontWeight="SemiLight" 
+                        Foreground="Gainsboro" 
+                        Margin="8,0,0,4" 
+                        Text="breakfast, sea food, paleo" />
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Recipes Page" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" />
+        <GridView
+            ItemTemplate="{StaticResource RecipeTileTemplate}"
+            ItemsSource="{Binding Path=Recipes}">
+        </GridView>
     </Grid>
 </Page>
