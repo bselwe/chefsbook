@@ -54,7 +54,9 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <GridView
             ItemTemplate="{StaticResource RecipeTileTemplate}"
-            ItemsSource="{Binding Path=Recipes}">
+            ItemsSource="{Binding Path=Recipes}"
+            IsItemClickEnabled="True"
+            ItemClick="RecipesGridView_ItemClick">
         </GridView>
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChefsBook_UWP_App.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,13 @@ namespace ChefsBook_UWP_App.Views
         public RecipeCollectionPage()
         {
             this.InitializeComponent();
+        }
+
+        private void RecipesGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var clickedRecipe = e.ClickedItem as RecipeViewModel;
+            if (clickedRecipe != null)
+                Frame.Navigate(typeof(RecipeDetailsPage), clickedRecipe.Id);
         }
     }
 }
