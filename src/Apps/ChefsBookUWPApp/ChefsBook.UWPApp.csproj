@@ -95,16 +95,28 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="AppRootPage.xaml.cs">
+      <DependentUpon>AppRootPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IRecipeApiService.cs" />
     <Compile Include="Services\FakeRecipeApiService.cs" />
     <Compile Include="Services\RecipeApiService.cs" />
-    <Compile Include="Services\ViewModelLocator.cs" />
+    <Compile Include="ViewModels\IngredientViewModel.cs" />
+    <Compile Include="ViewModels\RecipeDetailsViewModel.cs" />
+    <Compile Include="ViewModels\StepViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\RecipeCollectionViewModel.cs" />
     <Compile Include="ViewModels\RecipeViewModel.cs" />
+    <Compile Include="Views\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecipeCollectionPage.xaml.cs">
+      <DependentUpon>RecipeCollectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecipeDetailsPage.xaml.cs">
+      <DependentUpon>RecipeDetailsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -113,6 +125,7 @@
     <None Include="ChefsBook UWP App_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\seafood_dish.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -127,9 +140,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="AppRootPage.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecipeCollectionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecipeDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
