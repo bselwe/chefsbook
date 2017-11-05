@@ -1,6 +1,9 @@
 ﻿using ChefsBook.Core.Contracts;
 using GalaSoft.MvvmLight;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
@@ -9,9 +12,22 @@ namespace ChefsBook_UWP_App.ViewModels
         public RecipeViewModel(RecipeDTO model = null)
         {
             Model = model ?? new RecipeDTO();
+
+            Ingredients = new ObservableCollection<IngredientViewModel>(model.Ingredients.ConvertAll(i => new IngredientViewModel(i)));
+            Steps = new ObservableCollection<StepViewModel>(model.Steps.ConvertAll(s => new StepViewModel(s)));
         }
 
-        internal RecipeDTO Model { get; set; }
+        public static explicit operator RecipeDTO(RecipeViewModel viewModel)
+        {
+            var dto = viewModel.Model;
+
+            dto.Ingredients = viewModel.Ingredients.ToList().ConvertAll(i => (IngredientDTO)i);
+            dto.Steps = viewModel.Steps.ToList().ConvertAll(s => (StepDTO)s);
+
+            return dto;
+        }
+
+        private RecipeDTO Model { get; set; }
 
         public Guid Id
         {
@@ -102,6 +118,20 @@ namespace ChefsBook_UWP_App.ViewModels
                     RaisePropertyChanged(() => Notes);
                 }
             }
+        }
+
+        private ObservableCollection<IngredientViewModel> _ingredients;
+        public ObservableCollection<IngredientViewModel> Ingredients
+        {
+            get => _ingredients;
+            set => Set(ref _ingredients, value);
+        }
+
+        private ObservableCollection<StepViewModel> _steps;
+        public ObservableCollection<StepViewModel> Steps
+        {
+            get => _steps;
+            set => Set(ref _steps, value);
         }
     }
 }

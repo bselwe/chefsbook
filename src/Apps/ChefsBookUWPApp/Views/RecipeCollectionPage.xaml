@@ -31,7 +31,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock 
                         Grid.Row="0" 
-                        Text="{x:Bind Title}"   
+                        Text="{Binding Title}"   
                         Opacity="1" 
                         Style="{StaticResource TitleTextBlockStyle}" 
                         FontSize="22" TextWrapping="WrapWholeWords"

@@ -21,7 +21,33 @@ namespace ChefsBook_UWP_App.Services
                     Image = @"/Assets/seafood_dish.jpg",
                     Duration = TimeSpan.FromMinutes(15),
                     Servings = 4,
-                    Notes = @"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. "
+                    Ingredients = new List<IngredientDTO>()
+                    {
+                        new IngredientDTO()
+                        {
+                            Name = "Milk",
+                            Quantity = "1 liter"
+                        },
+                        new IngredientDTO()
+                        {
+                            Name = "Pasta",
+                            Quantity = "1 kg"
+                        }
+                    },
+                    Steps = new List<StepDTO>()
+                    {
+                        new StepDTO()
+                        {
+                            Duration = TimeSpan.FromMinutes(15),
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+                        },
+                        new StepDTO()
+                        {
+                            Duration = TimeSpan.FromMinutes(80),
+                            Description = @"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+                        }
+                    },
+                    Notes = @"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
                 },
                 new RecipeDTO
                 {
@@ -29,7 +55,9 @@ namespace ChefsBook_UWP_App.Services
                     Title = "Bacon Cheese Spread with Carmelized Onions",
                     Description = @"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                     Image = @"/Assets/seafood_dish.jpg",
-                    Notes = @"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. "
+                    Ingredients = new List<IngredientDTO>(),
+                    Steps = new List<StepDTO>(),
+                    Notes = @"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
                 }
             };
         }
