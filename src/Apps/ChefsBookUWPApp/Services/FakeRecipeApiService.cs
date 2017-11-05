@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ChefsBook.Core.Models;
+using ChefsBook.Core.Contracts;
 
 namespace ChefsBook_UWP_App.Services
 {
     public class FakeRecipeApiService : IRecipeApiService
     {
-        public Task<List<Recipe>> GetAllRecipes()
+        public Task<List<RecipeDTO>> GetAllRecipes()
         {
-            List<Recipe> recipes = new List<Recipe>()
+            List<RecipeDTO> recipes = new List<RecipeDTO>()
             {
-                new Recipe
+                new RecipeDTO
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Fake recipe name #1"
+                    Title = "Moule the crema with oreiv lemoinaie"
                 },
-                new Recipe
+                new RecipeDTO
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Fake recipe name #2"
+                    Title = "Bacon Cheese Spread with Carmelized Onions"
                 }
             };
 

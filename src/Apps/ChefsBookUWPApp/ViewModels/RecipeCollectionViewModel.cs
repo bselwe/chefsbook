@@ -1,6 +1,7 @@
 ﻿using ChefsBook_UWP_App.Services;
 using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
+using System;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
@@ -11,9 +12,24 @@ namespace ChefsBook_UWP_App.ViewModels
         public RecipeCollectionViewModel(IRecipeApiService recipeApiService)
         {
             _recipeApiService = recipeApiService;
+            GetAllRecipes();
         }
 
-        private ObservableCollection<RecipeViewModel> _recipes;
+        private void GetAllRecipes()
+        {
+            var task = _recipeApiService.GetAllRecipes();
+            if (IsInDesignMode)
+            {
+                task.Wait();
+            }
+
+            foreach (var recipe in task.Result)
+            {
+                Recipes.Add(new RecipeViewModel(recipe));
+            }
+        }
+
+        private ObservableCollection<RecipeViewModel> _recipes = new ObservableCollection<RecipeViewModel>();
         public ObservableCollection<RecipeViewModel> Recipes
         {
             get => _recipes;
