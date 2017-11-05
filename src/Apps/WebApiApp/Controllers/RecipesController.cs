@@ -8,8 +8,8 @@ using ChefsBook.Core;
 using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Repositories;
+using Core.Contracts.Commands;
 using Microsoft.AspNetCore.Mvc;
-using WebApiApp.Models;
 
 namespace WebApiApp.Controllers
 {
@@ -50,7 +50,7 @@ namespace WebApiApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> NewRecipe([FromBody] NewRecipeParams newRecipe)
+        public async Task<IActionResult> NewRecipe([FromBody] NewRecipeDTO newRecipe)
         {
             if (newRecipe == null)
                 return BadRequest();
