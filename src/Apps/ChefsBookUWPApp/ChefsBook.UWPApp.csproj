@@ -104,6 +104,7 @@
     <Compile Include="Services\RecipeApiService.cs" />
     <Compile Include="ViewModels\IngredientViewModel.cs" />
     <Compile Include="ViewModels\RecipeDetailsViewModel.cs" />
+    <Compile Include="ViewModels\RecipeEditViewModel.cs" />
     <Compile Include="ViewModels\StepViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\RecipeCollectionViewModel.cs" />
@@ -116,6 +117,9 @@
     </Compile>
     <Compile Include="Views\RecipeDetailsPage.xaml.cs">
       <DependentUpon>RecipeDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecipeEditPage.xaml.cs">
+      <DependentUpon>RecipeEditPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RecipeDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecipeEditPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

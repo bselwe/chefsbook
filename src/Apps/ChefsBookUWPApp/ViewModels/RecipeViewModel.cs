@@ -11,10 +11,10 @@ namespace ChefsBook_UWP_App.ViewModels
     {
         public RecipeViewModel(RecipeDTO model = null)
         {
-            Model = model ?? new RecipeDTO();
+            Model = model ?? Model;
 
-            Ingredients = new ObservableCollection<IngredientViewModel>(model.Ingredients.ConvertAll(i => new IngredientViewModel(i)));
-            Steps = new ObservableCollection<StepViewModel>(model.Steps.ConvertAll(s => new StepViewModel(s)));
+            Ingredients = new ObservableCollection<IngredientViewModel>(Model.Ingredients.ConvertAll(i => new IngredientViewModel(i)));
+            Steps = new ObservableCollection<StepViewModel>(Model.Steps.ConvertAll(s => new StepViewModel(s)));
         }
 
         public static explicit operator RecipeDTO(RecipeViewModel viewModel)
@@ -27,7 +27,7 @@ namespace ChefsBook_UWP_App.ViewModels
             return dto;
         }
 
-        private RecipeDTO Model { get; set; }
+        private RecipeDTO Model { get; set; } = new RecipeDTO { Ingredients = new List<IngredientDTO>(), Steps = new List<StepDTO>()};
 
         public Guid Id
         {

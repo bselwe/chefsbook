@@ -33,5 +33,10 @@ namespace ChefsBook_UWP_App.Views
             else
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
+
+        private void AddRecipeAppBarButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(RecipeEditPage));
+        }
     }
 }

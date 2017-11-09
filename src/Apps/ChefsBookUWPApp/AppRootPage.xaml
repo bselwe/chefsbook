@@ -14,8 +14,14 @@
             SelectionChanged="NavigationView_SelectionChanged"
             x:Name="navigationMenu"
             IsTabStop="False"
-            IsSettingsVisible="False"
-            Header="Chefs' Book">
+            IsSettingsVisible="False" 
+            AlwaysShowHeader="False">
+            <NavigationView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                    </Grid>
+                </DataTemplate>
+            </NavigationView.HeaderTemplate>
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Home" Tag="HomePage">
                     <NavigationViewItem.Icon>
