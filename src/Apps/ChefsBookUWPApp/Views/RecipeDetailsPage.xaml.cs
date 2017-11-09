@@ -42,5 +42,11 @@ namespace ChefsBook_UWP_App.Views
         {
             Frame.Navigate(typeof(RecipeEditPage), ViewModel.Recipe);
         }
+
+        private void DeleteRecipeAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.DeleteRecipeCommand.Execute(null);
+            Frame.Navigate(typeof(RecipeCollectionPage), true);
+        }
     }
 }
