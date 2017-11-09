@@ -17,43 +17,45 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <CommandBar Grid.Row="0">
             <AppBarButton Icon="Accept" Label="Done" Click="AcceptAppBarButton_Click"/>
             <AppBarButton Icon="Cancel" Label="Cancel" Click="CancelAppBarButton_Click"/>
         </CommandBar>
-        <Grid Grid.Row="1" DataContext="{Binding Path=Recipe}">
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="400"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="10">
+            <Grid Grid.Row="0" Margin="10" DataContext="{Binding Path=Recipe}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Image Source="{Binding Image}" />
-                <StackPanel Grid.Column="1">
-                    <TextBlock Text="Title:"/>
-                    <TextBox 
-                        Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        TextWrapping="Wrap"/>
-                    <TextBlock Text="Description:"/>
-                    <TextBox 
-                        Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        TextWrapping="Wrap"/>
-                    <TextBlock Text="Notes:"/>
-                    <TextBox 
-                        Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        TextWrapping="Wrap"/>
-                    <TextBlock Text="Yields:"/>
-                    <TextBox 
-                        Text="{Binding Servings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableIntConverter}}"/>
-                    <TextBlock Text="Time:"/>
-                    <TextBox 
-                        Text="{Binding Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableTimeSpanConverter}}"/>
-                </StackPanel>
+                <ScrollViewer Grid.Column="1">
+                    <StackPanel>
+                        <TextBlock Text="Title:"/>
+                        <TextBox 
+                            Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            TextWrapping="Wrap"/>
+                        <TextBlock Text="Description:"/>
+                        <TextBox 
+                            Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            TextWrapping="Wrap"/>
+                        <TextBlock Text="Notes:"/>
+                        <TextBox 
+                            Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            TextWrapping="Wrap"/>
+                        <TextBlock Text="Yields:"/>
+                        <TextBox 
+                            Text="{Binding Servings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableIntConverter}}"/>
+                        <TextBlock Text="Time:"/>
+                        <TextBox 
+                            Text="{Binding Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableTimeSpanConverter}}"/>
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -61,54 +63,99 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <ListView 
+                    x:Name="IngredientsList"
                     Grid.Column="0" 
-                    ItemsSource="{Binding Path=Ingredients}"
+                    ItemsSource="{Binding Path=Recipe.Ingredients}"
                     SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="viewModels:IngredientViewModel">
-                            <Grid Margin="5">
+                            <Grid Margin="0,5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="70"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox 
+                                <Button 
                                     Grid.Column="0" 
-                                    Text="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    HorizontalAlignment="Right" 
-                                    TextWrapping="Wrap"/>
+                                    Style="{StaticResource EllipsisButtonRevealStyle}" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Center"
+                                    Command="{Binding DataContext.DeleteIngredientCommand, ElementName=IngredientsList}"
+                                    CommandParameter="{Binding}">
+                                    <SymbolIcon Symbol="Delete"/>
+                                </Button>
                                 <TextBox 
                                     Grid.Column="1" 
+                                    Text="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    HorizontalAlignment="Right"
+                                    Margin="5,0,0,0"
+                                    TextWrapping="Wrap"/>
+                                <TextBox 
+                                    Grid.Column="2" 
                                     Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                     Margin="10,0,0,0" 
                                     TextWrapping="Wrap"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.Header>
+                        <Button 
+                            Command="{Binding AddEmptyIngredientCommand}"
+                            CommandParameter="{Binding}"
+                            Margin="15">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Add new ingredient"/>
+                            </StackPanel>
+                        </Button>
+                    </ListView.Header>
                 </ListView>
                 <ListView 
+                    x:Name="StepsList"
                     Grid.Column="1" 
-                    ItemsSource="{Binding Path=Steps}"
+                    ItemsSource="{Binding Path=Recipe.Steps}"
                     SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="viewModels:StepViewModel">
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="90"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox 
+                                <Button 
                                     Grid.Column="0" 
-                                    Text="{Binding Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableTimeSpanConverter}}" 
-                                    HorizontalAlignment="Right" 
-                                    TextWrapping="Wrap"/>
+                                    Style="{StaticResource EllipsisButtonRevealStyle}" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Center"
+                                    Command="{Binding DataContext.DeleteStepCommand, ElementName=StepsList}"
+                                    CommandParameter="{Binding}">
+                                    <SymbolIcon Symbol="Delete"/>
+                                </Button>
                                 <TextBox 
                                     Grid.Column="1" 
+                                    Text="{Binding Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableTimeSpanConverter}}" 
+                                    HorizontalContentAlignment="Right"
+                                    HorizontalAlignment="Stretch"
+                                    Margin="5,0,0,0"
+                                    TextWrapping="Wrap"/>
+                                <TextBox 
+                                    Grid.Column="2" 
                                     Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    Margin="10,0,0,0" TextWrapping="
-                                    Wrap"/>
+                                    Margin="10,0,0,0" 
+                                    TextWrapping="Wrap"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.Header>
+                        <Button 
+                            Command="{Binding AddEmptyStepCommand}"
+                            CommandParameter="{Binding}"
+                            Margin="15">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Add new step"/>
+                            </StackPanel>
+                        </Button>
+                    </ListView.Header>
                 </ListView>
             </Grid>
         </Grid>
