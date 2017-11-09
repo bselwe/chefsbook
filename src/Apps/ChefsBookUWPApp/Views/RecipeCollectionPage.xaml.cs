@@ -1,4 +1,5 @@
 ﻿using ChefsBook_UWP_App.ViewModels;
+using Microsoft.Practices.ServiceLocation;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -12,6 +13,8 @@ namespace ChefsBook_UWP_App.Views
     /// </summary>
     public sealed partial class RecipeCollectionPage : Page
     {
+        private RecipeCollectionViewModel ViewModel { get; set; } = ServiceLocator.Current.GetInstance<RecipeCollectionViewModel>();
+
         public RecipeCollectionPage()
         {
             this.InitializeComponent();
@@ -20,8 +23,7 @@ namespace ChefsBook_UWP_App.Views
         private void RecipesGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var clickedRecipe = e.ClickedItem as RecipeViewModel;
-            if (clickedRecipe != null)
-                Frame.Navigate(typeof(RecipeDetailsPage), clickedRecipe.Id);
+            Frame.Navigate(typeof(RecipeDetailsPage), clickedRecipe.Id);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -32,6 +34,9 @@ namespace ChefsBook_UWP_App.Views
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             else
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+
+            if(e.Parameter != null && (bool)e.Parameter == true)
+                ViewModel.ReloadCommand.Execute(null);
         }
 
         private void AddRecipeAppBarButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

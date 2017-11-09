@@ -1,4 +1,5 @@
 ﻿using ChefsBook_UWP_App.ViewModels;
+using Microsoft.Practices.ServiceLocation;
 using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -14,6 +15,8 @@ namespace ChefsBook_UWP_App.Views
     /// </summary>
     public sealed partial class RecipeDetailsPage : Page
     {
+        private RecipeDetailsViewModel ViewModel { get; set; } = ServiceLocator.Current.GetInstance<RecipeDetailsViewModel>();
+
         public RecipeDetailsPage()
         {
             this.InitializeComponent();
@@ -28,20 +31,16 @@ namespace ChefsBook_UWP_App.Views
             else
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 
-            var recipeDetailsVM = this.DataContext as RecipeDetailsViewModel;
-
             if (e.Parameter == null)
                 return;
 
             var selectedRecipeId = (Guid)e.Parameter;
-            recipeDetailsVM.GetRecipeDetails(selectedRecipeId);
+            ViewModel.GetRecipeDetails(selectedRecipeId);
         }
 
         private void EditRecipeAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            var recipeDetailsVM = this.DataContext as RecipeDetailsViewModel;
-            if (recipeDetailsVM != null)
-                Frame.Navigate(typeof(RecipeEditPage), recipeDetailsVM.Recipe);
+            Frame.Navigate(typeof(RecipeEditPage), ViewModel.Recipe);
         }
     }
 }

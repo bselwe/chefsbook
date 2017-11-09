@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
 using System;
+using GalaSoft.MvvmLight.Command;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
@@ -23,6 +24,7 @@ namespace ChefsBook_UWP_App.ViewModels
                 task.Wait();
             }
 
+            Recipes.Clear();
             foreach (var recipe in task.Result)
             {
                 Recipes.Add(new RecipeViewModel(recipe));
@@ -34,6 +36,20 @@ namespace ChefsBook_UWP_App.ViewModels
         {
             get => _recipes;
             set => Set(ref _recipes, value);
+        }
+
+        private RelayCommand _reloadCommand;
+        public RelayCommand ReloadCommand
+        {
+            get
+            {
+                return _reloadCommand
+                    ?? (_reloadCommand = new RelayCommand(
+                    () =>
+                    {
+                        GetAllRecipes();
+                    }));
+            }
         }
     }
 }
