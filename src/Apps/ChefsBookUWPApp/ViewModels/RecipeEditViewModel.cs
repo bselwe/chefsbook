@@ -29,6 +29,22 @@ namespace ChefsBook_UWP_App.ViewModels
             set => Set(ref _recipe, value);
         }
 
+        private RelayCommand<string> _saveImagePathCommand;
+        public RelayCommand<string> SaveImagePathCommand
+        {
+            get
+            {
+                return _saveImagePathCommand
+                    ?? (_saveImagePathCommand = new RelayCommand<string>(
+                    (name) =>
+                    {
+                        var localImageFolder = "ms-appdata:///local/RecipeImages/";
+                        var imagePath = localImageFolder + name;
+                        Recipe.Image = imagePath;
+                    }));
+            }
+        }
+
         private RelayCommand _addEmptyIngredientCommand;
         public RelayCommand AddEmptyIngredientCommand
         {

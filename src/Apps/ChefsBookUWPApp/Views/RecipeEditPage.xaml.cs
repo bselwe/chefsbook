@@ -1,8 +1,15 @@
 ﻿using ChefsBook_UWP_App.ViewModels;
 using Microsoft.Practices.ServiceLocation;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System;
+using System.Threading.Tasks;
+using Windows.Storage.Streams;
+using Windows.Graphics.Imaging;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -47,6 +54,28 @@ namespace ChefsBook_UWP_App.Views
         private void CancelAppBarButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Frame.Navigate(typeof(RecipeCollectionPage), false);
+        }
+
+        private async void ChooseImageButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            RecipeViewModel recipe = ((sender as Control).DataContext as RecipeEditViewModel).Recipe;
+
+            FileOpenPicker openPicker = new FileOpenPicker();
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            openPicker.FileTypeFilter.Add(".jpg");
+
+            StorageFile pictureSourceFile = await openPicker.PickSingleFileAsync();
+
+            if (pictureSourceFile == null)
+                return;
+
+            ViewModel.SaveImagePathCommand.Execute("");
+
+            var localImagesFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("RecipeImages", CreationCollisionOption.OpenIfExists);
+            var targetFileName = recipe.Id.ToString() + pictureSourceFile.FileType;
+            var savedFile = await pictureSourceFile.CopyAsync(localImagesFolder, targetFileName, NameCollisionOption.ReplaceExisting);
+            ViewModel.SaveImagePathCommand.Execute(savedFile.Name);
         }
     }
 }
