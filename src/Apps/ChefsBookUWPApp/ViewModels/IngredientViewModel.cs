@@ -42,6 +42,5 @@ namespace ChefsBook_UWP_App.ViewModels
                 }
             }
         }
-
     }
 }

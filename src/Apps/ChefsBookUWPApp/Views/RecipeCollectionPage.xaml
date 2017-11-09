@@ -11,7 +11,7 @@
 
     <Page.Resources>
         <DataTemplate x:Key="RecipeTileTemplate" x:DataType="viewModels:RecipeViewModel">
-            <Grid Width="300" Margin="3, 10, 3, 10">
+            <Grid Width="300" Margin="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="190" />
                     <RowDefinition Height="80" />
@@ -51,12 +51,18 @@
         </DataTemplate>
     </Page.Resources>
     
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView
-            ItemTemplate="{StaticResource RecipeTileTemplate}"
-            ItemsSource="{Binding Path=Recipes}"
-            IsItemClickEnabled="True"
-            ItemClick="RecipesGridView_ItemClick">
-        </GridView>
-    </Grid>
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <CommandBar>
+            <AppBarButton Icon="Add" Label="Add recipe" Click="AddRecipeAppBarButton_Click"/>
+        </CommandBar>
+        <Grid>
+            <GridView
+                ItemTemplate="{StaticResource RecipeTileTemplate}"
+                ItemsSource="{Binding Path=Recipes}"
+                IsItemClickEnabled="True"
+                ItemClick="RecipesGridView_ItemClick"
+                Margin="10,0,0,0">
+            </GridView>
+        </Grid>
+    </StackPanel>
 </Page>

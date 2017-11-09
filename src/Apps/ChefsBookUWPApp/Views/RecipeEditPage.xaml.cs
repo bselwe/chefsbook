@@ -1,8 +1,6 @@
 ﻿using ChefsBook_UWP_App.ViewModels;
 using Microsoft.Practices.ServiceLocation;
-using System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -13,11 +11,11 @@ namespace ChefsBook_UWP_App.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class RecipeDetailsPage : Page
+    public sealed partial class RecipeEditPage : Page
     {
-        private RecipeDetailsViewModel ViewModel { get; set; } = ServiceLocator.Current.GetInstance<RecipeDetailsViewModel>();
+        private RecipeEditViewModel ViewModel { get; set; } = ServiceLocator.Current.GetInstance<RecipeEditViewModel>();
 
-        public RecipeDetailsPage()
+        public RecipeEditPage()
         {
             this.InitializeComponent();
         }
@@ -32,15 +30,23 @@ namespace ChefsBook_UWP_App.Views
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 
             if (e.Parameter == null)
+            {
+                ViewModel.Recipe = new RecipeViewModel();
                 return;
+            }
 
-            var selectedRecipeId = (Guid)e.Parameter;
-            ViewModel.GetRecipeDetails(selectedRecipeId);
+            ViewModel.Recipe = (e.Parameter as RecipeViewModel);
         }
 
-        private void EditRecipeAppBarButton_Click(object sender, RoutedEventArgs e)
+        private void AcceptAppBarButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(RecipeEditPage), ViewModel.Recipe);
+            ViewModel.SaveRecipeCommand.Execute(null);
+            Frame.Navigate(typeof(RecipeCollectionPage), true);
+        }
+
+        private void CancelAppBarButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(RecipeCollectionPage), false);
         }
     }
 }
