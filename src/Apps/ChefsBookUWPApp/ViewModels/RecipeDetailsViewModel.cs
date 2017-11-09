@@ -1,5 +1,7 @@
-﻿using ChefsBook_UWP_App.Services;
+﻿using ChefsBook.Core.Contracts;
+using ChefsBook_UWP_App.Services;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System;
 
 namespace ChefsBook_UWP_App.ViewModels
@@ -33,6 +35,20 @@ namespace ChefsBook_UWP_App.ViewModels
         {
             get => _recipe;
             set => Set(ref _recipe, value);
+        }
+
+        private RelayCommand _deleteRecipeCommand;
+        public RelayCommand DeleteRecipeCommand
+        {
+            get
+            {
+                return _deleteRecipeCommand
+                    ?? (_deleteRecipeCommand = new RelayCommand(
+                    () =>
+                    {
+                        _recipeApiService.DeleteRecipe((RecipeDTO)Recipe);
+                    }));
+            }
         }
     }
 }
