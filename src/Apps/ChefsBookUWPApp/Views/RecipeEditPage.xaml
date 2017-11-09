@@ -28,13 +28,16 @@
                 <RowDefinition Height="400"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="10" DataContext="{Binding Path=Recipe}">
+            <Grid Grid.Row="0" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding Image}" />
-                <ScrollViewer Grid.Column="1">
+                <Grid Grid.Column="0">
+                    <Image Source="{Binding Recipe.Image}"/>
+                    <Button Content="Choose image" Margin="5" Click="ChooseImageButton_Click"/>
+                </Grid>
+                <ScrollViewer Grid.Column="1"  DataContext="{Binding Path=Recipe}">
                     <StackPanel>
                         <TextBlock Text="Title:"/>
                         <TextBox 
