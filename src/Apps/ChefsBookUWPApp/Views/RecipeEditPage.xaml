@@ -4,12 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ChefsBook_UWP_App.Views"
     xmlns:viewModels="using:ChefsBook_UWP_App.ViewModels"
+    xmlns:converters="using:ChefsBook_UWP_App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=RecipeEdit}"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.Resources>
+            <converters:NullableIntConverter x:Key="NullableIntConverter"/>
+            <converters:NullableTimeSpanConverter x:Key="NullableTimeSpanConverter"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -31,15 +36,23 @@
                 <Image Source="{Binding Image}" />
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="Title:"/>
-                    <TextBox Text="{Binding Title}" TextWrapping="Wrap"/>
+                    <TextBox 
+                        Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        TextWrapping="Wrap"/>
                     <TextBlock Text="Description:"/>
-                    <TextBox Text="{Binding Description}" TextWrapping="Wrap"/>
+                    <TextBox 
+                        Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        TextWrapping="Wrap"/>
                     <TextBlock Text="Notes:"/>
-                    <TextBox Text="{Binding Notes}" TextWrapping="Wrap"/>
+                    <TextBox 
+                        Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        TextWrapping="Wrap"/>
                     <TextBlock Text="Yields:"/>
-                    <TextBox Text="{Binding Servings}"/>
+                    <TextBox 
+                        Text="{Binding Servings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableIntConverter}}"/>
                     <TextBlock Text="Time:"/>
-                    <TextBox Text="{Binding Duration}"/>
+                    <TextBox 
+                        Text="{Binding Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableTimeSpanConverter}}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
@@ -58,8 +71,16 @@
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" Text="{Binding Quantity}" HorizontalAlignment="Right" TextWrapping="Wrap"/>
-                                <TextBox Grid.Column="1" Text="{Binding Name}" Margin="10,0,0,0" TextWrapping="Wrap"/>
+                                <TextBox 
+                                    Grid.Column="0" 
+                                    Text="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    HorizontalAlignment="Right" 
+                                    TextWrapping="Wrap"/>
+                                <TextBox 
+                                    Grid.Column="1" 
+                                    Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    Margin="10,0,0,0" 
+                                    TextWrapping="Wrap"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -75,8 +96,16 @@
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" Text="{Binding Duration}" HorizontalAlignment="Right" TextWrapping="Wrap"/>
-                                <TextBox Grid.Column="1" Text="{Binding Description}" Margin="10,0,0,0" TextWrapping="Wrap"/>
+                                <TextBox 
+                                    Grid.Column="0" 
+                                    Text="{Binding Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableTimeSpanConverter}}" 
+                                    HorizontalAlignment="Right" 
+                                    TextWrapping="Wrap"/>
+                                <TextBox 
+                                    Grid.Column="1" 
+                                    Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    Margin="10,0,0,0" TextWrapping="
+                                    Wrap"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
