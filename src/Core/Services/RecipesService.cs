@@ -29,8 +29,8 @@ namespace ChefsBook.Core.Services
         {
             var recipe = Recipe.Create(title, description, duration, servings, notes, ingredients, steps);
             var recipeTags = await CreateTagsForRecipe(recipe, tags);
-
             recipe.AddTags(recipeTags);
+
             recipesRepository.Add(recipe);
             await unitOfWork.CommitAsync();
         }
@@ -45,8 +45,8 @@ namespace ChefsBook.Core.Services
 
             recipe.Update(title, description, duration, servings, notes, ingredients, steps);
             var recipeTags = await CreateTagsForRecipe(recipe, tags);
-            
             recipe.UpdateTags(recipeTags);
+            
             recipesRepository.Update(recipe);
             await unitOfWork.CommitAsync();
             return true;
@@ -80,13 +80,11 @@ namespace ChefsBook.Core.Services
             foreach (var newTag in tags)
             {
                 var tag = await tagsRepository.FindAsync(newTag.Id);
-                
                 if (tag == null)
                 {
                     tag = newTag;
                     tagsRepository.Add(tag);
                 }
-
                 recipeTags.Add(RecipeTag.Create(tag, recipe.Id));
             }
 

@@ -13,6 +13,7 @@ namespace ChefsBook.Core
             CreateMap<Recipe, RecipeDetailsDTO>();
             CreateMap<Ingredient, IngredientDTO>();
             CreateMap<Step, StepDTO>();
+            CreateMap<Tag, TagDTO>();
             CreateMap<RecipeTag, TagDTO>()
                 .ForMember(dest => dest.Id, c => c.MapFrom(src => src.Tag.Id))
                 .ForMember(dest => dest.Name, c => c.MapFrom(src => src.Tag.Name));
