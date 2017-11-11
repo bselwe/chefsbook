@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Core.Contracts.Commands
+namespace Core.Contracts
 {
     public class UpdateRecipeDTO
     {

@@ -13,6 +13,7 @@ namespace ChefsBook.Core.Services
                     IList<Ingredient> ingredients, IList<Step> steps, IList<Tag> tags);
         Task<bool> Remove(Guid recipeId);
         Task<List<Recipe>> AllAsync();
+        Task<List<Recipe>> FilterAsync(string text, IList<Guid> tags);
         Task<Recipe> FindAsync(Guid recipeId);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChefsBook.Core.Services
 {
@@ -11,15 +12,18 @@ namespace ChefsBook.Core.Services
     {
         private IRecipesRepository recipesRepository;
         private ITagsRepository tagsRepository;
+        private CoreDbContext dbContext;
         private CoreUnitOfWork unitOfWork;
 
         public RecipesService(
             IRecipesRepository recipesRepository, 
             ITagsRepository tagsRepository,
+            CoreDbContext dbContext,
             CoreUnitOfWork unitOfWork)
         {
             this.recipesRepository = recipesRepository;
             this.tagsRepository = tagsRepository;
+            this.dbContext = dbContext;
             this.unitOfWork = unitOfWork;
         }
 
@@ -66,6 +70,20 @@ namespace ChefsBook.Core.Services
         public Task<List<Recipe>> AllAsync()
         {
             return recipesRepository.AllAsync();
+        }
+
+        public Task<List<Recipe>> FilterAsync(string text, IList<Guid> tags)
+        {
+            return dbContext.Recipes
+                .Include(r => r.Tags)
+                .ThenInclude(t => t.Tag)
+                .Where(r =>
+                    ((text == null || text.Length == 0 || 
+                    r.Title.ToLower().Contains(text.ToLower()) ||
+                    r.Description.ToLower().Contains(text.ToLower())) &&
+                    (tags == null || tags.Count == 0 || 
+                    r.Tags.Select(t => t.TagId).Intersect(tags).Any())))
+                .ToListAsync();
         }
 
         public Task<Recipe> FindAsync(Guid recipeId)

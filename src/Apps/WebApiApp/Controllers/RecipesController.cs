@@ -8,7 +8,7 @@ using ChefsBook.Core;
 using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Services;
-using Core.Contracts.Commands;
+using Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApiApp.Controllers
@@ -44,6 +44,17 @@ namespace WebApiApp.Controllers
             
             var mappedRecipe = mapper.Map<RecipeDetailsDTO>(recipe);
             return Ok(mappedRecipe);
+        }
+
+        [HttpPost("filter")]
+        public async Task<IActionResult> FilterRecipes([FromBody] FilterRecipeDTO filter)
+        {
+            if (string.IsNullOrEmpty(filter.Text) && filter.Tags == null)
+                return BadRequest();
+
+            var recipes = await recipesService.FilterAsync(filter.Text, filter.Tags);
+            var mappedRecipes = mapper.Map<List<RecipeDTO>>(recipes);
+            return Ok(mappedRecipes);
         }
 
         [HttpPost]

@@ -36,7 +36,6 @@ namespace ChefsBook.Core.Repositories
         {
             return dbContext.Recipes
                 .Include(r => r.Tags)
-                .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
                 .ToListAsync();
         }
