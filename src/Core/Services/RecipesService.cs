@@ -77,13 +77,17 @@ namespace ChefsBook.Core.Services
         {
             var recipeTags = new List<RecipeTag>();
 
-            foreach (var tag in tags)
+            foreach (var newTag in tags)
             {
-                var existingTag = await tagsRepository.FindAsync(tag.Id);
-                if (existingTag == null)
+                var tag = await tagsRepository.FindAsync(newTag.Id);
+                
+                if (tag == null)
+                {
+                    tag = newTag;
                     tagsRepository.Add(tag);
+                }
 
-                recipeTags.Add(RecipeTag.CreateFor(recipe, tag.Id));
+                recipeTags.Add(RecipeTag.Create(tag, recipe.Id));
             }
 
             return recipeTags;

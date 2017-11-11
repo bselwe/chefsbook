@@ -35,9 +35,9 @@ namespace ChefsBook.Core.Repositories
         public Task<List<Recipe>> AllAsync()
         {
             return dbContext.Recipes
-                .Include(r => r.Ingredients)
-                .Include(r => r.Steps)
                 .Include(r => r.Tags)
+                .Include(r => r.Tags)
+                .ThenInclude(t => t.Tag)
                 .ToListAsync();
         }
 
@@ -47,6 +47,7 @@ namespace ChefsBook.Core.Repositories
                 .Include(r => r.Ingredients)
                 .Include(r => r.Steps)
                 .Include(r => r.Tags)
+                .ThenInclude(t => t.Tag)
                 .FirstOrDefaultAsync(r => r.Id == recipeId);
         }
     }
