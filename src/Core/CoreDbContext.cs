@@ -9,6 +9,10 @@ namespace ChefsBook.Core
         public const string Schema = "core";
 
         public DbSet<Recipe> Recipes => Set<Recipe>();
+        public DbSet<Ingredient> Ingredients => Set<Ingredient>();
+        public DbSet<Step> Steps => Set<Step>();
+        public DbSet<Tag> Tags => Set<Tag>();
+        public DbSet<RecipeTag> RecipeTags => Set<RecipeTag>();
 
         public CoreDbContext(DbContextOptions<CoreDbContext> options)
             : base(options)
@@ -55,7 +59,13 @@ namespace ChefsBook.Core
 
             modelBuilder.Entity<Tag>(cfg =>
             {
-                cfg.HasKey(e => e.Id);
+                cfg.HasKey(t => t.Id);
+                cfg.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<RecipeTag>(cfg =>
+            {
+                cfg.HasKey(t => new { t.TagId, t.RecipeId });
             });
         }
     }

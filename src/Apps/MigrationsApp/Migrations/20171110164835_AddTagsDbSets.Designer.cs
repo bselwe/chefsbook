@@ -11,9 +11,10 @@ using System;
 namespace ChefsBook.MigrationsApp.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171110164835_AddTagsDbSets")]
+    partial class AddTagsDbSets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +73,6 @@ namespace ChefsBook.MigrationsApp.Migrations
 
                     b.HasKey("TagId", "RecipeId");
 
-                    b.HasIndex("RecipeId");
-
                     b.ToTable("RecipeTags");
                 });
 
@@ -102,7 +101,11 @@ namespace ChefsBook.MigrationsApp.Migrations
                     b.Property<string>("Name")
                         .HasMaxLength(100);
 
+                    b.Property<Guid?>("RecipeId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("Tags");
                 });
@@ -117,9 +120,9 @@ namespace ChefsBook.MigrationsApp.Migrations
 
             modelBuilder.Entity("ChefsBook.Core.Models.RecipeTag", b =>
                 {
-                    b.HasOne("ChefsBook.Core.Models.Recipe", "Recipe")
-                        .WithMany("Tags")
-                        .HasForeignKey("RecipeId")
+                    b.HasOne("ChefsBook.Core.Models.Tag", "Tag")
+                        .WithMany("Recipes")
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -129,6 +132,13 @@ namespace ChefsBook.MigrationsApp.Migrations
                         .WithMany("Steps")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ChefsBook.Core.Models.Tag", b =>
+                {
+                    b.HasOne("ChefsBook.Core.Models.Recipe")
+                        .WithMany("Tags")
+                        .HasForeignKey("RecipeId");
                 });
 #pragma warning restore 612, 618
         }
