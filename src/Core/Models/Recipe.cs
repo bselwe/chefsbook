@@ -7,7 +7,7 @@ namespace ChefsBook.Core.Models
     {
         private readonly List<Ingredient> ingredients = new List<Ingredient>();
         private readonly List<Step> steps = new List<Step>();
-        private readonly List<Tag> tags = new List<Tag>();
+        private readonly List<RecipeTag> tags = new List<RecipeTag>();
 
         public Guid Id { get; private set; }
         public string Title { get; private set; }
@@ -18,7 +18,7 @@ namespace ChefsBook.Core.Models
         public string Notes { get; private set; }
         public IReadOnlyList<Ingredient> Ingredients => ingredients;
         public IReadOnlyList<Step> Steps => steps;
-        public IReadOnlyList<Tag> Tags => tags;
+        public IReadOnlyList<RecipeTag> Tags => tags;
 
         private Recipe() { }
 
@@ -74,6 +74,17 @@ namespace ChefsBook.Core.Models
         {
             this.steps.Clear();
             this.steps.AddRange(steps);
+        }
+
+        public void AddTag(Guid tagId)
+        {
+            var tag = RecipeTag.CreateFor(this, tagId);
+            tags.Add(tag);
+        }
+
+        public void RemoveTag(RecipeTag tag)
+        {
+            tags.Remove(tag);
         }
     }
 }
