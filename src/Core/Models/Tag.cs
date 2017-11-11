@@ -18,5 +18,14 @@ namespace ChefsBook.Core.Models
                 Name = name
             };
         }
+
+        public static Tag Create(Guid id, string name)
+        {
+            return new Tag
+            {
+                Id = id,
+                Name = name
+            };
+        }
     }
 }

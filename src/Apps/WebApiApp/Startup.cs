@@ -40,6 +40,7 @@ namespace ChefsBook.WebApiApp
 
             services.AddTransient<CoreUnitOfWork, CoreUnitOfWork>();
             services.AddScoped<IRecipesRepository, RecipesRepository>();
+            services.AddScoped<ITagsRepository, TagsRepository>();
             services.AddMvc();
             services.AddAutoMapper();
         }

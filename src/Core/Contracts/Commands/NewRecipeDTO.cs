@@ -10,19 +10,26 @@ namespace Core.Contracts.Commands
         public TimeSpan? Duration { get; set; }
         public int? Servings { get; set; }
         public string Notes { get; set; }
-        public List<NewIngredientDTO> Ingredients { get; set; }
-        public List<NewStepDTO> Steps { get; set; }
+        public List<NewRecipeIngredientDTO> Ingredients { get; set; }
+        public List<NewRecipeStepDTO> Steps { get; set; }
+        public List<NewRecipeTagDTO> Tags { get; set; }
     }
 
-    public class NewIngredientDTO
+    public class NewRecipeIngredientDTO
     {
         public string Name { get; set; }
         public string Quantity { get; set; }
     }
 
-    public class NewStepDTO
+    public class NewRecipeStepDTO
     {
         public TimeSpan? Duration { get; set; }
         public string Description { get; set; }
+    }
+
+    public class NewRecipeTagDTO
+    {
+        public Guid? Id { get; set; }
+        public string Name { get; set; }
     }
 }
