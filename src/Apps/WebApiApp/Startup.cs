@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ChefsBook.Core;
 using ChefsBook.Core.Repositories;
+using ChefsBook.Core.Services;
 using ChefsBook.Environment;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +40,7 @@ namespace ChefsBook.WebApiApp
             );
 
             services.AddTransient<CoreUnitOfWork, CoreUnitOfWork>();
+            services.AddSingleton<IRecipesService, RecipesService>();
             services.AddScoped<IRecipesRepository, RecipesRepository>();
             services.AddScoped<ITagsRepository, TagsRepository>();
             services.AddMvc();
