@@ -22,14 +22,16 @@ namespace ChefsBook.Core.Models
 
         private Recipe() { }
 
-        public static Recipe Create(string title, string description, TimeSpan? duration, int? servings, string notes)
+        public static Recipe Create(
+            string title, string description, TimeSpan? duration, int? servings, string notes, 
+            IList<Ingredient> ingredients, IList<Step> steps)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
                 throw new ArgumentException("Title cannot be empty or whitespace.");
             }
 
-            return new Recipe
+            var recipe = new Recipe
             {
                 Id = Guid.NewGuid(),
                 Title = title,
@@ -38,9 +40,16 @@ namespace ChefsBook.Core.Models
                 Servings = servings,
                 Notes = notes
             };
+
+            recipe.ingredients.AddRange(ingredients);
+            recipe.steps.AddRange(steps);
+
+            return recipe;
         }
 
-        public void Update(string title, string description, TimeSpan? duration, int? servings, string notes)
+        public void Update(
+            string title, string description, TimeSpan? duration, int? servings, string notes,
+            IList<Ingredient> ingredients, IList<Step> steps)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -52,39 +61,28 @@ namespace ChefsBook.Core.Models
             Duration = duration;
             Servings = servings;
             Notes = notes;
-        }
-
-        public void AddIngredients(IList<Ingredient> ingredients)
-        {
-            this.ingredients.AddRange(ingredients);
-        }
-
-        public void AddSteps(IList<Step> steps)
-        {
-            this.steps.AddRange(steps);
-        }
-
-        public void UpdateIngredients(IList<Ingredient> ingredients)
-        {
+            
             this.ingredients.Clear();
-            this.ingredients.AddRange(ingredients);
-        }
-
-        public void UpdateSteps(IList<Step> steps)
-        {
             this.steps.Clear();
+
+            this.ingredients.AddRange(ingredients);
             this.steps.AddRange(steps);
         }
 
-        public void AddTag(Guid tagId)
+        public void AddTags(IList<RecipeTag> tags)
         {
-            var tag = RecipeTag.CreateFor(this, tagId);
-            tags.Add(tag);
+            this.tags.AddRange(tags);
         }
 
-        public void RemoveTag(RecipeTag tag)
+        public void UpdateTags(IList<RecipeTag> tags)
         {
-            tags.Remove(tag);
+            this.tags.Clear();
+            this.tags.AddRange(tags);
+        }
+
+        public void RemoveTags()
+        {
+            this.tags.Clear();
         }
     }
 }

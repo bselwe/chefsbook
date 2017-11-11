@@ -31,30 +31,19 @@ namespace ChefsBook.Core
                 cfg.Property(e => e.Image).HasMaxLength(2000);
                 cfg.Property(e => e.Notes).HasMaxLength(2000);
 
-                cfg
-                    .HasMany(e => e.Ingredients)
-                    .WithOne(i => i.Recipe)
-                    .HasForeignKey(i => i.RecipeId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                cfg
-                    .HasMany(e => e.Steps)
-                    .WithOne(s => s.Recipe)
-                    .HasForeignKey(s => s.RecipeId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                cfg
-                    .HasMany(e => e.Tags);
+                cfg.HasMany(e => e.Ingredients);
+                cfg.HasMany(e => e.Steps);
+                cfg.HasMany(e => e.Tags);
             });
 
             modelBuilder.Entity<Ingredient>(cfg =>
             {
-                cfg.HasKey(e => new { e.IngredientId, e.RecipeId });
+                cfg.HasKey(e => e.IngredientId);
             });
 
             modelBuilder.Entity<Step>(cfg =>
             {
-                cfg.HasKey(e => new { e.StepId, e.RecipeId });
+                cfg.HasKey(e => e.StepId);
             });
 
             modelBuilder.Entity<Tag>(cfg =>
