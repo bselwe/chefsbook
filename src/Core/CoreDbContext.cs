@@ -50,6 +50,11 @@ namespace ChefsBook.Core
             {
                 cfg.HasKey(t => t.Id);
                 cfg.Property(e => e.Name).HasMaxLength(100);
+
+                cfg
+                    .HasMany(t => t.Recipes)
+                    .WithOne(ct => ct.Tag)
+                    .HasForeignKey(ct => ct.TagId);
             });
 
             modelBuilder.Entity<RecipeTag>(cfg =>

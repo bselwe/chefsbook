@@ -7,6 +7,5 @@ namespace ChefsBook.Core.Contracts
     {
         public List<IngredientDTO> Ingredients { get; set; }
         public List<StepDTO> Steps { get; set; }
-        public List<RecipeTagDTO> Tags { get; set; }
     }
 }

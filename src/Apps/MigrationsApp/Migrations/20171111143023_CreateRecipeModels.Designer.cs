@@ -11,7 +11,7 @@ using System;
 namespace ChefsBook.MigrationsApp.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20171104202959_CreateRecipeModels")]
+    [Migration("20171111143023_CreateRecipeModels")]
     partial class CreateRecipeModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,19 +24,20 @@ namespace ChefsBook.MigrationsApp.Migrations
 
             modelBuilder.Entity("ChefsBook.Core.Models.Ingredient", b =>
                 {
-                    b.Property<Guid>("IngredientId");
-
-                    b.Property<Guid>("RecipeId");
+                    b.Property<Guid>("IngredientId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
                     b.Property<string>("Quantity");
 
-                    b.HasKey("IngredientId", "RecipeId");
+                    b.Property<Guid?>("RecipeId");
+
+                    b.HasKey("IngredientId");
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Ingredient");
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("ChefsBook.Core.Models.Recipe", b =>
@@ -65,21 +66,35 @@ namespace ChefsBook.MigrationsApp.Migrations
                     b.ToTable("Recipes");
                 });
 
-            modelBuilder.Entity("ChefsBook.Core.Models.Step", b =>
+            modelBuilder.Entity("ChefsBook.Core.Models.RecipeTag", b =>
                 {
-                    b.Property<Guid>("StepId");
+                    b.Property<Guid>("TagId");
 
                     b.Property<Guid>("RecipeId");
+
+                    b.HasKey("TagId", "RecipeId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("RecipeTags");
+                });
+
+            modelBuilder.Entity("ChefsBook.Core.Models.Step", b =>
+                {
+                    b.Property<Guid>("StepId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
 
                     b.Property<TimeSpan?>("Duration");
 
-                    b.HasKey("StepId", "RecipeId");
+                    b.Property<Guid?>("RecipeId");
+
+                    b.HasKey("StepId");
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Step");
+                    b.ToTable("Steps");
                 });
 
             modelBuilder.Entity("ChefsBook.Core.Models.Tag", b =>
@@ -87,37 +102,38 @@ namespace ChefsBook.MigrationsApp.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
-
-                    b.Property<Guid?>("RecipeId");
+                    b.Property<string>("Name")
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("Tag");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("ChefsBook.Core.Models.Ingredient", b =>
                 {
-                    b.HasOne("ChefsBook.Core.Models.Recipe", "Recipe")
+                    b.HasOne("ChefsBook.Core.Models.Recipe")
                         .WithMany("Ingredients")
+                        .HasForeignKey("RecipeId");
+                });
+
+            modelBuilder.Entity("ChefsBook.Core.Models.RecipeTag", b =>
+                {
+                    b.HasOne("ChefsBook.Core.Models.Recipe")
+                        .WithMany("Tags")
                         .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ChefsBook.Core.Models.Tag", "Tag")
+                        .WithMany("Recipes")
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ChefsBook.Core.Models.Step", b =>
                 {
-                    b.HasOne("ChefsBook.Core.Models.Recipe", "Recipe")
-                        .WithMany("Steps")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ChefsBook.Core.Models.Tag", b =>
-                {
                     b.HasOne("ChefsBook.Core.Models.Recipe")
-                        .WithMany("Tags")
+                        .WithMany("Steps")
                         .HasForeignKey("RecipeId");
                 });
 #pragma warning restore 612, 618

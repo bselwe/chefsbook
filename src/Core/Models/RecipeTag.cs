@@ -4,20 +4,20 @@ namespace ChefsBook.Core.Models
 {
     public class RecipeTag
     {
+        public Tag Tag { get; private set; }
         public Guid TagId { get; private set; }
-        public Recipe Recipe { get; private set; }
         public Guid RecipeId { get; private set; }
 
         private RecipeTag()
         { }
 
-        public static RecipeTag CreateFor(Recipe recipe, Guid tagId)
+        public static RecipeTag Create(Tag tag, Guid recipeId)
         {
             return new RecipeTag
             {
-                Recipe = recipe,
-                RecipeId = recipe.Id,
-                TagId = tagId
+                Tag = tag,
+                TagId = tag.Id,
+                RecipeId = recipeId,
             };
         }
     }
