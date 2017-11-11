@@ -12,7 +12,5 @@ namespace ChefsBook.Core.Contracts
         public TimeSpan? Duration { get; set; }
         public int? Servings { get; set; }
         public string Notes { get; set; }
-        public List<IngredientDTO> Ingredients { get; set; }
-        public List<StepDTO> Steps { get; set; }
     }
 }
