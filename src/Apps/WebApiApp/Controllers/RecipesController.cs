@@ -45,7 +45,7 @@ namespace WebApiApp.Controllers
             if (recipe == null)
                 return NotFound();
             
-            var mappedRecipe = mapper.Map<RecipeDTO>(recipe);
+            var mappedRecipe = mapper.Map<RecipeDetailsDTO>(recipe);
             return Ok(mappedRecipe);
         }
 
