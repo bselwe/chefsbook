@@ -111,9 +111,9 @@ namespace ChefsBook_UWP_App.ViewModels
                     () =>
                     {
                         if (Recipe.Id == default(Guid))
-                            _recipeApiService.AddRecipe((RecipeDTO)Recipe);
+                            _recipeApiService.AddRecipe((RecipeDetailsDTO)Recipe);
                         else
-                            _recipeApiService.EditRecipe((RecipeDTO)Recipe);
+                            _recipeApiService.EditRecipe((RecipeDetailsDTO)Recipe);
                     }));
             }
         }

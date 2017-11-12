@@ -7,13 +7,13 @@ namespace ChefsBook_UWP_App.Services
 {
     public class FakeRecipeApiService : IRecipeApiService
     {
-        private List<RecipeDTO> _recipes = new List<RecipeDTO>();
+        private List<RecipeDetailsDTO> _recipes = new List<RecipeDetailsDTO>();
 
         public FakeRecipeApiService()
         {
-            _recipes = new List<RecipeDTO>()
+            _recipes = new List<RecipeDetailsDTO>()
             {
-                new RecipeDTO
+                new RecipeDetailsDTO
                 {
                     Id = Guid.NewGuid(),
                     Title = "Moule the crema with oreiv lemoinaie",
@@ -49,7 +49,7 @@ namespace ChefsBook_UWP_App.Services
                     },
                     Notes = @"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
                 },
-                new RecipeDTO
+                new RecipeDetailsDTO
                 {
                     Id = Guid.NewGuid(),
                     Title = "Bacon Cheese Spread with Carmelized Onions",
@@ -62,31 +62,31 @@ namespace ChefsBook_UWP_App.Services
             };
         }
 
-        public Task<List<RecipeDTO>> GetAllRecipes()
+        public Task<List<RecipeDetailsDTO>> GetAllRecipes()
         {
             return Task.FromResult(_recipes);
         }
 
-        public Task<RecipeDTO> GetRecipe(Guid id)
+        public Task<RecipeDetailsDTO> GetRecipe(Guid id)
         {
             var foundRecipe = _recipes.Find(r => r.Id == id);
             return Task.FromResult(foundRecipe);
         }
 
-        public Task AddRecipe(RecipeDTO recipe)
+        public Task AddRecipe(RecipeDetailsDTO recipe)
         {
             _recipes.Add(recipe);
             return Task.CompletedTask;
         }
 
-        public Task EditRecipe(RecipeDTO recipe)
+        public Task EditRecipe(RecipeDetailsDTO recipe)
         {
             var oldRecipeIndex = _recipes.FindIndex(r => r.Id == recipe.Id);
             _recipes[oldRecipeIndex] = recipe;
             return Task.CompletedTask;
         }
 
-        public Task DeleteRecipe(RecipeDTO recipe)
+        public Task DeleteRecipe(RecipeDetailsDTO recipe)
         {
             _recipes.Remove(GetRecipe(recipe.Id).Result);
             return Task.CompletedTask;

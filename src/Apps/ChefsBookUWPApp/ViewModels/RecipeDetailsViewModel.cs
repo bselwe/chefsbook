@@ -46,7 +46,7 @@ namespace ChefsBook_UWP_App.ViewModels
                     ?? (_deleteRecipeCommand = new RelayCommand(
                     () =>
                     {
-                        _recipeApiService.DeleteRecipe((RecipeDTO)Recipe);
+                        _recipeApiService.DeleteRecipe((RecipeDetailsDTO)Recipe);
                     }));
             }
         }
