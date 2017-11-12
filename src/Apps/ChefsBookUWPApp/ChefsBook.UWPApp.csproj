@@ -107,6 +107,7 @@
     <Compile Include="ViewModels\Entities\IngredientViewModel.cs" />
     <Compile Include="ViewModels\Entities\RecipeBaseViewModel.cs" />
     <Compile Include="ViewModels\Entities\RecipeTileViewModel.cs" />
+    <Compile Include="ViewModels\Entities\TagViewModel.cs" />
     <Compile Include="ViewModels\RecipeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\EditRecipePageViewModel.cs" />
     <Compile Include="ViewModels\Entities\RecipeDetailsViewModel.cs" />

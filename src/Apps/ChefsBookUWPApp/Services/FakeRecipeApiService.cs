@@ -21,6 +21,19 @@ namespace ChefsBook_UWP_App.Services
                     Image = @"/Assets/seafood_dish.jpg",
                     Duration = TimeSpan.FromMinutes(15),
                     Servings = 4,
+                    Tags = new List<TagDTO>()
+                    {
+                        new TagDTO()
+                        {
+                            Id = new Guid("f69aeab4-761b-43e8-adb9-b5f5c0b994cb"),
+                            Name = "breakfast"
+                        },
+                        new TagDTO()
+                        {
+                            Id = new Guid("063e51be-9875-441b-a486-338c8e177a68"),
+                            Name = "protein-rich"
+                        }
+                    },
                     Ingredients = new List<IngredientDTO>()
                     {
                         new IngredientDTO()
@@ -55,6 +68,7 @@ namespace ChefsBook_UWP_App.Services
                     Title = "Bacon Cheese Spread with Carmelized Onions",
                     Description = @"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                     Image = @"/Assets/seafood_dish.jpg",
+                    Tags = new List<TagDTO>(),
                     Ingredients = new List<IngredientDTO>(),
                     Steps = new List<StepDTO>(),
                     Notes = @"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."

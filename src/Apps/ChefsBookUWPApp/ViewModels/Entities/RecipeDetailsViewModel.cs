@@ -12,6 +12,7 @@ namespace ChefsBook_UWP_App.ViewModels
         {
             Model = model ?? Model;
 
+            Tags = new ObservableCollection<TagViewModel>(Model.Tags.ConvertAll(t => new TagViewModel(t)));
             Ingredients = new ObservableCollection<IngredientViewModel>(Model.Ingredients.ConvertAll(i => new IngredientViewModel(i)));
             Steps = new ObservableCollection<StepViewModel>(Model.Steps.ConvertAll(s => new StepViewModel(s)));
         }
@@ -20,13 +21,16 @@ namespace ChefsBook_UWP_App.ViewModels
         {
             var dto = viewModel.Model;
 
+            dto.Tags = viewModel.Tags.ToList().ConvertAll(t => (TagDTO)t);
             dto.Ingredients = viewModel.Ingredients.ToList().ConvertAll(i => (IngredientDTO)i);
             dto.Steps = viewModel.Steps.ToList().ConvertAll(s => (StepDTO)s);
 
             return dto;
         }
 
-        private RecipeDetailsDTO Model { get; set; } = new RecipeDetailsDTO { Ingredients = new List<IngredientDTO>(), Steps = new List<StepDTO>() };
+        private RecipeDetailsDTO Model { get; set; } = new RecipeDetailsDTO {
+            Tags = new List<TagDTO>(), Ingredients = new List<IngredientDTO>(), Steps = new List<StepDTO>()
+        };
 
         public string Description
         {
@@ -78,6 +82,13 @@ namespace ChefsBook_UWP_App.ViewModels
                     RaisePropertyChanged(() => Notes);
                 }
             }
+        }
+
+        private ObservableCollection<TagViewModel> _tags;
+        public ObservableCollection<TagViewModel> Tags
+        {
+            get => _tags;
+            set => Set(ref _tags, value);
         }
 
         private ObservableCollection<IngredientViewModel> _ingredients;
