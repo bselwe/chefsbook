@@ -20,7 +20,7 @@ namespace ChefsBook_UWP_App.Views
     /// </summary>
     public sealed partial class RecipeEditPage : Page
     {
-        private RecipeEditPageViewModel ViewModel { get; set; } = ServiceLocator.Current.GetInstance<RecipeEditPageViewModel>();
+        private EditRecipePageViewModel ViewModel { get; set; } = ServiceLocator.Current.GetInstance<EditRecipePageViewModel>();
 
         public RecipeEditPage()
         {
@@ -58,7 +58,7 @@ namespace ChefsBook_UWP_App.Views
 
         private async void ChooseImageButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            RecipeViewModel recipe = ((sender as Control).DataContext as RecipeEditPageViewModel).Recipe;
+            RecipeViewModel recipe = ((sender as Control).DataContext as EditRecipePageViewModel).Recipe;
 
             FileOpenPicker openPicker = new FileOpenPicker();
             openPicker.ViewMode = PickerViewMode.Thumbnail;

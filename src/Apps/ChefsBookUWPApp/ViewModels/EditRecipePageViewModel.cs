@@ -6,11 +6,11 @@ using System;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
-    public class RecipeEditPageViewModel : ViewModelBase
+    public class EditRecipePageViewModel : ViewModelBase
     {
         private readonly IRecipeApiService _recipeApiService;
 
-        public RecipeEditPageViewModel(IRecipeApiService recipeApiService)
+        public EditRecipePageViewModel(IRecipeApiService recipeApiService)
         {
             _recipeApiService = recipeApiService;
             if (IsInDesignMode)

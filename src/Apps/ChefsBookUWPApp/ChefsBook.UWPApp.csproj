@@ -106,7 +106,7 @@
     <Compile Include="Services\RecipeApiService.cs" />
     <Compile Include="ViewModels\IngredientViewModel.cs" />
     <Compile Include="ViewModels\RecipeDetailsPageViewModel.cs" />
-    <Compile Include="ViewModels\RecipeEditViewModel.cs" />
+    <Compile Include="ViewModels\EditRecipePageViewModel.cs" />
     <Compile Include="ViewModels\StepViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\RecipeCollectionPageViewModel.cs" />
