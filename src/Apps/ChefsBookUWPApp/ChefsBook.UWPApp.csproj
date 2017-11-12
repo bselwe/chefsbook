@@ -104,14 +104,15 @@
     <Compile Include="Services\IRecipeApiService.cs" />
     <Compile Include="Services\FakeRecipeApiService.cs" />
     <Compile Include="Services\RecipeApiService.cs" />
-    <Compile Include="ViewModels\IngredientViewModel.cs" />
+    <Compile Include="ViewModels\Entities\IngredientViewModel.cs" />
+    <Compile Include="ViewModels\Entities\RecipeBaseViewModel.cs" />
+    <Compile Include="ViewModels\Entities\RecipeTileViewModel.cs" />
     <Compile Include="ViewModels\RecipeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\EditRecipePageViewModel.cs" />
-    <Compile Include="ViewModels\RecipeDetailsViewModel.cs" />
-    <Compile Include="ViewModels\StepViewModel.cs" />
+    <Compile Include="ViewModels\Entities\RecipeDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Entities\StepViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\RecipeCollectionPageViewModel.cs" />
-    <Compile Include="ViewModels\RecipeViewModel.cs" />
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>

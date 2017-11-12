@@ -22,7 +22,7 @@ namespace ChefsBook_UWP_App.Views
 
         private void RecipesGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var clickedRecipe = e.ClickedItem as RecipeViewModel;
+            var clickedRecipe = e.ClickedItem as RecipeTileViewModel;
             Frame.Navigate(typeof(RecipeDetailsPage), clickedRecipe.Id);
         }
 
