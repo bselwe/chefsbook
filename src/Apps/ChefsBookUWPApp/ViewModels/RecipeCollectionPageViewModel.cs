@@ -27,12 +27,12 @@ namespace ChefsBook_UWP_App.ViewModels
             Recipes.Clear();
             foreach (var recipe in task.Result)
             {
-                Recipes.Add(new RecipeViewModel(recipe));
+                Recipes.Add(new RecipeTileViewModel(recipe));
             }
         }
 
-        private ObservableCollection<RecipeViewModel> _recipes = new ObservableCollection<RecipeViewModel>();
-        public ObservableCollection<RecipeViewModel> Recipes
+        private ObservableCollection<RecipeTileViewModel> _recipes = new ObservableCollection<RecipeTileViewModel>();
+        public ObservableCollection<RecipeTileViewModel> Recipes
         {
             get => _recipes;
             set => Set(ref _recipes, value);

@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="RecipeTileTemplate" x:DataType="viewModels:RecipeViewModel">
+        <DataTemplate x:Key="RecipeTileTemplate" x:DataType="viewModels:RecipeTileViewModel">
             <Grid Width="300" Margin="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="190" />
