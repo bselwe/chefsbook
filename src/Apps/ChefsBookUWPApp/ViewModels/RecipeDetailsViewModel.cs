@@ -1,54 +1,44 @@
 ﻿using ChefsBook.Core.Contracts;
-using ChefsBook_UWP_App.Services;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
-    public class RecipeDetailsViewModel : ViewModelBase
+    public class RecipeDetailsViewModel : RecipeViewModel
     {
-        private readonly IRecipeApiService _recipeApiService;
-
-        public RecipeDetailsViewModel(IRecipeApiService recipeApiService)
+        public RecipeDetailsViewModel(RecipeDetailsDTO model = null) : base(model)
         {
-            _recipeApiService = recipeApiService;
-            if (IsInDesignMode)
-            {
-                var task = _recipeApiService.GetAllRecipes();
-                task.Wait();
-                var firstRecipe = task.Result[0];
-                Recipe = new RecipeViewModel(firstRecipe);
-            }
-        }
-        public void GetRecipeDetails(Guid id)
-        {
-            if (IsInDesignMode)
-                return;
+            Model = model ?? Model;
 
-            var task = _recipeApiService.GetRecipe(id);
-            Recipe = new RecipeViewModel(task.Result);
+            Ingredients = new ObservableCollection<IngredientViewModel>(Model.Ingredients.ConvertAll(i => new IngredientViewModel(i)));
+            Steps = new ObservableCollection<StepViewModel>(Model.Steps.ConvertAll(s => new StepViewModel(s)));
         }
 
-        private RecipeViewModel _recipe;
-        public RecipeViewModel Recipe
+        public static explicit operator RecipeDetailsDTO(RecipeDetailsViewModel viewModel)
         {
-            get => _recipe;
-            set => Set(ref _recipe, value);
+            var dto = viewModel.Model;
+
+            dto.Ingredients = viewModel.Ingredients.ToList().ConvertAll(i => (IngredientDTO)i);
+            dto.Steps = viewModel.Steps.ToList().ConvertAll(s => (StepDTO)s);
+
+            return dto;
         }
 
-        private RelayCommand _deleteRecipeCommand;
-        public RelayCommand DeleteRecipeCommand
+        private RecipeDetailsDTO Model { get; set; } = new RecipeDetailsDTO { Ingredients = new List<IngredientDTO>(), Steps = new List<StepDTO>() };
+
+        private ObservableCollection<IngredientViewModel> _ingredients;
+        public ObservableCollection<IngredientViewModel> Ingredients
         {
-            get
-            {
-                return _deleteRecipeCommand
-                    ?? (_deleteRecipeCommand = new RelayCommand(
-                    () =>
-                    {
-                        _recipeApiService.DeleteRecipe((RecipeDTO)Recipe);
-                    }));
-            }
+            get => _ingredients;
+            set => Set(ref _ingredients, value);
+        }
+
+        private ObservableCollection<StepViewModel> _steps;
+        public ObservableCollection<StepViewModel> Steps
+        {
+            get => _steps;
+            set => Set(ref _steps, value);
         }
     }
 }

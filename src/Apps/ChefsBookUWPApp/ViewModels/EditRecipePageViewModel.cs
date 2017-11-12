@@ -6,24 +6,23 @@ using System;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
-    public class RecipeEditViewModel : ViewModelBase
+    public class EditRecipePageViewModel : ViewModelBase
     {
         private readonly IRecipeApiService _recipeApiService;
 
-        public RecipeEditViewModel(IRecipeApiService recipeApiService)
+        public EditRecipePageViewModel(IRecipeApiService recipeApiService)
         {
             _recipeApiService = recipeApiService;
             if (IsInDesignMode)
             {
-                var task = _recipeApiService.GetAllRecipes();
+                var task = _recipeApiService.GetRecipe(new Guid("4b602f03-5da9-4450-9946-6b248d26b142"));
                 task.Wait();
-                var firstRecipe = task.Result[0];
-                Recipe = new RecipeViewModel(firstRecipe);
+                Recipe = new RecipeDetailsViewModel(task.Result);
             }
         }
 
-        private RecipeViewModel _recipe;
-        public RecipeViewModel Recipe
+        private RecipeDetailsViewModel _recipe;
+        public RecipeDetailsViewModel Recipe
         {
             get => _recipe;
             set => Set(ref _recipe, value);
@@ -111,9 +110,9 @@ namespace ChefsBook_UWP_App.ViewModels
                     () =>
                     {
                         if (Recipe.Id == default(Guid))
-                            _recipeApiService.AddRecipe((RecipeDTO)Recipe);
+                            _recipeApiService.AddRecipe((RecipeDetailsDTO)Recipe);
                         else
-                            _recipeApiService.EditRecipe((RecipeDTO)Recipe);
+                            _recipeApiService.EditRecipe((RecipeDetailsDTO)Recipe);
                     }));
             }
         }

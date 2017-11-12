@@ -15,7 +15,7 @@ namespace ChefsBook_UWP_App.Views
     /// </summary>
     public sealed partial class RecipeDetailsPage : Page
     {
-        private RecipeDetailsViewModel ViewModel { get; set; } = ServiceLocator.Current.GetInstance<RecipeDetailsViewModel>();
+        private RecipeDetailsPageViewModel ViewModel { get; set; } = ServiceLocator.Current.GetInstance<RecipeDetailsPageViewModel>();
 
         public RecipeDetailsPage()
         {

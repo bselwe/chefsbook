@@ -14,22 +14,22 @@ namespace ChefsBook_UWP_App.Services
             return _fakeApiSerivce.GetAllRecipes();
         }
 
-        public Task<RecipeDTO> GetRecipe(Guid id)
+        public Task<RecipeDetailsDTO> GetRecipe(Guid id)
         {
             return _fakeApiSerivce.GetRecipe(id);
         }
 
-        public Task AddRecipe(RecipeDTO recipe)
+        public Task AddRecipe(RecipeDetailsDTO recipe)
         {
             return _fakeApiSerivce.AddRecipe(recipe);
         }
 
-        public Task EditRecipe(RecipeDTO recipe)
+        public Task EditRecipe(RecipeDetailsDTO recipe)
         {
             return _fakeApiSerivce.EditRecipe(recipe);
         }
 
-        public Task DeleteRecipe(RecipeDTO recipe)
+        public Task DeleteRecipe(RecipeDetailsDTO recipe)
         {
             return _fakeApiSerivce.DeleteRecipe(recipe);
         }
