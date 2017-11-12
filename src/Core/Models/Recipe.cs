@@ -42,8 +42,11 @@ namespace ChefsBook.Core.Models
                 Notes = notes
             };
 
-            recipe.ingredients.AddRange(ingredients);
-            recipe.steps.AddRange(steps);
+            if (ingredients != null)
+                recipe.ingredients.AddRange(ingredients);
+
+            if (steps != null)
+                recipe.steps.AddRange(steps);
 
             return recipe;
         }
@@ -67,8 +70,11 @@ namespace ChefsBook.Core.Models
             this.ingredients.Clear();
             this.steps.Clear();
 
-            this.ingredients.AddRange(ingredients);
-            this.steps.AddRange(steps);
+            if (ingredients != null)
+                this.ingredients.AddRange(ingredients);
+
+            if (steps != null)
+                this.steps.AddRange(steps);
         }
 
         public void AddTags(IList<RecipeTag> tags)
