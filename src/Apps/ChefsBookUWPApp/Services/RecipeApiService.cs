@@ -9,7 +9,7 @@ namespace ChefsBook_UWP_App.Services
     {
         private FakeRecipeApiService _fakeApiSerivce = new FakeRecipeApiService();
 
-        public Task<List<RecipeDetailsDTO>> GetAllRecipes()
+        public Task<List<RecipeDTO>> GetAllRecipes()
         {
             return _fakeApiSerivce.GetAllRecipes();
         }
