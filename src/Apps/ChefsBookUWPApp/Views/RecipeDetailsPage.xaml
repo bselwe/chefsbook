@@ -6,7 +6,7 @@
     xmlns:viewModels="using:ChefsBook_UWP_App.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=RecipeDetails}"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=RecipeDetailsPageVM}"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

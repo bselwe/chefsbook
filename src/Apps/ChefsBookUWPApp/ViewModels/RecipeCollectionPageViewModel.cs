@@ -6,11 +6,11 @@ using GalaSoft.MvvmLight.Command;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
-    public class RecipeCollectionViewModel : ViewModelBase
+    public class RecipeCollectionPageViewModel : ViewModelBase
     {
         private readonly IRecipeApiService _recipeApiService;
 
-        public RecipeCollectionViewModel(IRecipeApiService recipeApiService)
+        public RecipeCollectionPageViewModel(IRecipeApiService recipeApiService)
         {
             _recipeApiService = recipeApiService;
             GetAllRecipes();

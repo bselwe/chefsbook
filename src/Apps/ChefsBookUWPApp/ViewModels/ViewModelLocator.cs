@@ -20,13 +20,13 @@ namespace ChefsBook_UWP_App.ViewModels
                 SimpleIoc.Default.Register<IRecipeApiService, RecipeApiService>();
             }
 
-            SimpleIoc.Default.Register<RecipeCollectionViewModel>();
-            SimpleIoc.Default.Register<RecipeDetailsViewModel>();
-            SimpleIoc.Default.Register<RecipeEditViewModel>();
+            SimpleIoc.Default.Register<RecipeCollectionPageViewModel>();
+            SimpleIoc.Default.Register<RecipeDetailsPageViewModel>();
+            SimpleIoc.Default.Register<RecipeEditPageViewModel>();
         }
 
-        public RecipeCollectionViewModel RecipeCollection => ServiceLocator.Current.GetInstance<RecipeCollectionViewModel>();
-        public RecipeDetailsViewModel RecipeDetails => ServiceLocator.Current.GetInstance<RecipeDetailsViewModel>();
-        public RecipeEditViewModel RecipeEdit => ServiceLocator.Current.GetInstance<RecipeEditViewModel>();
+        public RecipeCollectionPageViewModel RecipeCollectionPageVM => ServiceLocator.Current.GetInstance<RecipeCollectionPageViewModel>();
+        public RecipeDetailsPageViewModel RecipeDetailsPageVM => ServiceLocator.Current.GetInstance<RecipeDetailsPageViewModel>();
+        public RecipeEditPageViewModel RecipeEditPageVM => ServiceLocator.Current.GetInstance<RecipeEditPageViewModel>();
     }
 }
