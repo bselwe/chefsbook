@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChefsBook.Core.Contracts;
+using Core.Contracts;
 
 namespace ChefsBook_UWP_App.Services
 {
@@ -32,6 +33,16 @@ namespace ChefsBook_UWP_App.Services
         public Task DeleteRecipe(RecipeDetailsDTO recipe)
         {
             return _fakeApiSerivce.DeleteRecipe(recipe);
+        }
+
+        public Task<List<TagDTO>> GetAllTags()
+        {
+            return _fakeApiSerivce.GetAllTags();
+        }
+
+        public Task<List<RecipeDetailsDTO>> FilterRecipes(FilterRecipeDTO filter)
+        {
+            return _fakeApiSerivce.FilterRecipes(filter);
         }
     }
 }

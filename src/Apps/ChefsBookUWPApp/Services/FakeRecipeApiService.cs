@@ -2,15 +2,32 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChefsBook.Core.Contracts;
+using Core.Contracts;
+using System.Linq;
 
 namespace ChefsBook_UWP_App.Services
 {
     public class FakeRecipeApiService : IRecipeApiService
     {
         private List<RecipeDetailsDTO> _recipes = new List<RecipeDetailsDTO>();
+        private List<TagDTO> _tags = new List<TagDTO>();
 
         public FakeRecipeApiService()
         {
+            _tags = new List<TagDTO>()
+            {
+                new TagDTO()
+                {
+                    Id = new Guid("f69aeab4-761b-43e8-adb9-b5f5c0b994cb"),
+                    Name = "breakfast"
+                },
+                new TagDTO()
+                {
+                    Id = new Guid("063e51be-9875-441b-a486-338c8e177a68"),
+                    Name = "protein-rich"
+                }
+            };
+
             _recipes = new List<RecipeDetailsDTO>()
             {
                 new RecipeDetailsDTO
@@ -21,19 +38,7 @@ namespace ChefsBook_UWP_App.Services
                     Image = @"/Assets/seafood_dish.jpg",
                     Duration = TimeSpan.FromMinutes(15),
                     Servings = 4,
-                    Tags = new List<TagDTO>()
-                    {
-                        new TagDTO()
-                        {
-                            Id = new Guid("f69aeab4-761b-43e8-adb9-b5f5c0b994cb"),
-                            Name = "breakfast"
-                        },
-                        new TagDTO()
-                        {
-                            Id = new Guid("063e51be-9875-441b-a486-338c8e177a68"),
-                            Name = "protein-rich"
-                        }
-                    },
+                    Tags = _tags,
                     Ingredients = new List<IngredientDTO>()
                     {
                         new IngredientDTO()
@@ -104,6 +109,23 @@ namespace ChefsBook_UWP_App.Services
         {
             _recipes.Remove(GetRecipe(recipe.Id).Result);
             return Task.CompletedTask;
+        }
+
+        public Task<List<TagDTO>> GetAllTags()
+        {
+            return Task.FromResult(_tags);
+        }
+
+        public Task<List<RecipeDetailsDTO>> FilterRecipes(FilterRecipeDTO filter)
+        {
+            var results = _recipes.Where(r =>
+                    ((filter.Text == null || filter.Text.Length == 0 ||
+                    r.Title.ToLower().Contains(filter.Text.ToLower()) ||
+                    r.Description.ToLower().Contains(filter.Text.ToLower())) &&
+                    (filter.Tags == null || filter.Tags.Count == 0 ||
+                    r.Tags.Select(t => t.Id).Intersect(filter.Tags).Any()))).ToList();
+
+            return Task.FromResult(results);
         }
     }
 }
