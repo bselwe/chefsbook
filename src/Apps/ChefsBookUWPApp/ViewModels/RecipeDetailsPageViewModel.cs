@@ -3,7 +3,6 @@ using ChefsBook_UWP_App.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
-using System.Linq;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
@@ -16,18 +15,13 @@ namespace ChefsBook_UWP_App.ViewModels
             _recipeApiService = recipeApiService;
             if (IsInDesignMode)
             {
-                var task = _recipeApiService.GetRecipe(new Guid("4b602f03-5da9-4450-9946-6b248d26b142"));
-                task.Wait();
-                Recipe = new RecipeDetailsViewModel(task.Result);
+                GetRecipeDetails(new Guid("4b602f03-5da9-4450-9946-6b248d26b142"));
             }
         }
-        public void GetRecipeDetails(Guid id)
+        public async void GetRecipeDetails(Guid id)
         {
-            if (IsInDesignMode)
-                return;
-
-            var task = _recipeApiService.GetRecipe(id);
-            Recipe = new RecipeDetailsViewModel(task.Result);
+            var recipe = await _recipeApiService.GetRecipe(id);
+            Recipe = new RecipeDetailsViewModel(recipe);
         }
 
         private RecipeDetailsViewModel _recipe;

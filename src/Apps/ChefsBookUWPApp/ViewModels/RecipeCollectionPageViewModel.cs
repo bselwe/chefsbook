@@ -21,23 +21,19 @@ namespace ChefsBook_UWP_App.ViewModels
             GetAllTags();
         }
 
-        private void GetAllTags()
+        private async void GetAllTags()
         {
-            var task = _recipeApiService.GetAllTags();
-            if (IsInDesignMode)
-                task.Wait();
+            var tags = await _recipeApiService.GetAllTags();
 
-            _availableTags = task.Result;
+            _availableTags = tags;
         }
 
-        private void GetAllRecipes()
+        private async void GetAllRecipes()
         {
-            var task = _recipeApiService.GetAllRecipes();
-            if (IsInDesignMode)
-                task.Wait();
+            var recipes = await _recipeApiService.GetAllRecipes();
 
             Recipes.Clear();
-            foreach (var recipe in task.Result)
+            foreach (var recipe in recipes)
             {
                 Recipes.Add(new RecipeTileViewModel(recipe));
             }
@@ -106,10 +102,10 @@ namespace ChefsBook_UWP_App.ViewModels
                     filterDTO.Tags.Add(foundTag.Id);
             }
 
-            var task = _recipeApiService.FilterRecipes(filterDTO);
-            task.Wait();
+            var result = await _recipeApiService.FilterRecipes(filterDTO);
 
-            Recipes = new ObservableCollection<RecipeTileViewModel>(task.Result.ConvertAll(r => new RecipeTileViewModel(r as RecipeDTO)));
+            Recipes = new ObservableCollection<RecipeTileViewModel>(
+                result.ConvertAll(r => new RecipeTileViewModel(r as RecipeDTO)));
         }
     }
 }
