@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Threading;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -49,6 +50,8 @@ namespace ChefsBook_UWP_App
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
+
+                DispatcherHelper.Initialize();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

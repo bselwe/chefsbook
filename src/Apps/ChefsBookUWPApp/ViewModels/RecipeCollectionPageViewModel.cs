@@ -7,6 +7,8 @@ using Core.Contracts;
 using ChefsBook.Core.Contracts;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Threading;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
@@ -17,26 +19,32 @@ namespace ChefsBook_UWP_App.ViewModels
         public RecipeCollectionPageViewModel(IRecipeApiService recipeApiService)
         {
             _recipeApiService = recipeApiService;
-            GetAllRecipes();
-            GetAllTags();
+            Task.Run(() => GetAllRecipes());
+            Task.Run(() => GetAllTags());
         }
 
         private async void GetAllTags()
         {
             var tags = await _recipeApiService.GetAllTags();
 
-            _availableTags = tags;
+            await DispatcherHelper.RunAsync(() =>
+            {
+                _availableTags = tags;
+            });
         }
 
         private async void GetAllRecipes()
         {
             var recipes = await _recipeApiService.GetAllRecipes();
 
-            Recipes.Clear();
-            foreach (var recipe in recipes)
+            await DispatcherHelper.RunAsync(() =>
             {
-                Recipes.Add(new RecipeTileViewModel(recipe));
-            }
+                Recipes.Clear();
+                foreach (var recipe in recipes)
+                {
+                    Recipes.Add(new RecipeTileViewModel(recipe));
+                }
+            });
         }
 
         private ObservableCollection<RecipeTileViewModel> _recipes = new ObservableCollection<RecipeTileViewModel>();
