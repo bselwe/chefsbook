@@ -61,6 +61,7 @@
         </Grid.RowDefinitions>
         <CommandBar Grid.Row="0">
             <AppBarButton Icon="Add" Label="Add recipe" Click="AddRecipeAppBarButton_Click"/>
+            <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding ReloadCommand}"/>
         </CommandBar>
         <Grid Grid.Row="1" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
