@@ -11,7 +11,7 @@ namespace ChefsBook_UWP_App.ViewModels
             Model = model ?? Model;
         }
 
-        private RecipeDTO Model { get; set; }
+        protected RecipeDTO Model { get; set; }
 
         public Guid Id
         {

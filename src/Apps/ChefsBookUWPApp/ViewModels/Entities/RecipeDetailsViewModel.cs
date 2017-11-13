@@ -8,9 +8,14 @@ namespace ChefsBook_UWP_App.ViewModels
 {
     public class RecipeDetailsViewModel : RecipeBaseViewModel
     {
-        public RecipeDetailsViewModel(RecipeDetailsDTO model = null) : base(model)
+        public RecipeDetailsViewModel()
         {
-            Model = model ?? Model;
+            base.Model = Model;
+        }
+
+        public RecipeDetailsViewModel(RecipeDetailsDTO model) : base(model)
+        {
+            Model = model;
 
             Tags = new ObservableCollection<TagViewModel>(Model.Tags.ConvertAll(t => new TagViewModel(t)));
             Ingredients = new ObservableCollection<IngredientViewModel>(Model.Ingredients.ConvertAll(i => new IngredientViewModel(i)));
@@ -28,7 +33,7 @@ namespace ChefsBook_UWP_App.ViewModels
             return dto;
         }
 
-        private RecipeDetailsDTO Model { get; set; } = new RecipeDetailsDTO {
+        private new RecipeDetailsDTO Model { get; set; } = new RecipeDetailsDTO {
             Tags = new List<TagDTO>(), Ingredients = new List<IngredientDTO>(), Steps = new List<StepDTO>()
         };
 
@@ -84,7 +89,7 @@ namespace ChefsBook_UWP_App.ViewModels
             }
         }
 
-        private string _tagsListing;
+        private string _tagsListing = string.Empty;
         public string TagsListing
         {
             get => _tagsListing;
@@ -93,7 +98,7 @@ namespace ChefsBook_UWP_App.ViewModels
 
 
 
-        private ObservableCollection<TagViewModel> _tags;
+        private ObservableCollection<TagViewModel> _tags = new ObservableCollection<TagViewModel>();
         public ObservableCollection<TagViewModel> Tags
         {
             get => _tags;
@@ -104,14 +109,14 @@ namespace ChefsBook_UWP_App.ViewModels
             }
         }
 
-        private ObservableCollection<IngredientViewModel> _ingredients;
+        private ObservableCollection<IngredientViewModel> _ingredients = new ObservableCollection<IngredientViewModel>();
         public ObservableCollection<IngredientViewModel> Ingredients
         {
             get => _ingredients;
             set => Set(ref _ingredients, value);
         }
 
-        private ObservableCollection<StepViewModel> _steps;
+        private ObservableCollection<StepViewModel> _steps = new ObservableCollection<StepViewModel>();
         public ObservableCollection<StepViewModel> Steps
         {
             get => _steps;
