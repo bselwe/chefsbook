@@ -9,40 +9,41 @@ namespace ChefsBook_UWP_App.Services
     public class RecipeApiService : IRecipeApiService
     {
         private FakeRecipeApiService _fakeApiSerivce = new FakeRecipeApiService();
+        private ApiHelper _apiHelper = new ApiHelper();
 
-        public Task<List<RecipeDTO>> GetAllRecipes()
+        public async Task<List<RecipeDTO>> GetAllRecipes()
         {
-            return _fakeApiSerivce.GetAllRecipes();
+            return await _apiHelper.GetAsync<List<RecipeDTO>>("recipes");
         }
 
-        public Task<RecipeDetailsDTO> GetRecipe(Guid id)
+        public async Task<RecipeDetailsDTO> GetRecipe(Guid id)
         {
-            return _fakeApiSerivce.GetRecipe(id);
+            return await _apiHelper.GetAsync<RecipeDetailsDTO>($"recipes/{id}");
         }
 
-        public Task AddRecipe(RecipeDetailsDTO recipe)
+        public async Task AddRecipe(RecipeDetailsDTO recipe)
         {
-            return _fakeApiSerivce.AddRecipe(recipe);
+            await _apiHelper.PostAsync("recipes", recipe);
         }
 
-        public Task EditRecipe(RecipeDetailsDTO recipe)
+        public async Task EditRecipe(RecipeDetailsDTO recipe)
         {
-            return _fakeApiSerivce.EditRecipe(recipe);
+            await _apiHelper.PutAsync($"recipes/{recipe.Id}", recipe);
         }
 
-        public Task DeleteRecipe(RecipeDetailsDTO recipe)
+        public async Task DeleteRecipe(RecipeDetailsDTO recipe)
         {
-            return _fakeApiSerivce.DeleteRecipe(recipe);
+            await _apiHelper.DeleteAsync($"recipes/{recipe.Id}");
         }
 
-        public Task<List<TagDTO>> GetAllTags()
+        public async Task<List<TagDTO>> GetAllTags()
         {
-            return _fakeApiSerivce.GetAllTags();
+            return await _apiHelper.GetAsync<List<TagDTO>>("tags");
         }
 
-        public Task<List<RecipeDetailsDTO>> FilterRecipes(FilterRecipeDTO filter)
+        public async Task<List<RecipeDetailsDTO>> FilterRecipes(FilterRecipeDTO filter)
         {
-            return _fakeApiSerivce.FilterRecipes(filter);
+            return await _apiHelper.PostAsync<List<RecipeDetailsDTO>>("recipes", filter);
         }
     }
 }
