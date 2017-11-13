@@ -84,11 +84,24 @@ namespace ChefsBook_UWP_App.ViewModels
             }
         }
 
+        private string _tagsListing;
+        public string TagsListing
+        {
+            get => _tagsListing;
+            private set => Set(ref _tagsListing, value);
+        }
+
+
+
         private ObservableCollection<TagViewModel> _tags;
         public ObservableCollection<TagViewModel> Tags
         {
             get => _tags;
-            set => Set(ref _tags, value);
+            set
+            {
+                Set(ref _tags, value);
+                TagsListing = string.Join(", ", Tags.Select(t => t.Name));
+            }
         }
 
         private ObservableCollection<IngredientViewModel> _ingredients;

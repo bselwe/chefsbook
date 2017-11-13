@@ -20,7 +20,7 @@ namespace ChefsBook_UWP_App.ViewModels
         private string _tagsListing;
         public string TagsListing
         {
-            get { return _tagsListing; }
+            get => _tagsListing;
             private set
             {
                 if (value != _tagsListing)

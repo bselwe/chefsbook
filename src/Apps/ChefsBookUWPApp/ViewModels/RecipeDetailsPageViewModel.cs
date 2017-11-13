@@ -3,6 +3,7 @@ using ChefsBook_UWP_App.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Linq;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
