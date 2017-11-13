@@ -37,26 +37,30 @@
                     <Image Source="{Binding Recipe.Image}"/>
                     <Button Content="Choose image" Margin="5" Click="ChooseImageButton_Click"/>
                 </Grid>
-                <ScrollViewer Grid.Column="1"  DataContext="{Binding Path=Recipe}">
+                <ScrollViewer Grid.Column="1">
                     <StackPanel>
-                        <TextBlock Text="Title:"/>
                         <TextBox 
-                            Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Header="Title:"
+                            Text="{Binding Recipe.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             TextWrapping="Wrap"/>
-                        <TextBlock Text="Description:"/>
-                        <TextBox 
-                            Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBox
+                            Header="Tags:"
+                            Text="{Binding EditableTagsListing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             TextWrapping="Wrap"/>
-                        <TextBlock Text="Notes:"/>
                         <TextBox 
-                            Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Header="Yield:"
+                            Text="{Binding Recipe.Servings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableIntConverter}}"/>
+                        <TextBox 
+                            Header="Time:"
+                            Text="{Binding Recipe.Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableTimeSpanConverter}}"/>
+                        <TextBox
+                            Header="Description:"
+                            Text="{Binding Recipe.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             TextWrapping="Wrap"/>
-                        <TextBlock Text="Yields:"/>
                         <TextBox 
-                            Text="{Binding Servings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableIntConverter}}"/>
-                        <TextBlock Text="Time:"/>
-                        <TextBox 
-                            Text="{Binding Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NullableTimeSpanConverter}}"/>
+                            Header="Notes:"
+                            Text="{Binding Recipe.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            TextWrapping="Wrap"/>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

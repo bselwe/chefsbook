@@ -31,16 +31,20 @@
                 <Image Source="{Binding Image}" />
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="{Binding Title}" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <TextBlock>
+                        <Run>Tags: </Run>
+                        <Run Text="{Binding TagsListing}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run>Yields: </Run>
+                        <Run Text="{Binding Servings}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run>Time: </Run>
+                        <Run Text="{Binding Duration}"/>
+                    </TextBlock>
                     <TextBlock Text="{Binding Description}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
                     <TextBlock Text="{Binding Notes}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
-                    <TextBlock>
-                    <Run>Yields: </Run>
-                    <Run Text="{Binding Servings}"/>
-                    </TextBlock>
-                    <TextBlock>
-                    <Run>Time: </Run>
-                    <Run Text="{Binding Duration}"/>
-                    </TextBlock>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">

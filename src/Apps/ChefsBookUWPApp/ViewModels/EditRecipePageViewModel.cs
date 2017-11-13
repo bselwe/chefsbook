@@ -3,6 +3,8 @@ using ChefsBook_UWP_App.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
@@ -25,7 +27,18 @@ namespace ChefsBook_UWP_App.ViewModels
         public RecipeDetailsViewModel Recipe
         {
             get => _recipe;
-            set => Set(ref _recipe, value);
+            set
+            {
+                Set(ref _recipe, value);
+                EditableTagsListing = Recipe.TagsListing;
+            }
+        }
+
+        private string _editableTagsListing;
+        public string EditableTagsListing
+        {
+            get => _editableTagsListing;
+            set => Set(ref _editableTagsListing, value);
         }
 
         private RelayCommand<string> _saveImagePathCommand;
@@ -109,12 +122,35 @@ namespace ChefsBook_UWP_App.ViewModels
                     ?? (_saveRecipeCommand = new RelayCommand(
                     () =>
                     {
+                        UpdateTagsCollection();
+
                         if (Recipe.Id == default(Guid))
                             _recipeApiService.AddRecipe((RecipeDetailsDTO)Recipe);
                         else
                             _recipeApiService.EditRecipe((RecipeDetailsDTO)Recipe);
                     }));
             }
+        }
+
+        private void UpdateTagsCollection()
+        {
+            var tagsListingWithoutSpaces = EditableTagsListing.Replace(' ', ',');
+
+            string[] separators = { "," };
+            var tagsNames = tagsListingWithoutSpaces.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+            var updatedTags = new ObservableCollection<TagViewModel>();
+            foreach (var tagName in tagsNames)
+            {
+                var foundTag = Recipe.Tags.FirstOrDefault(t => t.Name == tagName);
+
+                if (foundTag == default(TagViewModel))
+                    updatedTags.Add(new TagViewModel() { Name = tagName });
+                else
+                    updatedTags.Add(new TagViewModel() { Id = foundTag.Id, Name = tagName });
+            }
+
+            Recipe.Tags = updatedTags;
         }
     }
 }
