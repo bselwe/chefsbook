@@ -8,10 +8,9 @@ using ChefsBook.Core;
 using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Services;
-using Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApiApp.Controllers
+namespace ChefsBook.WebApiApp.Controllers
 {
     [Route("api/[controller]")]
     public class RecipesController : Controller
@@ -70,6 +69,7 @@ namespace WebApiApp.Controllers
             await recipesService.Create(
                 recipe.Title,
                 recipe.Description,
+                recipe.Image,
                 recipe.Duration,
                 recipe.Servings,
                 recipe.Notes,
@@ -95,6 +95,7 @@ namespace WebApiApp.Controllers
                 id,
                 recipe.Title,
                 recipe.Description,
+                recipe.Image,
                 recipe.Duration,
                 recipe.Servings,
                 recipe.Notes,

@@ -23,7 +23,7 @@ namespace ChefsBook.Core.Models
         private Recipe() { }
 
         public static Recipe Create(
-            string title, string description, TimeSpan? duration, int? servings, string notes, 
+            string title, string description, string image, TimeSpan? duration, int? servings, string notes, 
             IList<Ingredient> ingredients, IList<Step> steps)
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -36,6 +36,7 @@ namespace ChefsBook.Core.Models
                 Id = Guid.NewGuid(),
                 Title = title,
                 Description = description,
+                Image = image,
                 Duration = duration,
                 Servings = servings,
                 Notes = notes
@@ -48,7 +49,7 @@ namespace ChefsBook.Core.Models
         }
 
         public void Update(
-            string title, string description, TimeSpan? duration, int? servings, string notes,
+            string title, string description, string image, TimeSpan? duration, int? servings, string notes,
             IList<Ingredient> ingredients, IList<Step> steps)
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -58,6 +59,7 @@ namespace ChefsBook.Core.Models
 
             Title = title;
             Description = description;
+            Image = image;
             Duration = duration;
             Servings = servings;
             Notes = notes;
