@@ -1,11 +1,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ChefsBook.WebApiApp.Controllers
 {
@@ -24,6 +26,7 @@ namespace ChefsBook.WebApiApp.Controllers
         }
 
         [HttpGet]
+        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<TagDTO>))]
         public async Task<IActionResult> GetTags()
         {
             var tags = await tagsRepository.AllAsync();
