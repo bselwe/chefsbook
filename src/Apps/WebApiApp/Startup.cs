@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ChefsBook.WebApiApp
 {
@@ -22,14 +23,16 @@ namespace ChefsBook.WebApiApp
     {
         private readonly string databaseConnStr;
 
+        public IConfiguration Configuration { get; }
+
         public Startup(IHostingEnvironment hostingEnvironment)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", true);
-            var configuration = builder.Build();
+            Configuration = builder.Build();
 
-            this.databaseConnStr = configuration.GetConnectionString("Database");
+            this.databaseConnStr = Configuration.GetConnectionString("Database");
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -43,17 +46,30 @@ namespace ChefsBook.WebApiApp
             services.AddScoped<IRecipesRepository, RecipesRepository>();
             services.AddScoped<ITagsRepository, TagsRepository>();
             services.AddScoped<IRecipesService, RecipesService>();
+            
             services.AddMvc();
             services.AddAutoMapper();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "ChefsBook API", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseStaticFiles();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint(Configuration["Swagger:Endpoint"], Configuration["Version"]);
+            });
             app.UseMvc();
         }
     }
