@@ -43,7 +43,7 @@ namespace ChefsBook_UWP_App.Services
 
         public async Task<List<RecipeDetailsDTO>> FilterRecipes(FilterRecipeDTO filter)
         {
-            return await _apiHelper.PostAsync<List<RecipeDetailsDTO>>("recipes", filter);
+            return await _apiHelper.PostAsync<List<RecipeDetailsDTO>>("recipes/filter", filter);
         }
     }
 }
