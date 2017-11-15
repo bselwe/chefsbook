@@ -10,6 +10,7 @@ using Xunit;
 using System.Threading.Tasks;
 using System.Collections;
 using ChefsBook.WebApiApp.Controllers;
+using ChefsBook.Core.Contracts;
 
 namespace ChefsBook.WebApiApp.Tests
 {
@@ -67,6 +68,33 @@ namespace ChefsBook.WebApiApp.Tests
 
             // Assert
             Assert.True(result.GetType().IsAssignableFrom(typeof(NotFoundResult)));
+        }
+
+        [Fact]
+        public async Task FilterRecipes_Returns_BadRequest_When_Arguments_Are_Invalid()
+        {
+            // Arrange
+            var recipesService = Substitute.For<IRecipesService>();
+            var controller = new RecipesController(recipesService, AutoMapper.Mapper.Instance);
+
+            // Act
+            var filter = new FilterRecipeDTO { Text = null, Tags = null };
+            var result = await controller.FilterRecipes(filter);
+
+            // Assert
+            Assert.True(result.GetType().IsAssignableFrom(typeof(BadRequestResult)));
+        }
+
+        [Fact]
+        public async Task CreateRecipe_Returns_Ok_When_Arguments_Are_Valid()
+        {
+
+        }
+
+        [Fact]
+        public async Task CreateRecipe_Throws_ArgumentException_When_Recipe_Details_Are_Invalid()
+        {
+
         }
 
         private List<Recipe> GenerateRecipes()
