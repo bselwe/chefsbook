@@ -9,6 +9,7 @@ using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ChefsBook.WebApiApp.Controllers
 {
@@ -27,6 +28,7 @@ namespace ChefsBook.WebApiApp.Controllers
         }
 
         [HttpGet]
+        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
         public async Task<IActionResult> GetRecipes()
         {
             var recipes = await recipesService.AllAsync();
@@ -35,6 +37,8 @@ namespace ChefsBook.WebApiApp.Controllers
         }
 
         [HttpGet("{id}")]
+        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(RecipeDetailsDTO))]
+        [SwaggerResponse((int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetRecipeById(Guid id)
         {
             var recipe = await recipesService.FindAsync(id);
@@ -46,6 +50,8 @@ namespace ChefsBook.WebApiApp.Controllers
         }
 
         [HttpPost("filter")]
+        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
+        [SwaggerResponse((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> FilterRecipes([FromBody] FilterRecipeDTO filter)
         {
             if (string.IsNullOrEmpty(filter.Text) && filter.Tags == null)
@@ -57,6 +63,8 @@ namespace ChefsBook.WebApiApp.Controllers
         }
 
         [HttpPost]
+        [SwaggerResponse((int) HttpStatusCode.Created)]
+        [SwaggerResponse((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateRecipe([FromBody] NewRecipeDTO recipe)
         {
             if (recipe == null || recipe.Ingredients == null || recipe.Steps == null || recipe.Tags == null)
@@ -82,6 +90,9 @@ namespace ChefsBook.WebApiApp.Controllers
         }
 
         [HttpPut("{id}")]
+        [SwaggerResponse((int) HttpStatusCode.OK)]
+        [SwaggerResponse((int) HttpStatusCode.NotFound)]
+        [SwaggerResponse((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UpdateRecipe(Guid id, [FromBody] UpdateRecipeDTO recipe)
         {
             if (recipe == null || recipe.Ingredients == null || recipe.Steps == null || recipe.Tags == null)
@@ -110,6 +121,8 @@ namespace ChefsBook.WebApiApp.Controllers
         }
 
         [HttpDelete("{id}")]
+        [SwaggerResponse((int) HttpStatusCode.OK)]
+        [SwaggerResponse((int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteRecipe(Guid id)
         {
             var result = await recipesService.Remove(id);
