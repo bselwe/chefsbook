@@ -30,7 +30,6 @@ namespace ChefsBook.Core.Contracts
 
     public class UpdateRecipeTagDTO
     {
-        public Guid? Id { get; set; }
         public string Name { get; set; }
     }
 }
