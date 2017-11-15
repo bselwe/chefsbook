@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChefsBook.Core.Contracts;
-using Core.Contracts;
 
 namespace ChefsBook_UWP_App.Services
 {

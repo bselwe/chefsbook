@@ -1,5 +1,4 @@
 ﻿using ChefsBook.Core.Contracts;
-using Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

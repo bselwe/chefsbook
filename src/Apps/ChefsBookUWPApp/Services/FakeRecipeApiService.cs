@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChefsBook.Core.Contracts;
-using Core.Contracts;
 using System.Linq;
 
 namespace ChefsBook_UWP_App.Services
@@ -18,12 +17,10 @@ namespace ChefsBook_UWP_App.Services
             {
                 new TagDTO()
                 {
-                    Id = new Guid("f69aeab4-761b-43e8-adb9-b5f5c0b994cb"),
                     Name = "breakfast"
                 },
                 new TagDTO()
                 {
-                    Id = new Guid("063e51be-9875-441b-a486-338c8e177a68"),
                     Name = "protein-rich"
                 }
             };
@@ -121,9 +118,7 @@ namespace ChefsBook_UWP_App.Services
             var results = _recipes.Where(r =>
                     ((filter.Text == null || filter.Text.Length == 0 ||
                     r.Title.ToLower().Contains(filter.Text.ToLower()) ||
-                    r.Description.ToLower().Contains(filter.Text.ToLower())) &&
-                    (filter.Tags == null || filter.Tags.Count == 0 ||
-                    r.Tags.Select(t => t.Id).Intersect(filter.Tags).Any()))).ToList();
+                    r.Description.ToLower().Contains(filter.Text.ToLower())))).ToList();
 
             return Task.FromResult(results);
         }

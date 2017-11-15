@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
 using System;
 using GalaSoft.MvvmLight.Command;
-using Core.Contracts;
 using ChefsBook.Core.Contracts;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +95,7 @@ namespace ChefsBook_UWP_App.ViewModels
 
         private async void SearchQuerySubmitted()
         {
-            var filterDTO = new FilterRecipeDTO() { Text = TitleSearchQuery, Tags = new List<Guid>() };
+            var filterDTO = new FilterRecipeDTO() { Text = TitleSearchQuery, Tags = new List<string>() };
 
             var tagsWithoutSpaces = TagsSearchQuery.Replace(' ', ',');
             string[] separators = { "," };
@@ -104,10 +103,7 @@ namespace ChefsBook_UWP_App.ViewModels
 
             foreach (var tagName in tagsNames)
             {
-                var foundTag = _availableTags.FirstOrDefault(t => t.Name == tagName);
-
-                if (foundTag != default(TagDTO))
-                    filterDTO.Tags.Add(foundTag.Id);
+                filterDTO.Tags.Add(tagName);
             }
 
             var result = await _recipeApiService.FilterRecipes(filterDTO);

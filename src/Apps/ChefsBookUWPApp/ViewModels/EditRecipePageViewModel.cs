@@ -142,12 +142,7 @@ namespace ChefsBook_UWP_App.ViewModels
             var updatedTags = new ObservableCollection<TagViewModel>();
             foreach (var tagName in tagsNames)
             {
-                var foundTag = Recipe.Tags.FirstOrDefault(t => t.Name == tagName);
-
-                if (foundTag == default(TagViewModel))
-                    updatedTags.Add(new TagViewModel() { Name = tagName });
-                else
-                    updatedTags.Add(new TagViewModel() { Id = foundTag.Id, Name = tagName });
+                updatedTags.Add(new TagViewModel() { Name = tagName });
             }
 
             Recipe.Tags = updatedTags;
