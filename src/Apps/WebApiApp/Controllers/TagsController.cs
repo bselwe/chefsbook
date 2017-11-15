@@ -7,7 +7,7 @@ using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApiApp.Controllers
+namespace ChefsBook.WebApiApp.Controllers
 {
     [Route("api/[controller]")]
     public class TagsController : Controller

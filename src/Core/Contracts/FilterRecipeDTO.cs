@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Core.Contracts
+namespace ChefsBook.Core.Contracts
 {
     public class FilterRecipeDTO
     {

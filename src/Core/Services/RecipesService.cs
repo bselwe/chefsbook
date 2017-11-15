@@ -28,10 +28,10 @@ namespace ChefsBook.Core.Services
         }
 
         public async Task Create(
-            string title, string description, TimeSpan? duration, int? servings, string notes,
+            string title, string description, string image, TimeSpan? duration, int? servings, string notes,
             IList<Ingredient> ingredients, IList<Step> steps, IList<Tag> tags)
         {
-            var recipe = Recipe.Create(title, description, duration, servings, notes, ingredients, steps);
+            var recipe = Recipe.Create(title, description, image, duration, servings, notes, ingredients, steps);
             var recipeTags = await CreateTagsForRecipe(recipe, tags);
             recipe.AddTags(recipeTags);
 
@@ -40,14 +40,14 @@ namespace ChefsBook.Core.Services
         }
 
         public async Task<bool> Update(
-            Guid id, string title, string description, TimeSpan? duration, int? servings, string notes,
+            Guid id, string title, string description, string image, TimeSpan? duration, int? servings, string notes,
             IList<Ingredient> ingredients, IList<Step> steps, IList<Tag> tags)
         {
             var recipe = await recipesRepository.FindAsync(id);
             if (recipe == null)
                 return false;
 
-            recipe.Update(title, description, duration, servings, notes, ingredients, steps);
+            recipe.Update(title, description, image, duration, servings, notes, ingredients, steps);
             var recipeTags = await CreateTagsForRecipe(recipe, tags);
             recipe.UpdateTags(recipeTags);
             

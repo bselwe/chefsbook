@@ -11,7 +11,7 @@ using System;
 namespace ChefsBook.MigrationsApp.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20171111143023_CreateRecipeModels")]
+    [Migration("20171115185413_CreateRecipeModels")]
     partial class CreateRecipeModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
