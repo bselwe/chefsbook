@@ -64,17 +64,16 @@ namespace ChefsBook_UWP_App.Views
             openPicker.ViewMode = PickerViewMode.Thumbnail;
             openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
             openPicker.FileTypeFilter.Add(".jpg");
+            openPicker.FileTypeFilter.Add(".png");
 
             StorageFile pictureSourceFile = await openPicker.PickSingleFileAsync();
 
             if (pictureSourceFile == null)
                 return;
 
-            ViewModel.SaveImagePathCommand.Execute("");
-
             var localImagesFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("RecipeImages", CreationCollisionOption.OpenIfExists);
             var targetFileName = recipe.Id.ToString() + pictureSourceFile.FileType;
-            var savedFile = await pictureSourceFile.CopyAsync(localImagesFolder, targetFileName, NameCollisionOption.ReplaceExisting);
+            var savedFile = await pictureSourceFile.CopyAsync(localImagesFolder, targetFileName, NameCollisionOption.GenerateUniqueName);
             ViewModel.SaveImagePathCommand.Execute(savedFile.Name);
         }
     }
