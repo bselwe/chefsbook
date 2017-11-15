@@ -12,6 +12,11 @@ namespace ChefsBook.Core.Models
 
         public static Step Create(TimeSpan? duration, string description)
         {
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new ArgumentException("Step description cannot be empty or whitespace.");
+            }
+
             return new Step
             {
                 StepId = Guid.NewGuid(),

@@ -97,12 +97,16 @@ namespace ChefsBook.Core.Services
 
             foreach (var newTag in tags)
             {
-                var tag = await tagsRepository.FindAsync(newTag.Id);
+                var tag = await dbContext.Tags
+                    .Where(t => t.Name.ToLower() == newTag.Name.ToLower())
+                    .FirstOrDefaultAsync();
+
                 if (tag == null)
                 {
                     tag = newTag;
                     tagsRepository.Add(tag);
                 }
+                
                 recipeTags.Add(RecipeTag.Create(tag, recipe.Id));
             }
 

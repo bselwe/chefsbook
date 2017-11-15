@@ -64,7 +64,7 @@ namespace ChefsBook.WebApiApp.Controllers
 
             var ingredients = recipe.Ingredients.Select(i => Ingredient.Create(i.Name, i.Quantity)).ToList();
             var steps = recipe.Steps.Select(s => Step.Create(s.Duration, s.Description)).ToList();
-            var tags = recipe.Tags.Select(t => t.Id.HasValue ? Tag.Create((Guid) t.Id, t.Name) : Tag.Create(t.Name)).ToList();
+            var tags = recipe.Tags.Select(t => Tag.Create(t.Name)).ToList();
             
             await recipesService.Create(
                 recipe.Title,
@@ -89,7 +89,7 @@ namespace ChefsBook.WebApiApp.Controllers
 
             var ingredients = recipe.Ingredients.Select(i => Ingredient.Create(i.Name, i.Quantity)).ToList();
             var steps = recipe.Steps.Select(s => Step.Create(s.Duration, s.Description)).ToList();
-            var tags = recipe.Tags.Select(t => t.Id.HasValue ? Tag.Create((Guid) t.Id, t.Name) : Tag.Create(t.Name)).ToList();
+            var tags = recipe.Tags.Select(t => Tag.Create(t.Name)).ToList();
 
             var result = await recipesService.Update(
                 id,

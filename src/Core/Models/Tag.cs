@@ -15,6 +15,11 @@ namespace ChefsBook.Core.Models
 
         public static Tag Create(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Tag name cannot be empty or whitespace.");
+            }
+
             return new Tag
             {
                 Id = Guid.NewGuid(),

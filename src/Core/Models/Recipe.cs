@@ -28,7 +28,7 @@ namespace ChefsBook.Core.Models
         {
             if (string.IsNullOrWhiteSpace(title))
             {
-                throw new ArgumentException("Title cannot be empty or whitespace.");
+                throw new ArgumentException("Recipe title cannot be empty or whitespace.");
             }
 
             var recipe = new Recipe

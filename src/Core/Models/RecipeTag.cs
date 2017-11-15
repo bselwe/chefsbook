@@ -13,6 +13,11 @@ namespace ChefsBook.Core.Models
 
         public static RecipeTag Create(Tag tag, Guid recipeId)
         {
+            if (tag == null)
+            {
+                throw new ArgumentException("Tag cannot be null");
+            }
+
             return new RecipeTag
             {
                 Tag = tag,
