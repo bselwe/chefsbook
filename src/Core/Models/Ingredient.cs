@@ -12,6 +12,11 @@ namespace ChefsBook.Core.Models
 
         public static Ingredient Create(string name, string quantity)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Ingredient name cannot be empty or whitespace.");
+            }
+
             return new Ingredient
             {
                 IngredientId = Guid.NewGuid(),
