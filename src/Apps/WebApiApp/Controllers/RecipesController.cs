@@ -59,7 +59,7 @@ namespace ChefsBook.WebApiApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRecipe([FromBody] NewRecipeDTO recipe)
         {
-            if (recipe == null)
+            if (recipe == null || recipe.Ingredients == null || recipe.Steps == null || recipe.Tags == null)
                 return BadRequest();
 
             var ingredients = recipe.Ingredients.Select(i => Ingredient.Create(i.Name, i.Quantity)).ToList();
@@ -84,7 +84,7 @@ namespace ChefsBook.WebApiApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRecipe(Guid id, [FromBody] UpdateRecipeDTO recipe)
         {
-            if (recipe == null)
+            if (recipe == null || recipe.Ingredients == null || recipe.Steps == null || recipe.Tags == null)
                 return BadRequest();
 
             var ingredients = recipe.Ingredients.Select(i => Ingredient.Create(i.Name, i.Quantity)).ToList();
