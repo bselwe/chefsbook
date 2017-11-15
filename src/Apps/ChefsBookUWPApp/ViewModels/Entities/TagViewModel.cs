@@ -18,19 +18,6 @@ namespace ChefsBook_UWP_App.ViewModels
 
         private TagDTO Model { get; set; }
 
-        public Guid Id
-        {
-            get => Model.Id;
-            set
-            {
-                if (value != Model.Id)
-                {
-                    Model.Id = value;
-                    RaisePropertyChanged(() => Id);
-                }
-            }
-        }
-
         public string Name
         {
             get => Model.Name;
