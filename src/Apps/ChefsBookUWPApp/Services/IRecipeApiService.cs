@@ -7,6 +7,7 @@ namespace ChefsBook_UWP_App.Services
 {
     public interface IRecipeApiService
     {
+        Task LoadSampleData();
         Task<List<RecipeDTO>> GetAllRecipes();
         Task<RecipeDetailsDTO> GetRecipe(Guid id);
         Task AddRecipe(RecipeDetailsDTO recipe);

@@ -109,6 +109,7 @@
     <Compile Include="ViewModels\Entities\RecipeBaseViewModel.cs" />
     <Compile Include="ViewModels\Entities\RecipeTileViewModel.cs" />
     <Compile Include="ViewModels\Entities\TagViewModel.cs" />
+    <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\RecipeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\EditRecipePageViewModel.cs" />
     <Compile Include="ViewModels\Entities\RecipeDetailsViewModel.cs" />
@@ -132,6 +133,9 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\sample_data.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="ChefsBook UWP App_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
