@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChefsBook.Core.Contracts;
+using Windows.Storage;
+using Newtonsoft.Json;
 
 namespace ChefsBook_UWP_App.Services
 {
@@ -9,6 +11,19 @@ namespace ChefsBook_UWP_App.Services
     {
         private FakeRecipeApiService _fakeApiSerivce = new FakeRecipeApiService();
         private ApiHelper _apiHelper = new ApiHelper();
+
+        public async Task LoadSampleData()
+        {
+            var jsonFilePath = new Uri(@"ms-appx:///Assets/sample_data.json");
+            var jsonFile = await StorageFile.GetFileFromApplicationUriAsync(jsonFilePath);
+            var jsonText = await FileIO.ReadTextAsync(jsonFile);
+            var recipesData = JsonConvert.DeserializeObject<List<RecipeDetailsDTO>>(jsonText);
+
+            foreach (var recipe in recipesData)
+            {
+                await AddRecipe(recipe);
+            }
+        }
 
         public async Task<List<RecipeDTO>> GetAllRecipes()
         {

@@ -5,9 +5,21 @@
     xmlns:local="using:ChefsBook_UWP_App.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=HomePageVM}"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Home Page" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" />
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock 
+                Padding="30"
+                Width="500"
+                FontSize="30"
+                Text="Explore your recipes from 'Recipes' tab in navigation panel on the left!" 
+                HorizontalTextAlignment="Justify" 
+                Style="{StaticResource HeaderTextBlockStyle}"
+                TextWrapping="WrapWholeWords"/>
+            <Button Content="Load sample data" HorizontalAlignment="Center" Margin="10" Style="{StaticResource AccentButtonStyle}" Command="{Binding LoadSampleDataCommand}"/>
+        </StackPanel>
+
     </Grid>
 </Page>
