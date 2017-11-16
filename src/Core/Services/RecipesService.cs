@@ -51,7 +51,6 @@ namespace ChefsBook.Core.Services
             var recipeTags = await CreateTagsForRecipe(recipe, tags);
             recipe.UpdateTags(recipeTags);
             
-            recipesRepository.Update(recipe);
             await unitOfWork.CommitAsync();
             return true;
         }
@@ -72,9 +71,9 @@ namespace ChefsBook.Core.Services
             return recipesRepository.AllAsync();
         }
 
-        public Task<List<Recipe>> FilterAsync(string text, IList<string> tags)
+        public async Task<List<Recipe>> FilterAsync(string text, IList<string> tags)
         {
-            return dbContext.Recipes
+            var recipes = await dbContext.Recipes
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
                 .Where(r =>
@@ -87,6 +86,8 @@ namespace ChefsBook.Core.Services
                       tags.Count == 0 || 
                       r.Tags.Select(t => t.Tag.Name.ToLower()).Intersect(tags.Select(t => t.ToLower())).Any())))
                 .ToListAsync();
+
+            return recipes;
         }
 
         public Task<Recipe> FindAsync(Guid recipeId)
@@ -108,9 +109,14 @@ namespace ChefsBook.Core.Services
                 {
                     tag = newTag;
                     tagsRepository.Add(tag);
+                    recipeTags.Add(RecipeTag.Create(tag, recipe.Id));
                 }
-                
-                recipeTags.Add(RecipeTag.Create(tag, recipe.Id));
+                else 
+                {
+                    var recipeTag = dbContext.RecipeTags
+                        .FirstOrDefault(rt => rt.RecipeId == recipe.Id && rt.TagId == tag.Id);
+                    recipeTags.Add(recipeTag);
+                }
             }
 
             return recipeTags;
