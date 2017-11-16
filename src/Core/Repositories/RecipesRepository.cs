@@ -22,11 +22,6 @@ namespace ChefsBook.Core.Repositories
             dbContext.Recipes.Add(recipe);
         }
 
-        public void Update(Recipe recipe)
-        {
-            dbContext.Recipes.Update(recipe);
-        }
-
         public void Remove(Recipe recipe)
         {
             dbContext.Recipes.Remove(recipe);
