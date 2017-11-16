@@ -11,7 +11,9 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock 
-                Width="700"
+                Padding="30"
+                Width="500"
+                FontSize="30"
                 Text="Explore your recipes from 'Recipes' tab in navigation panel on the left!" 
                 HorizontalTextAlignment="Justify" 
                 Style="{StaticResource HeaderTextBlockStyle}"
