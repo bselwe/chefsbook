@@ -1,0 +1,110 @@
+﻿<Page
+    x:Class="ChefsBook_UWP_App.Views.RecipeCollectionPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ChefsBook_UWP_App.Views"
+    xmlns:viewModels="using:ChefsBook_UWP_App.ViewModels"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=RecipeCollectionPageVM}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="RecipeTileTemplate" x:DataType="viewModels:RecipeTileViewModel">
+            <Grid Width="300" Margin="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="190" />
+                    <RowDefinition Height="80" />
+                </Grid.RowDefinitions>
+                <Image 
+                    Grid.Row="0" 
+                    Grid.RowSpan="2" 
+                    Source="{Binding Image}" 
+                    Stretch="UniformToFill"/>
+                <Grid Grid.Row="1">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#262626" Opacity="0.75" />
+                    </Grid.Background>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock 
+                        Grid.Row="0" 
+                        Text="{Binding Title}"   
+                        Opacity="1" 
+                        Style="{StaticResource TitleTextBlockStyle}" 
+                        FontSize="22" TextWrapping="WrapWholeWords"
+                        Foreground="#FFEBEBEB" 
+                        Margin="8,0,0,0"/>
+                    <TextBlock 
+                        Grid.Row="1" 
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource BaseTextBlockStyle}" 
+                        FontSize="11" 
+                        FontWeight="SemiLight" 
+                        Foreground="Gainsboro" 
+                        Margin="8,0,0,4" 
+                        Text="{Binding TagsListing}" />
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <CommandBar Grid.Row="0">
+            <AppBarButton Icon="Add" Label="Add recipe" Click="AddRecipeAppBarButton_Click"/>
+            <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding ReloadCommand}"/>
+        </CommandBar>
+        <Grid Grid.Row="1" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <AutoSuggestBox 
+                Text="{Binding TitleSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,10,0"
+                HorizontalAlignment="Right"
+                Grid.Column="0"
+                Width="300"
+                QueryIcon="Find"
+                PlaceholderText="Search in recipe's title or description">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="QuerySubmitted">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchQuerySubmittedCommand}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </AutoSuggestBox>
+            <AutoSuggestBox
+                Text="{Binding TagsSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                Grid.Column="1"
+                Width="300"
+                QueryIcon="Find"
+                PlaceholderText="Search in recipe's tags">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="QuerySubmitted">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchQuerySubmittedCommand}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </AutoSuggestBox>
+        </Grid>
+        <Grid Grid.Row="2">
+            <GridView
+                ItemTemplate="{StaticResource RecipeTileTemplate}"
+                ItemsSource="{Binding Path=Recipes}"
+                IsItemClickEnabled="True"
+                ItemClick="RecipesGridView_ItemClick"
+                Margin="10,0,0,0">
+            </GridView>
+        </Grid>
+    </Grid>
+</Page>

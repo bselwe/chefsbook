@@ -1,0 +1,165 @@
+[
+	{
+		"Title": "Cilantro Lime Rice",
+		"Image": "",
+		"Description": "A different take on rice that can be eaten in a taco or on a side",
+		"Duration": "00:27:00",
+		"Servings": 1,
+		"Notes": "",
+		"Ingredients": [
+			{
+				"Name": "rice",
+				"Quantity": "⅓ cup"
+            },
+            {
+				"Name": "cilantro, packed",
+				"Quantity": "½ cup"
+            },
+            {
+				"Name": "olive oil",
+				"Quantity": "1 tablespoon"
+            },
+            {
+				"Name": "lime",
+				"Quantity": "1 tablespoon"
+            },
+            {
+				"Name": "salt",
+				"Quantity": "1 teaspoon"
+			}
+		],
+		"Steps": [
+			{
+				"Duration": "00:20:00",
+				"Description": "Cook rice over the stove or in a rice cooker."
+            },
+            {
+				"Duration": "00:05:00",
+				"Description": "Blend cilantro, olive oil, lime and salt until it is combined and smooth."
+            },
+            {
+				"Duration": "00:2:00",
+				"Description": "Add cilantro mix into the rice and combine thoroughly."
+			}
+		],
+		"Tags": [
+			{
+				"Name": "light"
+			}
+		]
+    },
+    {
+		"Title": "Menemen",
+		"Image": "",
+		"Description": "Turkish-Style Scrambled Eggs With Tomatoes, Onions, and Chilies",
+		"Duration": "00:20:00",
+		"Servings": 2,
+		"Notes": "I have made this with half jalapenos and half bell peppers, and it worked great! Adjust the ratio for heat preference.",
+		"Ingredients": [
+			{
+				"Name": "olive oil",
+				"Quantity": "3 tablespoons"
+            },
+            {
+				"Name": "hot paprika",
+				"Quantity": "½ teaspoon"
+            },
+            {
+				"Name": "small onion, finely diced",
+				"Quantity": "1"
+            },
+            {
+				"Name": "shishito or padrón or Chinese green long pepper",
+				"Quantity": "¾ cup"
+            },
+            {
+				"Name": "chopped fresh peeled tomatoes or drained canned tomatoes",
+				"Quantity": "½ cup"
+            },
+            {
+				"Name": "eggs, lightly beaten",
+				"Quantity": "4"
+			}
+		],
+		"Steps": [
+			{
+				"Duration": "00:10:00",
+				"Description": "In a medium non-stick or cast iron skillet, heat olive oil over low heat until barely warm. Add paprika, oregano, onion, and peppers. Season with salt and a very generous amount of black pepper. Cook, stirring frequently, until very soft, about 8 minutes."
+            },
+            {
+				"Duration": "00:05:00",
+				"Description": "Add tomatoes and continue to cook, stirring frequently, until deepened in color. Remove half of mixture and reserve."
+            },
+            {
+				"Duration": "00:05:00",
+				"Description": "Return pan to heat and add eggs. Season with salt and pepper. Cook, stirring frequently, until just barely set. Immediately remove from heat and gently fold in reserved vegetable mixture. Sprinkle with chives, if using, and serve immediately."
+			}
+		],
+		"Tags": [
+			{
+				"Name": "light"
+            },
+            {
+				"Name": "turkish"
+            },
+            {
+				"Name": "breakfast"
+			}
+		]
+	},
+	{
+		"Title": "Thai Basil Chicken",
+		"Image": "",
+		"Description": "Great served in a lettuce wrap or over steamed white rice",
+		"Duration": "00:18:00",
+		"Servings": 2,
+		"Notes": "423 Calories Per Serving (With White Rice)",
+		"Ingredients": [
+			{
+				"Name": "Sesame Oil",
+				"Quantity": "3 tablespoons"
+            },
+            {
+				"Name": "Thai Bird Chilies, (Red Thai Chili Peppers)",
+				"Quantity": "3"
+            },
+            {
+				"Name": "Red Onion, Chopped long, not diced",
+				"Quantity": "½"
+            },
+            {
+				"Name": "Cloves Garlic, Minced",
+				"Quantity": "5"
+            },
+            {
+				"Name": "Ground Chicken, Can Substitue with Turkey",
+				"Quantity": "1 pound"
+            },
+            {
+				"Name": "Low Sodium Soy Sauce",
+				"Quantity": "2 tablespoons"
+			}
+		],
+		"Steps": [
+			{
+				"Duration": "00:8:00",
+				"Description": "In a wok (or large pan) over high heat, add oil, chilies, red onions, and garlic and fry for 1-2 minutes. Add ground chicken or turkey and stir fry for 2 more minutes, breaking meat up into small bits. Add fish sauce, soy sauce, and sugar or honey, stir fry for another minute"
+            },
+            {
+				"Duration": "00:10:00",
+				"Description": "Add chicken broth and stir to deglaze pan. Broth should cook off fairly quicky over high heat. After broth cooks off, add Thai Basil leaves and cook until wilted. Remove from heat and serve over steamed white rice or in lettuce wraps"
+            }
+		],
+		"Tags": [
+			{
+				"Name": "thai"
+            },
+            {
+				"Name": "spicy"
+            },
+            {
+				"Name": "asian"
+			}
+		]
+	}
+]
