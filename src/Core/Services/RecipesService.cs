@@ -109,14 +109,19 @@ namespace ChefsBook.Core.Services
                 {
                     tag = newTag;
                     tagsRepository.Add(tag);
-                    recipeTags.Add(RecipeTag.Create(tag, recipe.Id));
                 }
-                else 
+
+                var recipeTag = dbContext.RecipeTags
+                    .Include(rt => rt.Tag)
+                    .FirstOrDefault(rt => rt.RecipeId == recipe.Id && rt.TagId == tag.Id);
+
+                if (recipeTag == null) 
                 {
-                    var recipeTag = dbContext.RecipeTags
-                        .FirstOrDefault(rt => rt.RecipeId == recipe.Id && rt.TagId == tag.Id);
-                    recipeTags.Add(recipeTag);
+                    recipeTag = RecipeTag.Create(tag, recipe.Id);
+                    dbContext.RecipeTags.Add(recipeTag);
                 }
+                
+                recipeTags.Add(recipeTag);
             }
 
             return recipeTags;
