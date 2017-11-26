@@ -91,7 +91,7 @@ namespace ChefsBook.WebApiApp.Tests
             // Arrange
             var recipesService = Substitute.For<IRecipesService>();
             recipesService
-                .Create(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
+                .CreateAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
                 .Returns(Task.CompletedTask);
             var controller = new RecipesController(recipesService, AutoMapper.Mapper.Instance);
             var recipe = new NewRecipeDTO { 
@@ -119,7 +119,7 @@ namespace ChefsBook.WebApiApp.Tests
             // Arrange
             var recipesService = Substitute.For<IRecipesService>();
             recipesService
-                .Create(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
+                .CreateAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
                 .Returns(Task.CompletedTask);
             var controller = new RecipesController(recipesService, AutoMapper.Mapper.Instance);
             var recipe = new NewRecipeDTO();

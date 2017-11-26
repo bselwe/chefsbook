@@ -87,15 +87,6 @@ namespace ChefsBook.Core.Models
         {
             this.tags.Clear();
             this.tags.AddRange(tags);
-            
-            // var tagsToRemove = this.tags.Except(this.tags.Intersect(tags));
-            // var tagsToAdd = tags.Except(this.tags.Intersect(tags));
-
-            // foreach (var tagToRemove in tagsToRemove) {
-            //     this.tags.Remove(tagToRemove);
-            // }
-
-            // this.tags.AddRange(tagsToAdd);
         }
 
         public void RemoveTags()
