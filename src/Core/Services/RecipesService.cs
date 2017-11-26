@@ -11,35 +11,35 @@ namespace ChefsBook.Core.Services
     public class RecipesService : IRecipesService
     {
         private IRecipesRepository recipesRepository;
-        private ITagsRepository tagsRepository;
+        private ITagsService tagsService;
         private CoreDbContext dbContext;
         private CoreUnitOfWork unitOfWork;
 
         public RecipesService(
             IRecipesRepository recipesRepository, 
-            ITagsRepository tagsRepository,
+            ITagsService tagsService,
             CoreDbContext dbContext,
             CoreUnitOfWork unitOfWork)
         {
             this.recipesRepository = recipesRepository;
-            this.tagsRepository = tagsRepository;
+            this.tagsService = tagsService;
             this.dbContext = dbContext;
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task Create(
+        public async Task CreateAsync(
             string title, string description, string image, TimeSpan? duration, int? servings, string notes,
             IList<Ingredient> ingredients, IList<Step> steps, IList<Tag> tags)
         {
             var recipe = Recipe.Create(title, description, image, duration, servings, notes, ingredients, steps);
-            var recipeTags = await CreateTagsForRecipe(recipe, tags);
+            var recipeTags = await CreateRecipeTags(recipe, tags);
             recipe.AddTags(recipeTags);
 
             recipesRepository.Add(recipe);
             await unitOfWork.CommitAsync();
         }
 
-        public async Task<bool> Update(
+        public async Task<bool> UpdateAsync(
             Guid id, string title, string description, string image, TimeSpan? duration, int? servings, string notes,
             IList<Ingredient> ingredients, IList<Step> steps, IList<Tag> tags)
         {
@@ -47,15 +47,15 @@ namespace ChefsBook.Core.Services
             if (recipe == null)
                 return false;
 
+            var recipeTags = await CreateRecipeTags(recipe, tags);
             recipe.Update(title, description, image, duration, servings, notes, ingredients, steps);
-            var recipeTags = await CreateTagsForRecipe(recipe, tags);
             recipe.UpdateTags(recipeTags);
             
             await unitOfWork.CommitAsync();
             return true;
         }
 
-        public async Task<bool> Remove(Guid recipeId)
+        public async Task<bool> RemoveAsync(Guid recipeId)
         {
             var recipe = await recipesRepository.FindAsync(recipeId);
             if (recipe == null)
@@ -71,23 +71,9 @@ namespace ChefsBook.Core.Services
             return recipesRepository.AllAsync();
         }
 
-        public async Task<List<Recipe>> FilterAsync(string text, IList<string> tags)
+        public Task<List<Recipe>> FilterAsync(string text, IList<string> tags)
         {
-            var recipes = await dbContext.Recipes
-                .Include(r => r.Tags)
-                .ThenInclude(t => t.Tag)
-                .Where(r =>
-                    ((text == null || 
-                      text.Length == 0 || 
-                      r.Title.ToLower().Contains(text.ToLower()) ||
-                      r.Description.ToLower().Contains(text.ToLower())) 
-                      &&
-                     (tags == null || 
-                      tags.Count == 0 || 
-                      r.Tags.Select(t => t.Tag.Name.ToLower()).Intersect(tags.Select(t => t.ToLower())).Any())))
-                .ToListAsync();
-
-            return recipes;
+           return recipesRepository.FilterAsync(text, tags);
         }
 
         public Task<Recipe> FindAsync(Guid recipeId)
@@ -95,33 +81,19 @@ namespace ChefsBook.Core.Services
             return recipesRepository.FindAsync(recipeId);
         }
 
-        private async Task<List<RecipeTag>> CreateTagsForRecipe(Recipe recipe, IList<Tag> tags)
+        private async Task<List<RecipeTag>> CreateRecipeTags(Recipe recipe, IList<Tag> tags)
         {
-            var recipeTags = new List<RecipeTag>();
+            var existingTags = recipe.Tags
+                .Where(rt => tags.Select(t => t.Name.ToLower()).Contains(rt.Tag.Name.ToLower()));
 
-            foreach (var newTag in tags)
+            var newTags = tags
+                .Where(rt => !existingTags.Select(t => t.Tag.Name.ToLower()).Contains(rt.Name.ToLower()));
+
+            var recipeTags = new List<RecipeTag>(existingTags);
+            foreach (var tag in newTags)
             {
-                var tag = await dbContext.Tags
-                    .Where(t => t.Name.ToLower() == newTag.Name.ToLower())
-                    .FirstOrDefaultAsync();
-
-                if (tag == null)
-                {
-                    tag = newTag;
-                    tagsRepository.Add(tag);
-                }
-
-                var recipeTag = dbContext.RecipeTags
-                    .Include(rt => rt.Tag)
-                    .FirstOrDefault(rt => rt.RecipeId == recipe.Id && rt.TagId == tag.Id);
-
-                if (recipeTag == null) 
-                {
-                    recipeTag = RecipeTag.Create(tag, recipe.Id);
-                    dbContext.RecipeTags.Add(recipeTag);
-                }
-                
-                recipeTags.Add(recipeTag);
+                var newTag = await tagsService.FindAsync(tag.Name) ?? tag;
+                recipeTags.Add(RecipeTag.Create(newTag, recipe.Id));
             }
 
             return recipeTags;

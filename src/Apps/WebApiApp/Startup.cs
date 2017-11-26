@@ -46,6 +46,7 @@ namespace ChefsBook.WebApiApp
             services.AddScoped<IRecipesRepository, RecipesRepository>();
             services.AddScoped<ITagsRepository, TagsRepository>();
             services.AddScoped<IRecipesService, RecipesService>();
+            services.AddScoped<ITagsService, TagsService>();
             
             services.AddMvc();
             services.AddAutoMapper();

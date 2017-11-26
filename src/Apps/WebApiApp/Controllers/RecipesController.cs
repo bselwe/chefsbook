@@ -74,7 +74,7 @@ namespace ChefsBook.WebApiApp.Controllers
             var steps = recipe.Steps.Select(s => Step.Create(s.Duration, s.Description)).ToList();
             var tags = recipe.Tags.Select(t => Tag.Create(t.Name)).ToList();
             
-            await recipesService.Create(
+            await recipesService.CreateAsync(
                 recipe.Title,
                 recipe.Description,
                 recipe.Image,
@@ -102,7 +102,7 @@ namespace ChefsBook.WebApiApp.Controllers
             var steps = recipe.Steps.Select(s => Step.Create(s.Duration, s.Description)).ToList();
             var tags = recipe.Tags.Select(t => Tag.Create(t.Name)).ToList();
 
-            var result = await recipesService.Update(
+            var result = await recipesService.UpdateAsync(
                 id,
                 recipe.Title,
                 recipe.Description,
@@ -125,7 +125,7 @@ namespace ChefsBook.WebApiApp.Controllers
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteRecipe(Guid id)
         {
-            var result = await recipesService.Remove(id);
+            var result = await recipesService.RemoveAsync(id);
             if (!result)
                 return NotFound();
             return Ok();

@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChefsBook.Core.Models;
-using Microsoft.EntityFrameworkCore;
 
-namespace ChefsBook.Core.Repositories
+namespace ChefsBook.Core.Services
 {
-    public interface ITagsRepository
+    public interface ITagsService
     {
         Task<List<Tag>> AllAsync();
         Task<Tag> FindAsync(string name);

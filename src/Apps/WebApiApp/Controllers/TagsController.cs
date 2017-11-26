@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using ChefsBook.Core.Contracts;
-using ChefsBook.Core.Repositories;
+using ChefsBook.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -14,14 +14,14 @@ namespace ChefsBook.WebApiApp.Controllers
     [Route("api/[controller]")]
     public class TagsController : Controller
     {
-        private readonly ITagsRepository tagsRepository;
+        private readonly ITagsService tagsService;
         private readonly IMapper mapper;
 
         public TagsController(
-            ITagsRepository tagsRepository,
+            ITagsService tagsService,
             IMapper mapper)
         {
-            this.tagsRepository = tagsRepository;
+            this.tagsService = tagsService;
             this.mapper = mapper;
         }
 
@@ -29,7 +29,7 @@ namespace ChefsBook.WebApiApp.Controllers
         [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<TagDTO>))]
         public async Task<IActionResult> GetTags()
         {
-            var tags = await tagsRepository.AllAsync();
+            var tags = await tagsService.AllAsync();
             var mappedTags = mapper.Map<List<TagDTO>>(tags);
             return Ok(mappedTags);
         }
