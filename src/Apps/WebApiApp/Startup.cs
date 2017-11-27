@@ -10,6 +10,7 @@ using ChefsBook.Core.Services;
 using ChefsBook.Environment;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,9 +49,12 @@ namespace ChefsBook.WebApiApp
             services.AddScoped<IRecipesService, RecipesService>();
             services.AddScoped<ITagsService, TagsService>();
             
-            services.AddMvc();
-            services.AddAutoMapper();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
 
+            services.AddAutoMapper();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "ChefsBook API", Version = "v1" });
