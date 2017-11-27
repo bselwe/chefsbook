@@ -2,7 +2,7 @@ using System.IO;
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
 
-namespace ChefsBook.WebApiApp
+namespace ChefsBook.Data
 {
     public static class Cert
     {

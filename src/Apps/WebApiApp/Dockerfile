@@ -7,7 +7,7 @@ WORKDIR /app/Apps/WebApiApp
 RUN dotnet restore
 RUN dotnet build
 
-EXPOSE 5000/tcp
+EXPOSE 5001/tcp
 
 WORKDIR /app/Apps/MigrationsApp
 

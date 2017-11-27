@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ChefsBook.WebApiApp
+namespace ChefsBook.AuthApp
 {
     public class Program
     {
-        private const int Port = 5001;
+        private const int Port = 5000;
 
         public static void Main(string[] args)
         {
