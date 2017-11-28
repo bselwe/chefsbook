@@ -12,7 +12,7 @@ namespace ChefsBook_UWP_App.Services
 {
     public class ApiHelper
     {
-        private readonly string _baseUrl = @"http://localhost:5000/api/";
+        private readonly string _baseUrl = @"http://localhost:5001/api/";
 
         public async Task<T> GetAsync<T>(string endpoint)
         {
