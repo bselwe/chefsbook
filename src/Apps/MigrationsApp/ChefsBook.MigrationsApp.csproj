@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../../Auth/ChefsBook.Auth.csproj" />
     <ProjectReference Include="../../Core/ChefsBook.Core.csproj" />
     <ProjectReference Include="../../Infrastructure/Environment/ChefsBook.Environment.csproj" />
   </ItemGroup>
