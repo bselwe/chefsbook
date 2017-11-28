@@ -25,6 +25,7 @@ namespace AuthApp.Configuration
                     AllowedScopes =
                     {
                         StandardScopes.OpenId,
+                        StandardScopes.Profile,
                         StandardScopes.Email,
                         AuthConsts.ChefsBookManagementApiScope
                     }

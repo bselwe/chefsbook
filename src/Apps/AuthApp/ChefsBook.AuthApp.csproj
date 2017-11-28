@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../Auth/ChefsBook.Auth.csproj" />
+    <ProjectReference Include="../../Infrastructure/Environment/ChefsBook.Environment.csproj" />
   </ItemGroup>
 
   <ItemGroup>
