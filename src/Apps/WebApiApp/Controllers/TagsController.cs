@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ChefsBook.WebApiApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class TagsController : Controller
     {

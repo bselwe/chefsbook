@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using ChefsBook.Auth.Security;
 using ChefsBook.Core;
 using ChefsBook.Core.Repositories;
 using ChefsBook.Core.Services;
 using ChefsBook.Environment;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +41,11 @@ namespace ChefsBook.WebApiApp
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
+            
             services.AddDbContext<CoreDbContext>(opts =>
                 opts.UseSqlServer(databaseConnStr, cfg =>
                     cfg.MigrationsAssembly(ProjectConsts.Migrations))
@@ -49,10 +57,7 @@ namespace ChefsBook.WebApiApp
             services.AddScoped<IRecipesService, RecipesService>();
             services.AddScoped<ITagsService, TagsService>();
             
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new RequireHttpsAttribute());
-            });
+            ConfigureAuthentication(services);
 
             services.AddAutoMapper();
             services.AddSwaggerGen(c =>
@@ -70,12 +75,34 @@ namespace ChefsBook.WebApiApp
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint(Configuration["Swagger:Endpoint"], Configuration["Version"]);
-            });
+            app
+                .UseSwagger()
+                .UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint(Configuration["Swagger:Endpoint"], Configuration["Version"]);
+                });
+                
+            app.UseAuthentication();
             app.UseMvc();
+        }
+
+        public void ConfigureAuthentication(IServiceCollection services)
+        {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            services.AddAuthentication(
+                options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.Authority = Configuration["Services:Auth"];
+                    cfg.TokenValidationParameters.ValidateAudience = false;
+                    cfg.RequireHttpsMetadata = false;
+
+                    cfg.TokenValidationParameters.RoleClaimType = KnownClaims.Role;
+                });
         }
     }
 }

@@ -33,11 +33,11 @@ namespace ChefsBook.AuthApp
                 options.Filters.Add(new RequireHttpsAttribute());
             });
 
-            ConfigureIdentityServer(services);
-
             services.AddIdentity<AuthUser, AuthRole>()
                 .AddEntityFrameworkStores<AuthDbContext>()
                 .AddDefaultTokenProviders();
+            
+            ConfigureIdentityServer(services);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
