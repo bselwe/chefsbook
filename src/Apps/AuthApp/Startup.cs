@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthApp.Configuration;
+using ChefsBook.Auth;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,17 +28,16 @@ namespace ChefsBook.AuthApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer()
-                .AddInMemoryClients(new List<Client>())
-                .AddInMemoryIdentityResources(new List<IdentityResource>())
-                .AddInMemoryApiResources(new List<ApiResource>())
-                .AddTestUsers(new List<TestUser>())
-                .AddDeveloperSigningCredential();
-
             services.AddMvc(options =>
             {
                 options.Filters.Add(new RequireHttpsAttribute());
             });
+
+            ConfigureIdentityServer(services);
+
+            services.AddIdentity<AuthUser, AuthRole>()
+                .AddEntityFrameworkStores<AuthDbContext>()
+                .AddDefaultTokenProviders();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -47,6 +49,24 @@ namespace ChefsBook.AuthApp
 
             app.UseIdentityServer();
             app.UseMvc();
+        }
+
+        private void ConfigureIdentityServer(IServiceCollection services)
+        {
+            services.AddIdentityServer()
+                .AddInMemoryApiResources(ISConfiguration.GetApiResources())
+                .AddInMemoryIdentityResources(ISConfiguration.GetIdentityResources())
+                .AddInMemoryClients(ISConfiguration.GetClients())
+                .AddAspNetIdentity<AuthUser>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 1;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
         }
     }
 }
