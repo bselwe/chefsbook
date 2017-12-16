@@ -1,22 +1,14 @@
 {
-    "version": "2.0.0",
+    "version": "0.1.0",
+    "command": "dotnet",
+    "isShellCommand": true,
     "args": [],
     "tasks": [
         {
-            "command": "dotnet",
             "taskName": "build",
-            "args": [
-                "build",
-                "${workspaceRoot}/src/Apps/WebApiApp/ChefsBook.WebApiApp.csproj"
-            ]
-        },
-        {
-            "command": "dotnet",
-            "taskName": "restore",
-            "args": [
-                "restore",
-                "${workspaceRoot}/src/Apps/WebApiApp/ChefsBook.WepApiApp.csproj"
-            ]
+            "args": [ ],
+            "isBuildCommand": true,
+            "problemMatcher": "$msCompile"
         }
     ]
 }
