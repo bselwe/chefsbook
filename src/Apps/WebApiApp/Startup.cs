@@ -19,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ChefsBook.WebApiApp
@@ -95,13 +96,15 @@ namespace ChefsBook.WebApiApp
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer(cfg =>
+                .AddJwtBearer(options =>
                 {
-                    cfg.Authority = Configuration["Services:Auth"];
-                    cfg.TokenValidationParameters.ValidateAudience = false;
-                    cfg.RequireHttpsMetadata = false;
+                    options.Authority = Configuration["Services:Auth"];
+                    options.TokenValidationParameters.ValidateAudience = false;
+                    options.TokenValidationParameters.ValidateIssuer = false;
+                    
+                    options.RequireHttpsMetadata = false;
 
-                    cfg.TokenValidationParameters.RoleClaimType = KnownClaims.Role;
+                    options.TokenValidationParameters.RoleClaimType = KnownClaims.Role;
                 });
         }
     }

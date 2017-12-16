@@ -9,6 +9,7 @@ using ChefsBook.Auth.Services;
 using ChefsBook.Environment;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -76,8 +77,8 @@ namespace ChefsBook.AuthApp
                 .AddInMemoryApiResources(ISConfiguration.GetApiResources())
                 .AddInMemoryIdentityResources(ISConfiguration.GetIdentityResources())
                 .AddInMemoryClients(ISConfiguration.GetClients())
-                .AddAspNetIdentity<AuthUser>()
-                .AddDeveloperSigningCredential();
+                .AddDeveloperSigningCredential()
+                .AddAspNetIdentity<AuthUser>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -86,6 +87,11 @@ namespace ChefsBook.AuthApp
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+            });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;                
             });
         }
     }
