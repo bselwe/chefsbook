@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using IdentityServer4.Models;
 
-namespace AuthApp.Configuration
+namespace ChefsBook.AuthApp.Configuration
 {
     using ChefsBook.Auth.Contracts;
+    using ChefsBook.Auth.Google;
     using ChefsBook.Auth.Security;
     using static IdentityServer4.IdentityServerConstants;
 
@@ -18,7 +19,11 @@ namespace AuthApp.Configuration
                 {
                     ClientId = AuthConsts.ChefsBookManagerId,
                     ClientName = "ChefsBook Manager",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    AllowedGrantTypes = 
+                    {
+                        GrantType.ResourceOwnerPassword,
+                        GoogleConsts.GrantType
+                    },
                     AllowOfflineAccess = true,
                     RequireClientSecret = false,
 

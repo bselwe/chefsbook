@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthApp.Configuration;
 using ChefsBook.Auth;
+using ChefsBook.Auth.Google;
 using ChefsBook.Auth.Services;
+using ChefsBook.AuthApp.Configuration;
 using ChefsBook.Environment;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
@@ -24,20 +25,25 @@ namespace ChefsBook.AuthApp
 {
     public class Startup
     {
+        private const string EnvironmentVariableName = "ASPNETCORE_ENVIRONMENT";
+
         private readonly string databaseConnStr;
         
         public IConfiguration Configuration { get; }
 
-        public Startup(IHostingEnvironment hostingEnvironment)
+        public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", true);
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true);
+            
+            if (env.IsDevelopment())
+                builder.AddUserSecrets<Startup>();
+
             Configuration = builder.Build();
 
             this.databaseConnStr = Configuration.GetConnectionString("Database");
         }
-
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -51,6 +57,7 @@ namespace ChefsBook.AuthApp
                     cfg.MigrationsAssembly(ProjectConsts.Migrations))
             );
 
+            services.AddScoped<GoogleClient, GoogleClient>();
             services.AddScoped<IAccountService, AccountService>();
             
             services.AddIdentity<AuthUser, AuthRole>()
@@ -77,6 +84,7 @@ namespace ChefsBook.AuthApp
                 .AddInMemoryApiResources(ISConfiguration.GetApiResources())
                 .AddInMemoryIdentityResources(ISConfiguration.GetIdentityResources())
                 .AddInMemoryClients(ISConfiguration.GetClients())
+                .AddExtensionGrantValidator<GoogleGrantValidator>()
                 .AddDeveloperSigningCredential()
                 .AddAspNetIdentity<AuthUser>();
 

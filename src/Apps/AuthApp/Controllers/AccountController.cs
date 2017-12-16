@@ -7,7 +7,7 @@ using ChefsBook.Auth.Contracts;
 using ChefsBook.Auth.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthApp.Controllers
+namespace ChefsBook.AuthApp.Controllers
 {
     [Route("api/[controller]")]
     public class AccountController : Controller
