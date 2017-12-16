@@ -2,12 +2,12 @@ FROM microsoft/dotnet:latest
 
 RUN mkdir /app
 COPY . /app
-WORKDIR /app/Apps/WebApiApp
+WORKDIR /app/Apps/AuthApp
 
 RUN dotnet restore
 RUN dotnet build
 
-EXPOSE 5001/tcp
+EXPOSE 5000/tcp
 
 WORKDIR /app/Apps/Data
 
@@ -19,7 +19,7 @@ WORKDIR /app/Apps/MigrationsApp
 RUN dotnet restore
 RUN dotnet build
 
-WORKDIR /app/Apps/WebApiApp
+WORKDIR /app/Apps/AuthApp
 
 RUN chmod +x ./entrypoint.sh
 CMD /bin/bash ./entrypoint.sh
