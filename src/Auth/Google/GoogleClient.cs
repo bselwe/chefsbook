@@ -16,7 +16,7 @@ namespace ChefsBook.Auth.Google
             this.httpClient = new HttpClient { BaseAddress = new Uri(BaseUrl) };
         }
         
-        public async Task<GoogleUser> GetGoogleUser(string accessToken)
+        public async Task<GoogleUser> GetUser(string accessToken)
         {
             var uri = $"?access_token={accessToken}";
 
@@ -33,7 +33,7 @@ namespace ChefsBook.Auth.Google
                     if (result["error"] != null)
                         throw new Exception($"Could not call Google API. Code: {result["error"]}, error: {result["error_description"]}");
 
-                    return CreateGoogleUser(result);
+                    return CreateUser(result);
                 }
             }
             catch (Exception ex)
@@ -42,12 +42,12 @@ namespace ChefsBook.Auth.Google
             }
         }
 
-        private GoogleUser CreateGoogleUser(JObject @object)
+        private GoogleUser CreateUser(JObject @object)
         {
             var id = @object["sub"].Value<string>();
             var email = @object["email"]?.Value<string>();
             var firstName = @object["given_name"]?.Value<string>();
-            var lastName = @object["last_name"]?.Value<string>();
+            var lastName = @object["family_name"]?.Value<string>();
             var photoUrl = @object["picture"]?.Value<string>();
             return new GoogleUser(id, email, firstName, lastName, photoUrl);
         }
