@@ -24,15 +24,24 @@ namespace ChefsBook.AuthApp
 {
     public class Startup
     {
+        private const string EnvironmentVariableName = "ASPNETCORE_ENVIRONMENT";
+
         private readonly string databaseConnStr;
         
         public IConfiguration Configuration { get; }
 
         public Startup(IHostingEnvironment hostingEnvironment)
         {
+            var environment = System.Environment.GetEnvironmentVariable(EnvironmentVariableName);
+            var isDevelopment = "Development".Equals(environment, StringComparison.CurrentCultureIgnoreCase);
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", true);
+            
+            if (isDevelopment)
+                builder.AddUserSecrets<Startup>();
+
             Configuration = builder.Build();
 
             this.databaseConnStr = Configuration.GetConnectionString("Database");
