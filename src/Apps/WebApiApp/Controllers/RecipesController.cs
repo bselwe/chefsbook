@@ -8,11 +8,13 @@ using ChefsBook.Core;
 using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ChefsBook.WebApiApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class RecipesController : Controller
     {
@@ -27,6 +29,7 @@ namespace ChefsBook.WebApiApp.Controllers
             this.mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
         public async Task<IActionResult> GetRecipes()
@@ -36,6 +39,7 @@ namespace ChefsBook.WebApiApp.Controllers
             return Ok(mappedRecipes);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(RecipeDetailsDTO))]
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
@@ -49,6 +53,7 @@ namespace ChefsBook.WebApiApp.Controllers
             return Ok(mappedRecipe);
         }
 
+        [AllowAnonymous]
         [HttpPost("filter")]
         [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest)]

@@ -44,7 +44,7 @@ namespace ChefsBook.AuthApp.Configuration
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Email(),
+                new IdentityResources.Email()
             };
         }
 

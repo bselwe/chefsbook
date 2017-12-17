@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ChefsBook.Auth;
 using ChefsBook.Auth.Google;
+using ChefsBook.Auth.Security;
 using ChefsBook.Auth.Services;
 using ChefsBook.AuthApp.Configuration;
 using ChefsBook.Environment;
@@ -65,6 +67,7 @@ namespace ChefsBook.AuthApp
                 .AddDefaultTokenProviders();
 
             ConfigureIdentityServer(services);
+            ConfigureAuthentication(services);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -75,6 +78,7 @@ namespace ChefsBook.AuthApp
             }
 
             app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseMvc();
         }
 
@@ -96,11 +100,27 @@ namespace ChefsBook.AuthApp
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             });
+        }
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;                
-            });
+        public void ConfigureAuthentication(IServiceCollection services)
+        {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            services.AddAuthentication(
+                options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = Configuration["AppBase"];
+                    options.TokenValidationParameters.ValidateAudience = false;
+                    options.TokenValidationParameters.ValidateIssuer = false;
+                    
+                    options.RequireHttpsMetadata = false;
+
+                    options.TokenValidationParameters.RoleClaimType = KnownClaims.Role;
+                });
         }
     }
 }
