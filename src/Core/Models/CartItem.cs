@@ -6,15 +6,17 @@ namespace ChefsBook.Core.Models
     {
         public Guid UserId { get; private set; }
         public Guid RecipeId { get; private set; }
+        public Recipe Recipe { get; private set; }
 
         private CartItem() { }
 
-        public static CartItem Create(Guid userId, Guid recipeId)
+        public static CartItem Create(Guid userId, Recipe recipe)
         {
             return new CartItem()
             {
                 UserId = userId,
-                RecipeId = recipeId
+                Recipe = recipe,
+                RecipeId = recipe.RecipeId
             };
         }
     }

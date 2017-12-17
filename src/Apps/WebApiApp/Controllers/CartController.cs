@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,39 +21,54 @@ namespace ChefsBook.WebApiApp.Controllers
     public class CartController : Controller
     {
         private readonly ICartService cartService;
+        private readonly IRecipesService recipesService;
         private readonly IMapper mapper;
 
         public CartController(
             ICartService cartService,
+            IRecipesService recipesService,
             IMapper mapper)
         {
             this.cartService = cartService;
+            this.recipesService = recipesService;
             this.mapper = mapper;
         }
 
         [HttpPost("{recipeId}")]
         [SwaggerResponse((int) HttpStatusCode.Created)]
         [SwaggerResponse((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AddToCart(Guid recipeId)
+        [SwaggerResponse((int) HttpStatusCode.NotFound)]
+        public async Task<IActionResult> AddRecipeToCart(Guid recipeId)
         {
             if (recipeId == null)
                 return BadRequest();
 
+            var recipe = await recipesService.FindAsync(recipeId);
+            if (recipe == null)
+                return NotFound();
+
             var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
-            var cartItem = CartItem.Create(userId, recipeId);
+            var cartItem = CartItem.Create(userId, recipe);
             await cartService.AddAsync(cartItem);
 
             return new StatusCodeResult((int) HttpStatusCode.Created);
         }
 
         [HttpGet]
-        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<TagDTO>))]
+        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<CartItemDTO>))]
         public async Task<IActionResult> GetCart()
         {
             var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
             var cart = await cartService.AllAsync(userId);
-            var mappedCart = mapper.Map<List<CartItemDTO>>(cart);
-            return Ok(mappedCart);
+            var ingredients = cart.Select(c => c.Recipe.Ingredients);
+            var mappedIngredients = new List<List<IngredientDTO>>();
+
+            foreach (var recipeIngredients in ingredients)
+            {
+                mappedIngredients.Add(mapper.Map<List<IngredientDTO>>(recipeIngredients));
+            }
+
+            return Ok(mappedIngredients);
         }
 
         [HttpDelete]
