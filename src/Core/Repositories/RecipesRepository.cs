@@ -43,17 +43,17 @@ namespace ChefsBook.Core.Repositories
                 .ToListAsync();
         }
 
-        public Task<List<Recipe>> FilterAsync(string text, IList<string> tags)
+        public Task<List<Recipe>> FilterAsync(Guid userId, string text, IList<string> tags)
         {
             return dbContext.Recipes
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
                 .Where(r =>
-                    ((text == null || 
+                    ((userId == null || r.UserId == userId) &&   
+                     (text == null || 
                       text.Length == 0 || 
                       r.Title.ToLower().Contains(text.ToLower()) ||
-                      r.Description.ToLower().Contains(text.ToLower())) 
-                      &&
+                      r.Description.ToLower().Contains(text.ToLower())) &&
                      (tags == null || 
                       tags.Count == 0 || 
                       r.Tags.Select(t => t.Tag.Name.ToLower()).Intersect(tags.Select(t => t.ToLower())).Any())))

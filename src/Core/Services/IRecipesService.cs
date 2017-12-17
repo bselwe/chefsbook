@@ -14,7 +14,7 @@ namespace ChefsBook.Core.Services
         Task<bool> RemoveAsync(Guid recipeId, Guid userId);
         Task<List<Recipe>> AllAsync();
         Task<List<Recipe>> AllByUserAsync(Guid userId);
-        Task<List<Recipe>> FilterAsync(string text, IList<string> tags);
+        Task<List<Recipe>> FilterAsync(Guid userId, string text, IList<string> tags);
         Task<Recipe> FindAsync(Guid recipeId);
     }
 }
