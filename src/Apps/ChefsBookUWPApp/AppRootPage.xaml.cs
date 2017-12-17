@@ -1,6 +1,8 @@
-﻿using ChefsBook_UWP_App.Views;
+﻿using ChefsBook_UWP_App.Services;
+using ChefsBook_UWP_App.Views;
 using System;
 using System.Collections.Generic;
+using Windows.Security.Authentication.Web;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -25,12 +27,12 @@ namespace ChefsBook_UWP_App
 
         public Frame AppFrame { get { return contentFrame; } }
 
-        private void NavigationView_Loaded(object sender, RoutedEventArgs e)
+        private void NavigationMenu_Loaded(object sender, RoutedEventArgs e)
         {
             AppFrame.Navigate(typeof(HomePage));
         }
 
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void NavigationMenu_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (!args.IsSettingsSelected)
             {
@@ -41,6 +43,18 @@ namespace ChefsBook_UWP_App
             }
         }
 
+        private async void UserAccoutItem_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if (UserAccoutItem.Content.ToString() != "Log in")
+                return;
+
+            var authService = new GoogleAuthService();
+            var accessToken = await authService.GetUserAccessToken();
+            string name = await authService.GetUserName(accessToken);
+
+            UserAccoutItem.Content = name;
+        }
+
         /// <summary>
         /// Ensures the nav menu reflects reality when navigation is triggered outside of
         /// the nav menu buttons.
@@ -49,7 +63,7 @@ namespace ChefsBook_UWP_App
         {
             if (e.NavigationMode == NavigationMode.Back)
             {
-                foreach (var menuItemObject in navigationMenu.MenuItems)
+                foreach (var menuItemObject in NavigationMenu.MenuItems)
                 {
                     var menuItem = menuItemObject as NavigationViewItem;
 
@@ -60,7 +74,7 @@ namespace ChefsBook_UWP_App
                     Type pageType = Type.GetType(pageName);
                     if (pageType == e.SourcePageType)
                     {
-                        navigationMenu.SelectedItem = menuItemObject;
+                        NavigationMenu.SelectedItem = menuItemObject;
                         break;
                     }
                 }

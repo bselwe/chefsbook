@@ -9,11 +9,10 @@
 
     <Grid>
         <NavigationView 
-            Loaded="NavigationView_Loaded" 
+            x:Name="NavigationMenu"
             Margin="0,12,0,0" 
-            SelectionChanged="NavigationView_SelectionChanged"
-            x:Name="navigationMenu"
-            IsTabStop="False"
+            Loaded="NavigationMenu_Loaded" 
+            SelectionChanged="NavigationMenu_SelectionChanged"
             IsSettingsVisible="False" 
             AlwaysShowHeader="False">
             <NavigationView.HeaderTemplate>
@@ -31,10 +30,20 @@
                 <NavigationViewItemSeparator/>
                 <NavigationViewItem Content="Recipes" Tag="RecipeCollectionPage">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE7BC;" />
+                        <FontIcon Glyph="&#xE7BC;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
+
+            <NavigationView.PaneFooter>
+                <NavigationViewItem x:Name="UserAccoutItem" Content="Log in" Tag="UserAccountPage" Tapped="UserAccoutItem_Tapped">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE77B;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.PaneFooter>
+
+
             <Frame x:Name="contentFrame" Navigating="OnNavigatingToPage">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
