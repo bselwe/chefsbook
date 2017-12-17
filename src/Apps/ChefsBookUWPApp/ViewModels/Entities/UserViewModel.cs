@@ -1,21 +1,31 @@
-﻿using GalaSoft.MvvmLight;
+﻿using ChefsBook.Auth.Contracts;
+using GalaSoft.MvvmLight;
 
 namespace ChefsBook_UWP_App.ViewModels
 {
     public class UserViewModel : ViewModelBase
     {
-        private string _name = string.Empty;
-        public string Name
+        public UserViewModel(UserInfoDTO model = null, string accessToken = "")
         {
-            get => _name;
-            set => Set(ref _name, value);
+            Model = model ?? new UserInfoDTO();
+            AccessToken = accessToken;
         }
 
-        private string _email = string.Empty;
+        public static explicit operator UserInfoDTO(UserViewModel viewModel)
+        {
+            return viewModel.Model;
+        }
+
+        private UserInfoDTO Model { get; set; }
+
+        public string Name
+        {
+            get => $"{Model.FirstName} {Model.LastName}";
+        }
+
         public string Email
         {
-            get => _email;
-            set => Set(ref _email, value);
+            get => Model.Email;
         }
 
         private string _accessToken = string.Empty;

@@ -72,7 +72,8 @@ namespace ChefsBook_UWP_App.ViewModels
                 }
                 credential.RetrievePassword();
 
-                return await _apiService.SignIn(credential.Password);
+                var userDto = await _apiService.SignIn(credential.Password);
+                return new UserViewModel(userDto, credential.Password);
             }
             catch (Exception)
             {
@@ -84,7 +85,8 @@ namespace ChefsBook_UWP_App.ViewModels
         {
             var authService = new GoogleAuthService();
             var accessToken = await authService.SignIn();
-            var user = await _apiService.SignIn(accessToken);
+            var userDto = await _apiService.SignIn(accessToken);
+            var user = new UserViewModel(userDto, accessToken);
 
             StoreUserInfo(user);
 

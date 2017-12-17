@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChefsBook.Core.Contracts;
 using System.Linq;
-using ChefsBook_UWP_App.ViewModels;
+using ChefsBook.Auth.Contracts;
 
 namespace ChefsBook_UWP_App.Services
 {
@@ -17,12 +17,12 @@ namespace ChefsBook_UWP_App.Services
             LoadSampleData();
         }
 
-        public Task<UserViewModel> SignIn(string accessToken)
+        public Task<UserInfoDTO> SignIn(string accessToken)
         {
-            return Task.FromResult(new UserViewModel() {
-                Name = "Test User",
-                Email = "test@gmail.com",
-                AccessToken = accessToken
+            return Task.FromResult(new UserInfoDTO() {
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "test@gmail.com"
             });
         }
 

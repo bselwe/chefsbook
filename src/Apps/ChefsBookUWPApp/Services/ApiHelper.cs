@@ -13,11 +13,12 @@ namespace ChefsBook_UWP_App.Services
 {
     public class ApiHelper
     {
-        private readonly string _baseUrl = @"https://localhost:5001/api/";
+        private readonly string _baseUrl;
         private readonly string _accessToken;
 
-        public ApiHelper(string accessToken = "")
+        public ApiHelper(string baseUrl = "", string accessToken = "")
         {
+            _baseUrl = baseUrl;
             _accessToken = accessToken;
         }
 

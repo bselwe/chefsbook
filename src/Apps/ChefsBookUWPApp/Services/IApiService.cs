@@ -1,5 +1,5 @@
-﻿using ChefsBook.Core.Contracts;
-using ChefsBook_UWP_App.ViewModels;
+﻿using ChefsBook.Auth.Contracts;
+using ChefsBook.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ namespace ChefsBook_UWP_App.Services
 {
     public interface IApiService
     {
-        Task<UserViewModel> SignIn(string accessToken);
+        Task<UserInfoDTO> SignIn(string accessToken);
 
         Task LoadSampleData();
         Task<List<RecipeDTO>> GetAllRecipes();

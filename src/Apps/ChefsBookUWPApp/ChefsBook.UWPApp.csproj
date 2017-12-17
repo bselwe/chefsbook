@@ -205,6 +205,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Auth\ChefsBook.Auth.csproj">
+      <Project>{e957c437-040f-442a-880e-60f1dda985a9}</Project>
+      <Name>ChefsBook.Auth</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\ChefsBook.Core.csproj">
       <Project>{769cee59-df6e-4061-815d-0b1ccfe3b913}</Project>
       <Name>ChefsBook.Core</Name>

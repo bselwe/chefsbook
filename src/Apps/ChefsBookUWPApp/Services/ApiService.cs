@@ -4,26 +4,21 @@ using System.Threading.Tasks;
 using ChefsBook.Core.Contracts;
 using Windows.Storage;
 using Newtonsoft.Json;
-using ChefsBook_UWP_App.ViewModels;
+using ChefsBook.Auth.Contracts;
 
 namespace ChefsBook_UWP_App.Services
 {
     public class ApiService : IApiService
     {
-        private ApiHelper _apiHelper;
+        private ApiHelper _recipesApiHelper;
+        private ApiHelper _userApiHelper;
 
-        public async Task<UserViewModel> SignIn(string accessToken)
+        public async Task<UserInfoDTO> SignIn(string accessToken)
         {
-            _apiHelper = new ApiHelper(accessToken);
+            _recipesApiHelper = new ApiHelper("https://localhost:5001/api/", accessToken);
+            _userApiHelper = new ApiHelper("https://localhost:5000/api/", accessToken);
 
-            var result = await GetAllTags();
-
-            return new UserViewModel()
-            {
-                Name = "Test User",
-                Email = "test@gmail.com",
-                AccessToken = accessToken
-            };
+            return await _userApiHelper.GetAsync<UserInfoDTO>("account");
         }
 
         public async Task LoadSampleData()
@@ -41,37 +36,37 @@ namespace ChefsBook_UWP_App.Services
 
         public async Task<List<RecipeDTO>> GetAllRecipes()
         {
-            return await _apiHelper.GetAsync<List<RecipeDTO>>("recipes");
+            return await _recipesApiHelper.GetAsync<List<RecipeDTO>>("recipes");
         }
 
         public async Task<RecipeDetailsDTO> GetRecipe(Guid id)
         {
-            return await _apiHelper.GetAsync<RecipeDetailsDTO>($"recipes/{id}");
+            return await _recipesApiHelper.GetAsync<RecipeDetailsDTO>($"recipes/{id}");
         }
 
         public async Task AddRecipe(RecipeDetailsDTO recipe)
         {
-            await _apiHelper.PostAsync("recipes", recipe);
+            await _recipesApiHelper.PostAsync("recipes", recipe);
         }
 
         public async Task EditRecipe(RecipeDetailsDTO recipe)
         {
-            await _apiHelper.PutAsync($"recipes/{recipe.Id}", recipe);
+            await _recipesApiHelper.PutAsync($"recipes/{recipe.Id}", recipe);
         }
 
         public async Task DeleteRecipe(RecipeDetailsDTO recipe)
         {
-            await _apiHelper.DeleteAsync($"recipes/{recipe.Id}");
+            await _recipesApiHelper.DeleteAsync($"recipes/{recipe.Id}");
         }
 
         public async Task<List<TagDTO>> GetAllTags()
         {
-            return await _apiHelper.GetAsync<List<TagDTO>>("tags");
+            return await _recipesApiHelper.GetAsync<List<TagDTO>>("tags");
         }
 
         public async Task<List<RecipeDetailsDTO>> FilterRecipes(FilterRecipeDTO filter)
         {
-            return await _apiHelper.PostAsync<List<RecipeDetailsDTO>>("recipes/filter", filter);
+            return await _recipesApiHelper.PostAsync<List<RecipeDetailsDTO>>("recipes/filter", filter);
         }
     }
 }
