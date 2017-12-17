@@ -31,19 +31,9 @@ namespace ChefsBook.WebApiApp.Controllers
             this.mapper = mapper;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
         public async Task<IActionResult> GetRecipes()
-        {
-            var recipes = await recipesService.AllAsync();
-            var mappedRecipes = mapper.Map<List<RecipeDTO>>(recipes);
-            return Ok(mappedRecipes);
-        }
-
-        [HttpGet("me")]
-        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
-        public async Task<IActionResult> GetUserRecipes()
         {
             var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
             var recipes = await recipesService.AllByUserAsync(userId);
@@ -51,30 +41,32 @@ namespace ChefsBook.WebApiApp.Controllers
             return Ok(mappedRecipes);
         }
 
-        [AllowAnonymous]
         [HttpGet("{id}")]
         [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(RecipeDetailsDTO))]
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetRecipeById(Guid id)
         {
+            var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
             var recipe = await recipesService.FindAsync(id);
-            if (recipe == null)
+
+            if (recipe == null || recipe.UserId != userId)
                 return NotFound();
             
             var mappedRecipe = mapper.Map<RecipeDetailsDTO>(recipe);
             return Ok(mappedRecipe);
         }
 
-        [AllowAnonymous]
         [HttpPost("filter")]
         [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
         [SwaggerResponse((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> FilterRecipes([FromBody] FilterRecipeDTO filter)
         {
+            var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
+
             if (string.IsNullOrEmpty(filter.Text) && filter.Tags == null)
                 return BadRequest();
 
-            var recipes = await recipesService.FilterAsync(filter.Text, filter.Tags);
+            var recipes = await recipesService.FilterAsync(userId, filter.Text, filter.Tags);
             var mappedRecipes = mapper.Map<List<RecipeDTO>>(recipes);
             return Ok(mappedRecipes);
         }
