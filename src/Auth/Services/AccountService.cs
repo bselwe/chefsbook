@@ -20,6 +20,11 @@ namespace ChefsBook.Auth.Services
             this.userManager = userManager;
         }
 
+        public Task<AuthUser> GetUserInfo(string userId)
+        {
+            return userManager.FindByIdAsync(userId);
+        }
+
         public async Task SignUp(string firstName, string lastName, string email, string password)
         {
             var id = Guid.NewGuid();
