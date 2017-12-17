@@ -1,8 +1,8 @@
-﻿using ChefsBook_UWP_App.Services;
+﻿using ChefsBook_UWP_App.Services.Models;
+using ChefsBook_UWP_App.ViewModels;
 using ChefsBook_UWP_App.Views;
+using Microsoft.Practices.ServiceLocation;
 using System;
-using System.Collections.Generic;
-using Windows.Security.Authentication.Web;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,6 +18,7 @@ namespace ChefsBook_UWP_App
     public sealed partial class AppRootPage : Page
     {
         private const string viewsNamespace = "ChefsBook_UWP_App.Views";
+        private AppViewModel ViewModel { get; set; } = ServiceLocator.Current.GetInstance<AppViewModel>();
 
         public AppRootPage()
         {
@@ -25,11 +26,19 @@ namespace ChefsBook_UWP_App
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
         }
 
-        public Frame AppFrame { get { return contentFrame; } }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (e.Parameter == null)
+                return;
+
+            ViewModel.User = (UserViewModel)e.Parameter;
+        }
 
         private void NavigationMenu_Loaded(object sender, RoutedEventArgs e)
         {
-            AppFrame.Navigate(typeof(HomePage));
+            ContentFrame.Navigate(typeof(HomePage));
         }
 
         private void NavigationMenu_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -39,20 +48,8 @@ namespace ChefsBook_UWP_App
                 var selectedItem = (NavigationViewItem)args.SelectedItem;
                 string pageName = viewsNamespace + "." + ((string)selectedItem.Tag);
                 Type pageType = Type.GetType(pageName);
-                AppFrame.Navigate(pageType);
+                ContentFrame.Navigate(pageType);
             }
-        }
-
-        private async void UserAccoutItem_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            if (UserAccoutItem.Content.ToString() != "Log in")
-                return;
-
-            var authService = new GoogleAuthService();
-            var accessToken = await authService.GetUserAccessToken();
-            string name = await authService.GetUserName(accessToken);
-
-            UserAccoutItem.Content = name;
         }
 
         /// <summary>
@@ -92,13 +89,13 @@ namespace ChefsBook_UWP_App
 
         private void BackRequested(ref bool handled)
         {
-            if (AppFrame == null)
+            if (ContentFrame == null)
                 return;
 
-            if (AppFrame.CanGoBack && !handled)
+            if (ContentFrame.CanGoBack && !handled)
             {
                 handled = true;
-                AppFrame.GoBack();
+                ContentFrame.GoBack();
             }
         }
 

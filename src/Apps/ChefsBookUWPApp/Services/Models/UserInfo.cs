@@ -12,5 +12,8 @@ namespace ChefsBook_UWP_App.Services.Models
 
         [JsonProperty(PropertyName = "picture")]
         public string Picture { get; set; }
+
+        [JsonProperty(PropertyName = "email")]
+        public string Email { get; set; }
     }
 }

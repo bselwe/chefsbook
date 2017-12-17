@@ -14,31 +14,57 @@ using Windows.Storage.Streams;
 
 namespace ChefsBook_UWP_App.Services
 {
-    public class GoogleAuthService
+    public class GoogleAuthService : IAuthService
     {
         private const string clientID = "390305502758-7dq0tf86abnvn5v8e55g3ne3shfjrjlb.apps.googleusercontent.com";
         private const string redirectURI = "urn:ietf:wg:oauth:2.0:oob";
         private const string authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
         private const string authorizationCompleteEndPoint = "https://accounts.google.com/o/oauth2/approval";
 
-        private const string tokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
+        private const string appTokenEndpoint = "https://localhost:5000/connect/token";
+        private const string googleTokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
         private const string userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
 
-        public async Task<string> GetUserAccessToken()
+        public async Task<string> SignIn()
+        {
+            var accessToken = await GetServiceAccessToken();
+            var client = new HttpClient();
+
+            string tokenRequestBody = string.Format("grant_type=google" +
+                "&scope={0}&assertion={1}&client_id={2}",
+                Uri.EscapeDataString("api/chefsbook_management offline_access openid profile"),
+                Uri.EscapeDataString(accessToken),
+                Uri.EscapeDataString("chefsbook_manager")
+            );
+            var content = new StringContent(tokenRequestBody, Encoding.UTF8, "application/x-www-form-urlencoded");
+
+            var responseData = string.Empty;
+            using (client)
+            {
+                var response = await client.PostAsync(appTokenEndpoint, content);
+                responseData = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Print("App token retrieval failed.");
+                    return string.Empty;
+                }
+            }
+            Print(responseData);
+
+            var token = JsonConvert.DeserializeObject<TokensResponse>(responseData);
+
+            return token.AccessToken;
+        }
+
+        private async Task<string> GetServiceAccessToken()
         {
             string codeVerifier = GenerateRandomDataInBase64url(32);
 
             var code = await GetAuthorizationCode(codeVerifier);
-            var accessToken = await GetUserAccessToken(code, codeVerifier);
+            var accessToken = await GetGoogleAccessToken(code, codeVerifier);
 
             return accessToken;
-        }
-
-        public async Task<string> GetUserName(string accessToken)
-        {
-            var userInfo = await GetUserInfo(accessToken);
-
-            return userInfo.Name;
         }
 
         private async Task<string> GetAuthorizationCode(string codeVerifier)
@@ -55,11 +81,11 @@ namespace ChefsBook_UWP_App.Services
                 state,
                 codeChallange,
                 codeChallangeMethod
-                );
+            );
             
             var result = await WebAuthenticationBroker.AuthenticateAsync(
                 WebAuthenticationOptions.UseTitle, new Uri(authorizationRequest), new Uri(authorizationCompleteEndPoint)
-                );
+            );
 
             var authorizationCode = string.Empty;
             switch (result.ResponseStatus)
@@ -112,7 +138,7 @@ namespace ChefsBook_UWP_App.Services
             return authorizationCode;
         }
 
-        private async Task<string> GetUserAccessToken(string code, string codeVerifier)
+        private async Task<string> GetGoogleAccessToken(string code, string codeVerifier)
         {
             string tokenRequestBody = string.Format("scope=&grant_type=authorization_code" +
                 "&code={0}&redirect_uri={1}&client_id={2}&code_verifier={3}",
@@ -127,7 +153,7 @@ namespace ChefsBook_UWP_App.Services
             var responseData = string.Empty;
             using (var client = new HttpClient(handler))
             {
-                var response = await client.PostAsync(tokenEndpoint, content);
+                var response = await client.PostAsync(googleTokenEndpoint, content);
                 responseData = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
@@ -140,20 +166,6 @@ namespace ChefsBook_UWP_App.Services
             var token = JsonConvert.DeserializeObject<TokensResponse>(responseData);
 
             return token.AccessToken;
-        }
-
-        private async Task<UserInfo> GetUserInfo(string accessToken)
-        {
-            var data = string.Empty;
-            using (var client = CreateHttpClientWithAuthentication(accessToken))
-            {
-                var response = await client.GetAsync(userInfoEndpoint);
-                data = await response.Content.ReadAsStringAsync();
-            }
-            Print(data);
-            var userInfo = JsonConvert.DeserializeObject<UserInfo>(data);
-            
-            return userInfo;
         }
 
         private HttpClient CreateHttpClientWithAuthentication(string accessToken)
@@ -196,7 +208,6 @@ namespace ChefsBook_UWP_App.Services
 
             return base64;
         }
-
         #endregion
     }
 }

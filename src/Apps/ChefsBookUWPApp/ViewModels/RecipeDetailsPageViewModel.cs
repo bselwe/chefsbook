@@ -8,11 +8,11 @@ namespace ChefsBook_UWP_App.ViewModels
 {
     public class RecipeDetailsPageViewModel : ViewModelBase
     {
-        private readonly IRecipeApiService _recipeApiService;
+        private readonly IApiService _apiService;
 
-        public RecipeDetailsPageViewModel(IRecipeApiService recipeApiService)
+        public RecipeDetailsPageViewModel(IApiService apiService)
         {
-            _recipeApiService = recipeApiService;
+            _apiService = apiService;
             if (IsInDesignMode)
             {
                 GetRecipeDetails(new Guid("4b602f03-5da9-4450-9946-6b248d26b142"));
@@ -20,7 +20,7 @@ namespace ChefsBook_UWP_App.ViewModels
         }
         public async void GetRecipeDetails(Guid id)
         {
-            var recipe = await _recipeApiService.GetRecipe(id);
+            var recipe = await _apiService.GetRecipe(id);
             Recipe = new RecipeDetailsViewModel(recipe);
         }
 
@@ -40,7 +40,7 @@ namespace ChefsBook_UWP_App.ViewModels
                     ?? (_deleteRecipeCommand = new RelayCommand(
                     () =>
                     {
-                        _recipeApiService.DeleteRecipe((RecipeDetailsDTO)Recipe);
+                        _apiService.DeleteRecipe((RecipeDetailsDTO)Recipe);
                     }));
             }
         }

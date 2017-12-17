@@ -5,6 +5,7 @@
     xmlns:local="using:ChefsBook_UWP_App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=AppVM}"
     mc:Ignorable="d">
 
     <Grid>
@@ -36,7 +37,7 @@
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>
-                <NavigationViewItem x:Name="UserAccoutItem" Content="Log in" Tag="UserAccountPage" Tapped="UserAccoutItem_Tapped">
+                <NavigationViewItem Content="{Binding User.Name}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE77B;"/>
                     </NavigationViewItem.Icon>
@@ -44,7 +45,7 @@
             </NavigationView.PaneFooter>
 
 
-            <Frame x:Name="contentFrame" Navigating="OnNavigatingToPage">
+            <Frame x:Name="ContentFrame" Navigating="OnNavigatingToPage">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
                         <NavigationThemeTransition>

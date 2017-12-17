@@ -4,13 +4,27 @@ using System.Threading.Tasks;
 using ChefsBook.Core.Contracts;
 using Windows.Storage;
 using Newtonsoft.Json;
+using ChefsBook_UWP_App.ViewModels;
 
 namespace ChefsBook_UWP_App.Services
 {
-    public class RecipeApiService : IRecipeApiService
+    public class ApiService : IApiService
     {
-        private FakeRecipeApiService _fakeApiSerivce = new FakeRecipeApiService();
-        private ApiHelper _apiHelper = new ApiHelper();
+        private ApiHelper _apiHelper;
+
+        public async Task<UserViewModel> SignIn(string accessToken)
+        {
+            _apiHelper = new ApiHelper(accessToken);
+
+            var result = await GetAllTags();
+
+            return new UserViewModel()
+            {
+                Name = "Test User",
+                Email = "test@gmail.com",
+                AccessToken = accessToken
+            };
+        }
 
         public async Task LoadSampleData()
         {
