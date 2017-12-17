@@ -8,29 +8,19 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace ChefsBook.MigrationsApp.Migrations
+namespace ChefsBook.MigrationsApp.Migrations.CoreDb
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171217184256_AddUserIdToRecipe")]
+    partial class AddUserIdToRecipe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("core")
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ChefsBook.Core.Models.CartItem", b =>
-                {
-                    b.Property<Guid>("UserId");
-
-                    b.Property<Guid>("RecipeId");
-
-                    b.HasKey("UserId", "RecipeId");
-
-                    b.ToTable("CartItems");
-                });
 
             modelBuilder.Entity("ChefsBook.Core.Models.Ingredient", b =>
                 {

@@ -10,12 +10,10 @@ namespace ChefsBook.Core.Repositories
     public class RecipesRepository : IRecipesRepository
     {
         private readonly CoreDbContext dbContext;
-        private readonly CoreUnitOfWork unitOfWork;
 
-        public RecipesRepository(CoreDbContext dbContext, CoreUnitOfWork unitOfWork)
+        public RecipesRepository(CoreDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.unitOfWork = unitOfWork;
         }
 
         public void Add(Recipe recipe)
@@ -33,6 +31,15 @@ namespace ChefsBook.Core.Repositories
             return dbContext.Recipes
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
+                .ToListAsync();
+        }
+
+        public Task<List<Recipe>> AllByUserAsync(Guid userId)
+        {
+            return dbContext.Recipes
+                .Include(r => r.Tags)
+                .ThenInclude(t => t.Tag)
+                .Where(r => r.UserId == userId)
                 .ToListAsync();
         }
 
@@ -60,7 +67,7 @@ namespace ChefsBook.Core.Repositories
                 .Include(r => r.Steps)
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
-                .FirstOrDefaultAsync(r => r.Id == recipeId);
+                .FirstOrDefaultAsync(r => r.RecipeId == recipeId);
         }
     }
 }

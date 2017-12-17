@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using ChefsBook.Auth.Security;
 using ChefsBook.Core;
 using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Models;
@@ -35,6 +37,16 @@ namespace ChefsBook.WebApiApp.Controllers
         public async Task<IActionResult> GetRecipes()
         {
             var recipes = await recipesService.AllAsync();
+            var mappedRecipes = mapper.Map<List<RecipeDTO>>(recipes);
+            return Ok(mappedRecipes);
+        }
+
+        [HttpGet("me")]
+        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
+        public async Task<IActionResult> GetUserRecipes()
+        {
+            var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
+            var recipes = await recipesService.AllByUserAsync(userId);
             var mappedRecipes = mapper.Map<List<RecipeDTO>>(recipes);
             return Ok(mappedRecipes);
         }
@@ -75,11 +87,13 @@ namespace ChefsBook.WebApiApp.Controllers
             if (recipe == null || recipe.Ingredients == null || recipe.Steps == null || recipe.Tags == null)
                 return BadRequest();
 
+            var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
             var ingredients = recipe.Ingredients.Select(i => Ingredient.Create(i.Name, i.Quantity)).ToList();
             var steps = recipe.Steps.Select(s => Step.Create(s.Duration, s.Description)).ToList();
             var tags = recipe.Tags.Select(t => Tag.Create(t.Name)).ToList();
             
             await recipesService.CreateAsync(
+                userId,
                 recipe.Title,
                 recipe.Description,
                 recipe.Image,
@@ -103,12 +117,14 @@ namespace ChefsBook.WebApiApp.Controllers
             if (recipe == null || recipe.Ingredients == null || recipe.Steps == null || recipe.Tags == null)
                 return BadRequest();
 
+            var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
             var ingredients = recipe.Ingredients.Select(i => Ingredient.Create(i.Name, i.Quantity)).ToList();
             var steps = recipe.Steps.Select(s => Step.Create(s.Duration, s.Description)).ToList();
             var tags = recipe.Tags.Select(t => Tag.Create(t.Name)).ToList();
 
             var result = await recipesService.UpdateAsync(
                 id,
+                userId,
                 recipe.Title,
                 recipe.Description,
                 recipe.Image,
@@ -130,7 +146,9 @@ namespace ChefsBook.WebApiApp.Controllers
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteRecipe(Guid id)
         {
-            var result = await recipesService.RemoveAsync(id);
+            var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
+            var result = await recipesService.RemoveAsync(id, userId);
+
             if (!result)
                 return NotFound();
             return Ok();

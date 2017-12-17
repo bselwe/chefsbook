@@ -13,7 +13,8 @@ namespace ChefsBook.Core
         public DbSet<Step> Steps => Set<Step>();
         public DbSet<Tag> Tags => Set<Tag>();
         public DbSet<RecipeTag> RecipeTags => Set<RecipeTag>();
-
+        public DbSet<CartItem> CartItems => Set<CartItem>();
+        
         public CoreDbContext(DbContextOptions<CoreDbContext> options)
             : base(options)
         { }
@@ -24,7 +25,7 @@ namespace ChefsBook.Core
 
             modelBuilder.Entity<Recipe>(cfg =>
             {
-                cfg.HasKey(e => e.Id);
+                cfg.HasKey(e => e.RecipeId);
 
                 cfg.Property(e => e.Title).HasMaxLength(200);
                 cfg.Property(e => e.Description).HasMaxLength(4000);
@@ -38,12 +39,12 @@ namespace ChefsBook.Core
 
             modelBuilder.Entity<Ingredient>(cfg =>
             {
-                cfg.HasKey(e => e.IngredientId);
+                cfg.HasKey(e => e.Id);
             });
 
             modelBuilder.Entity<Step>(cfg =>
             {
-                cfg.HasKey(e => e.StepId);
+                cfg.HasKey(e => e.Id);
             });
 
             modelBuilder.Entity<Tag>(cfg =>
@@ -60,6 +61,11 @@ namespace ChefsBook.Core
             modelBuilder.Entity<RecipeTag>(cfg =>
             {
                 cfg.HasKey(t => new { t.TagId, t.RecipeId });
+            });
+
+            modelBuilder.Entity<CartItem>(cfg => 
+            {
+                cfg.HasKey(i => new { i.UserId, i.RecipeId });
             });
         }
     }

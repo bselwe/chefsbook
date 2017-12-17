@@ -10,28 +10,25 @@ namespace ChefsBook.Core.Services
 {
     public class RecipesService : IRecipesService
     {
-        private IRecipesRepository recipesRepository;
-        private ITagsService tagsService;
-        private CoreDbContext dbContext;
-        private CoreUnitOfWork unitOfWork;
+        private readonly IRecipesRepository recipesRepository;
+        private readonly ITagsService tagsService;
+        private readonly CoreUnitOfWork unitOfWork;
 
         public RecipesService(
             IRecipesRepository recipesRepository, 
             ITagsService tagsService,
-            CoreDbContext dbContext,
             CoreUnitOfWork unitOfWork)
         {
             this.recipesRepository = recipesRepository;
             this.tagsService = tagsService;
-            this.dbContext = dbContext;
             this.unitOfWork = unitOfWork;
         }
 
         public async Task CreateAsync(
-            string title, string description, string image, TimeSpan? duration, int? servings, string notes,
+            Guid userId, string title, string description, string image, TimeSpan? duration, int? servings, string notes,
             IList<Ingredient> ingredients, IList<Step> steps, IList<Tag> tags)
         {
-            var recipe = Recipe.Create(title, description, image, duration, servings, notes, ingredients, steps);
+            var recipe = Recipe.Create(userId, title, description, image, duration, servings, notes, ingredients, steps);
             var recipeTags = await CreateRecipeTags(recipe, tags);
             recipe.AddTags(recipeTags);
 
@@ -40,11 +37,11 @@ namespace ChefsBook.Core.Services
         }
 
         public async Task<bool> UpdateAsync(
-            Guid id, string title, string description, string image, TimeSpan? duration, int? servings, string notes,
+            Guid recipeId, Guid userId, string title, string description, string image, TimeSpan? duration, int? servings, string notes,
             IList<Ingredient> ingredients, IList<Step> steps, IList<Tag> tags)
         {
-            var recipe = await recipesRepository.FindAsync(id);
-            if (recipe == null)
+            var recipe = await recipesRepository.FindAsync(recipeId);
+            if (recipe == null || recipe.UserId != userId)
                 return false;
 
             var recipeTags = await CreateRecipeTags(recipe, tags);
@@ -55,10 +52,10 @@ namespace ChefsBook.Core.Services
             return true;
         }
 
-        public async Task<bool> RemoveAsync(Guid recipeId)
+        public async Task<bool> RemoveAsync(Guid recipeId, Guid userId)
         {
             var recipe = await recipesRepository.FindAsync(recipeId);
-            if (recipe == null)
+            if (recipe == null || recipe.UserId != userId)
                 return false;
 
             recipesRepository.Remove(recipe);
@@ -69,6 +66,11 @@ namespace ChefsBook.Core.Services
         public Task<List<Recipe>> AllAsync()
         {
             return recipesRepository.AllAsync();
+        }
+
+        public Task<List<Recipe>> AllByUserAsync(Guid userId)
+        {
+            return recipesRepository.AllByUserAsync(userId);
         }
 
         public Task<List<Recipe>> FilterAsync(string text, IList<string> tags)
@@ -93,7 +95,7 @@ namespace ChefsBook.Core.Services
             foreach (var tag in newTags)
             {
                 var newTag = await tagsService.FindAsync(tag.Name) ?? tag;
-                recipeTags.Add(RecipeTag.Create(newTag, recipe.Id));
+                recipeTags.Add(RecipeTag.Create(newTag, recipe.RecipeId));
             }
 
             return recipeTags;

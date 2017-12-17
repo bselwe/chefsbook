@@ -91,7 +91,7 @@ namespace ChefsBook.WebApiApp.Tests
             // Arrange
             var recipesService = Substitute.For<IRecipesService>();
             recipesService
-                .CreateAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
+                .CreateAsync(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
                 .Returns(Task.CompletedTask);
             var controller = new RecipesController(recipesService, AutoMapper.Mapper.Instance);
             var recipe = new NewRecipeDTO { 
@@ -119,7 +119,7 @@ namespace ChefsBook.WebApiApp.Tests
             // Arrange
             var recipesService = Substitute.For<IRecipesService>();
             recipesService
-                .CreateAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
+                .CreateAsync(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
                 .Returns(Task.CompletedTask);
             var controller = new RecipesController(recipesService, AutoMapper.Mapper.Instance);
             var recipe = new NewRecipeDTO();
@@ -136,6 +136,7 @@ namespace ChefsBook.WebApiApp.Tests
             return new List<Recipe>()
             {
                 Recipe.Create(
+                    Guid.NewGuid(),
                     "Naleśniki", 
                     "Naleśniki z serem", 
                     null,
@@ -146,6 +147,7 @@ namespace ChefsBook.WebApiApp.Tests
                     new List<Step>() { Step.Create(TimeSpan.FromMinutes(5), "Zrób ciasto") }
                 ),
                 Recipe.Create(
+                    Guid.NewGuid(),
                     "Jajecznica", 
                     null,
                     null, 
@@ -156,6 +158,7 @@ namespace ChefsBook.WebApiApp.Tests
                     null
                 ),
                 Recipe.Create(
+                    Guid.NewGuid(),
                     "Spaghetti", 
                     "Spaghetti bolognese", 
                     null,

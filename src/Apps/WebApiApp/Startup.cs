@@ -55,8 +55,10 @@ namespace ChefsBook.WebApiApp
             services.AddTransient<CoreUnitOfWork, CoreUnitOfWork>();
             services.AddScoped<IRecipesRepository, RecipesRepository>();
             services.AddScoped<ITagsRepository, TagsRepository>();
+            services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IRecipesService, RecipesService>();
             services.AddScoped<ITagsService, TagsService>();
+            services.AddScoped<ICartService, CartService>();
             
             ConfigureAuthentication(services);
 
