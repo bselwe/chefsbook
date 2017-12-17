@@ -13,7 +13,7 @@ namespace ChefsBook.Core
         public DbSet<Step> Steps => Set<Step>();
         public DbSet<Tag> Tags => Set<Tag>();
         public DbSet<RecipeTag> RecipeTags => Set<RecipeTag>();
-
+        
         public CoreDbContext(DbContextOptions<CoreDbContext> options)
             : base(options)
         { }

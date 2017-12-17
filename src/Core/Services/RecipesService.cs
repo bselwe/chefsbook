@@ -71,6 +71,11 @@ namespace ChefsBook.Core.Services
             return recipesRepository.AllAsync();
         }
 
+        public Task<List<Recipe>> AllByUserAsync(Guid userId)
+        {
+            return recipesRepository.AllByUserAsync(userId);
+        }
+
         public Task<List<Recipe>> FilterAsync(string text, IList<string> tags)
         {
            return recipesRepository.FilterAsync(text, tags);

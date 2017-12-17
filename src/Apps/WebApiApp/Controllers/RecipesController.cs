@@ -41,6 +41,16 @@ namespace ChefsBook.WebApiApp.Controllers
             return Ok(mappedRecipes);
         }
 
+        [HttpGet("me")]
+        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
+        public async Task<IActionResult> GetUserRecipes()
+        {
+            var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
+            var recipes = await recipesService.AllByUserAsync(userId);
+            var mappedRecipes = mapper.Map<List<RecipeDTO>>(recipes);
+            return Ok(mappedRecipes);
+        }
+
         [AllowAnonymous]
         [HttpGet("{id}")]
         [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(RecipeDetailsDTO))]
