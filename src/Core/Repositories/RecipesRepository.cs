@@ -60,7 +60,7 @@ namespace ChefsBook.Core.Repositories
                 .Include(r => r.Steps)
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
-                .FirstOrDefaultAsync(r => r.Id == recipeId);
+                .FirstOrDefaultAsync(r => r.RecipeId == recipeId);
         }
     }
 }

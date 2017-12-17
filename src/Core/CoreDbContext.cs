@@ -24,7 +24,7 @@ namespace ChefsBook.Core
 
             modelBuilder.Entity<Recipe>(cfg =>
             {
-                cfg.HasKey(e => e.Id);
+                cfg.HasKey(e => e.RecipeId);
 
                 cfg.Property(e => e.Title).HasMaxLength(200);
                 cfg.Property(e => e.Description).HasMaxLength(4000);
@@ -38,12 +38,12 @@ namespace ChefsBook.Core
 
             modelBuilder.Entity<Ingredient>(cfg =>
             {
-                cfg.HasKey(e => e.IngredientId);
+                cfg.HasKey(e => e.Id);
             });
 
             modelBuilder.Entity<Step>(cfg =>
             {
-                cfg.HasKey(e => e.StepId);
+                cfg.HasKey(e => e.Id);
             });
 
             modelBuilder.Entity<Tag>(cfg =>

@@ -10,7 +10,8 @@ namespace ChefsBook.Core.Models
         private readonly List<Step> steps = new List<Step>();
         private readonly List<RecipeTag> tags = new List<RecipeTag>();
 
-        public Guid Id { get; private set; }
+        public Guid RecipeId { get; private set; }
+        public Guid UserId { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string Image { get; private set; }
@@ -24,9 +25,14 @@ namespace ChefsBook.Core.Models
         private Recipe() { }
 
         public static Recipe Create(
-            string title, string description, string image, TimeSpan? duration, int? servings, string notes, 
+            Guid userId, string title, string description, string image, TimeSpan? duration, int? servings, string notes, 
             IList<Ingredient> ingredients, IList<Step> steps)
         {
+            if (userId == null)
+            {
+                throw new ArgumentException("Recipe's user id cannot be null.");
+            }
+
             if (string.IsNullOrWhiteSpace(title))
             {
                 throw new ArgumentException("Recipe title cannot be empty or whitespace.");
@@ -34,7 +40,8 @@ namespace ChefsBook.Core.Models
 
             var recipe = new Recipe
             {
-                Id = Guid.NewGuid(),
+                RecipeId = Guid.NewGuid(),
+                UserId = userId,
                 Title = title,
                 Description = description,
                 Image = image,

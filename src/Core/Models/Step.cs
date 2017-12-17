@@ -4,7 +4,7 @@ namespace ChefsBook.Core.Models
 {
     public class Step
     {
-        public Guid StepId { get; private set; }
+        public Guid Id { get; private set; }
         public TimeSpan? Duration { get; private set; }
         public string Description { get; private set; }
 
@@ -19,7 +19,7 @@ namespace ChefsBook.Core.Models
 
             return new Step
             {
-                StepId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 Duration = duration,
                 Description = description
             };
