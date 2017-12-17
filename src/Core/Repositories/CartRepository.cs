@@ -32,6 +32,8 @@ namespace ChefsBook.Core.Repositories
         public Task<List<CartItem>> AllAsync(Guid userId)
         {
             return dbContext.CartItems
+                .Include(i => i.Recipe)
+                .ThenInclude(r => r.Ingredients)
                 .Where(i => i.UserId == userId)
                 .ToListAsync();
         }

@@ -20,8 +20,6 @@ namespace ChefsBook.Core
             CreateMap<Tag, TagDTO>();
             CreateMap<RecipeTag, TagDTO>()
                 .ForMember(dest => dest.Name, c => c.MapFrom(src => src.Tag.Name));
-
-            CreateMap<CartItem, CartItemDTO>();
         }
     }
 }
