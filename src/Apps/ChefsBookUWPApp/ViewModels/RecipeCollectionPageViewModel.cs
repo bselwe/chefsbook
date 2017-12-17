@@ -13,18 +13,18 @@ namespace ChefsBook_UWP_App.ViewModels
 {
     public class RecipeCollectionPageViewModel : ViewModelBase
     {
-        private readonly IRecipeApiService _recipeApiService;
+        private readonly IApiService _apiService;
 
-        public RecipeCollectionPageViewModel(IRecipeApiService recipeApiService)
+        public RecipeCollectionPageViewModel(IApiService apiService)
         {
-            _recipeApiService = recipeApiService;
+            _apiService = apiService;
             Task.Run(() => GetAllRecipes());
             Task.Run(() => GetAllTags());
         }
 
         private async void GetAllTags()
         {
-            var tags = await _recipeApiService.GetAllTags();
+            var tags = await _apiService.GetAllTags();
 
             await DispatcherHelper.RunAsync(() =>
             {
@@ -34,15 +34,17 @@ namespace ChefsBook_UWP_App.ViewModels
 
         private async void GetAllRecipes()
         {
-            var recipes = await _recipeApiService.GetAllRecipes();
+            var recipes = await _apiService.GetAllRecipes();
+
+            var updatedRecipes = new ObservableCollection<RecipeTileViewModel>();
+            foreach (var recipe in recipes)
+            {
+                updatedRecipes.Add(new RecipeTileViewModel(recipe));
+            }
 
             await DispatcherHelper.RunAsync(() =>
             {
-                Recipes.Clear();
-                foreach (var recipe in recipes)
-                {
-                    Recipes.Add(new RecipeTileViewModel(recipe));
-                }
+                Recipes = updatedRecipes;
             });
         }
 
@@ -106,7 +108,7 @@ namespace ChefsBook_UWP_App.ViewModels
                 filterDTO.Tags.Add(tagName);
             }
 
-            var result = await _recipeApiService.FilterRecipes(filterDTO);
+            var result = await _apiService.FilterRecipes(filterDTO);
 
             Recipes = new ObservableCollection<RecipeTileViewModel>(
                 result.ConvertAll(r => new RecipeTileViewModel(r as RecipeDTO)));

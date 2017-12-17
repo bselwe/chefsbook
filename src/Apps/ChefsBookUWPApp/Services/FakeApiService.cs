@@ -3,17 +3,27 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChefsBook.Core.Contracts;
 using System.Linq;
+using ChefsBook.Auth.Contracts;
 
 namespace ChefsBook_UWP_App.Services
 {
-    public class FakeRecipeApiService : IRecipeApiService
+    public class FakeApiService : IApiService
     {
         private List<RecipeDetailsDTO> _recipes = new List<RecipeDetailsDTO>();
         private List<TagDTO> _tags = new List<TagDTO>();
 
-        public FakeRecipeApiService()
+        public FakeApiService()
         {
             LoadSampleData();
+        }
+
+        public Task<UserInfoDTO> SignIn(string accessToken)
+        {
+            return Task.FromResult(new UserInfoDTO() {
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "test@gmail.com"
+            });
         }
 
         public Task LoadSampleData()

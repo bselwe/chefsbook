@@ -10,14 +10,14 @@ namespace ChefsBook_UWP_App.ViewModels
 {
     public class EditRecipePageViewModel : ViewModelBase
     {
-        private readonly IRecipeApiService _recipeApiService;
+        private readonly IApiService _apiService;
 
-        public EditRecipePageViewModel(IRecipeApiService recipeApiService)
+        public EditRecipePageViewModel(IApiService apiService)
         {
-            _recipeApiService = recipeApiService;
+            _apiService = apiService;
             if (IsInDesignMode)
             {
-                var task = _recipeApiService.GetRecipe(new Guid("4b602f03-5da9-4450-9946-6b248d26b142"));
+                var task = _apiService.GetRecipe(new Guid("4b602f03-5da9-4450-9946-6b248d26b142"));
                 task.Wait();
                 Recipe = new RecipeDetailsViewModel(task.Result);
             }
@@ -125,9 +125,9 @@ namespace ChefsBook_UWP_App.ViewModels
                         UpdateTagsCollection();
 
                         if (Recipe.Id == default(Guid))
-                            _recipeApiService.AddRecipe((RecipeDetailsDTO)Recipe);
+                            _apiService.AddRecipe((RecipeDetailsDTO)Recipe);
                         else
-                            _recipeApiService.EditRecipe((RecipeDetailsDTO)Recipe);
+                            _apiService.EditRecipe((RecipeDetailsDTO)Recipe);
                     }));
             }
         }
