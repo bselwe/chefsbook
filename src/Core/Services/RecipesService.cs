@@ -10,20 +10,17 @@ namespace ChefsBook.Core.Services
 {
     public class RecipesService : IRecipesService
     {
-        private IRecipesRepository recipesRepository;
-        private ITagsService tagsService;
-        private CoreDbContext dbContext;
-        private CoreUnitOfWork unitOfWork;
+        private readonly IRecipesRepository recipesRepository;
+        private readonly ITagsService tagsService;
+        private readonly CoreUnitOfWork unitOfWork;
 
         public RecipesService(
             IRecipesRepository recipesRepository, 
             ITagsService tagsService,
-            CoreDbContext dbContext,
             CoreUnitOfWork unitOfWork)
         {
             this.recipesRepository = recipesRepository;
             this.tagsService = tagsService;
-            this.dbContext = dbContext;
             this.unitOfWork = unitOfWork;
         }
 

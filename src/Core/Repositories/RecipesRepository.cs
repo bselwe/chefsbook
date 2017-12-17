@@ -10,12 +10,10 @@ namespace ChefsBook.Core.Repositories
     public class RecipesRepository : IRecipesRepository
     {
         private readonly CoreDbContext dbContext;
-        private readonly CoreUnitOfWork unitOfWork;
 
-        public RecipesRepository(CoreDbContext dbContext, CoreUnitOfWork unitOfWork)
+        public RecipesRepository(CoreDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.unitOfWork = unitOfWork;
         }
 
         public void Add(Recipe recipe)

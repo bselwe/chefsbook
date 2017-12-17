@@ -9,12 +9,10 @@ namespace ChefsBook.Core.Repositories
     public class TagsRepository : ITagsRepository
     {
         private readonly CoreDbContext dbContext;
-        private readonly CoreUnitOfWork unitOfWork;
 
-        public TagsRepository(CoreDbContext dbContext, CoreUnitOfWork unitOfWork)
+        public TagsRepository(CoreDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.unitOfWork = unitOfWork;
         }
 
         public Task<List<Tag>> AllAsync()

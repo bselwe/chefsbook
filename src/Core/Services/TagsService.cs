@@ -11,18 +11,11 @@ namespace ChefsBook.Core.Services
 {
     public class TagsService : ITagsService
     {
-        private ITagsRepository tagsRepository;
-        private CoreDbContext dbContext;
-        private CoreUnitOfWork unitOfWork;
+        private readonly ITagsRepository tagsRepository;
 
-        public TagsService(
-            ITagsRepository tagsRepository,
-            CoreDbContext dbContext,
-            CoreUnitOfWork unitOfWork)
+        public TagsService(ITagsRepository tagsRepository)
         {
             this.tagsRepository = tagsRepository;
-            this.dbContext = dbContext;
-            this.unitOfWork = unitOfWork;
         }
 
         public Task<List<Tag>> AllAsync()

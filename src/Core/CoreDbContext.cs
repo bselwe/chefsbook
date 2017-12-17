@@ -13,6 +13,7 @@ namespace ChefsBook.Core
         public DbSet<Step> Steps => Set<Step>();
         public DbSet<Tag> Tags => Set<Tag>();
         public DbSet<RecipeTag> RecipeTags => Set<RecipeTag>();
+        public DbSet<CartItem> CartItems => Set<CartItem>();
         
         public CoreDbContext(DbContextOptions<CoreDbContext> options)
             : base(options)
@@ -60,6 +61,11 @@ namespace ChefsBook.Core
             modelBuilder.Entity<RecipeTag>(cfg =>
             {
                 cfg.HasKey(t => new { t.TagId, t.RecipeId });
+            });
+
+            modelBuilder.Entity<CartItem>(cfg => 
+            {
+                cfg.HasKey(i => new { i.UserId, i.RecipeId });
             });
         }
     }
