@@ -36,13 +36,15 @@ namespace ChefsBook_UWP_App.ViewModels
         {
             var recipes = await _apiService.GetAllRecipes();
 
+            var updatedRecipes = new ObservableCollection<RecipeTileViewModel>();
+            foreach (var recipe in recipes)
+            {
+                updatedRecipes.Add(new RecipeTileViewModel(recipe));
+            }
+
             await DispatcherHelper.RunAsync(() =>
             {
-                Recipes.Clear();
-                foreach (var recipe in recipes)
-                {
-                    Recipes.Add(new RecipeTileViewModel(recipe));
-                }
+                Recipes = updatedRecipes;
             });
         }
 
