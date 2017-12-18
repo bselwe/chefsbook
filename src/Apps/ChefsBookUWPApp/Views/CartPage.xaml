@@ -9,12 +9,23 @@
     DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=CartPageVM}"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Flyout x:Key="CartCopiedFlyout" Placement="Bottom">
+            <TextBlock Text="Cart copied to clipboard"/>
+        </Flyout>
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <CommandBar Grid.Row="0">
+            <AppBarButton 
+                Icon="Copy" 
+                Label="Copy to clipboard" 
+                FlyoutBase.AttachedFlyout="{StaticResource CartCopiedFlyout}"
+                Click="CopyCartContentAppBarButton_Click"/>
             <AppBarButton Icon="Delete" Label="Clear cart" Command="{Binding DeleteCartCommand}" />
         </CommandBar>
         <ListView Grid.Row="1" ItemsSource="{Binding Path=Items}">
