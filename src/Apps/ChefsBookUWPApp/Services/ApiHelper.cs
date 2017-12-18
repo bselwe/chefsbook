@@ -31,6 +31,15 @@ namespace ChefsBook_UWP_App.Services
             }
         }
 
+        public async Task PostAsync(string endpoint)
+        {
+            using (var client = CreateHttpClient())
+            {
+                var response = await client.PostAsync(endpoint, new JsonStringContent(""));
+                HandleResponse(response);
+            }
+        }
+
         public async Task PostAsync(string endpoint, object content)
         {
             using (var client = CreateHttpClient())

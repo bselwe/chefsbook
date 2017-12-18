@@ -11,6 +11,7 @@ namespace ChefsBook_UWP_App.Services
     {
         private List<RecipeDetailsDTO> _recipes = new List<RecipeDetailsDTO>();
         private List<TagDTO> _tags = new List<TagDTO>();
+        private List<List<IngredientDTO>> _cart = new List<List<IngredientDTO>>();
 
         public FakeApiService()
         {
@@ -92,6 +93,31 @@ namespace ChefsBook_UWP_App.Services
                 }
             };
 
+            _cart = new List<List<IngredientDTO>>()
+            {
+                new List<IngredientDTO>()
+                {
+                    new IngredientDTO()
+                    {
+                        Name = "Milk",
+                        Quantity = "1 liter"
+                    },
+                    new IngredientDTO()
+                    {
+                        Name = "Pasta",
+                        Quantity = "1 kg"
+                    }
+                },
+                new List<IngredientDTO>()
+                {
+                    new IngredientDTO()
+                    {
+                        Name = "Juice",
+                        Quantity = "1 liter"
+                    }
+                }
+            };
+            
             return Task.CompletedTask;
         }
 
@@ -138,6 +164,23 @@ namespace ChefsBook_UWP_App.Services
                     r.Description.ToLower().Contains(filter.Text.ToLower())))).ToList();
 
             return Task.FromResult(results);
+        }
+
+        public Task<List<List<IngredientDTO>>> GetCart()
+        {
+            return Task.FromResult(_cart);
+        }
+
+        public Task AddRecipeToCart(RecipeDetailsDTO recipe)
+        {
+            _cart.Add(recipe.Ingredients);
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteCart()
+        {
+            _cart.Clear();
+            return Task.CompletedTask;
         }
     }
 }
