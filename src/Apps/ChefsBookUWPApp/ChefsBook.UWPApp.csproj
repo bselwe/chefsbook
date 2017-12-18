@@ -109,6 +109,7 @@
     <Compile Include="Services\Models\TokensResponse.cs" />
     <Compile Include="Services\Models\UserInfo.cs" />
     <Compile Include="Services\ApiService.cs" />
+    <Compile Include="ViewModels\CartPageViewModel.cs" />
     <Compile Include="ViewModels\Entities\IngredientViewModel.cs" />
     <Compile Include="ViewModels\Entities\RecipeBaseViewModel.cs" />
     <Compile Include="ViewModels\Entities\RecipeTileViewModel.cs" />
@@ -123,6 +124,9 @@
     <Compile Include="ViewModels\Entities\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\RecipeCollectionPageViewModel.cs" />
+    <Compile Include="Views\CartPage.xaml.cs">
+      <DependentUpon>CartPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -166,6 +170,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AppRootPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CartPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

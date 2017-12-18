@@ -68,5 +68,20 @@ namespace ChefsBook_UWP_App.Services
         {
             return await _recipesApiHelper.PostAsync<List<RecipeDetailsDTO>>("recipes/filter", filter);
         }
+
+        public async Task<List<List<IngredientDTO>>> GetCart()
+        {
+            return await _recipesApiHelper.GetAsync<List<List<IngredientDTO>>>("cart");
+        }
+
+        public async Task AddRecipeToCart(RecipeDetailsDTO recipe)
+        {
+            await _recipesApiHelper.PostAsync($"cart/{recipe.Id}");
+        }
+
+        public async Task DeleteCart()
+        {
+            await _recipesApiHelper.DeleteAsync("cart");
+        }
     }
 }

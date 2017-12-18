@@ -19,5 +19,9 @@ namespace ChefsBook_UWP_App.Services
 
         Task<List<TagDTO>> GetAllTags();
         Task<List<RecipeDetailsDTO>> FilterRecipes(FilterRecipeDTO filter);
+
+        Task<List<List<IngredientDTO>>> GetCart();
+        Task AddRecipeToCart(RecipeDetailsDTO recipe);
+        Task DeleteCart();
     }
 }

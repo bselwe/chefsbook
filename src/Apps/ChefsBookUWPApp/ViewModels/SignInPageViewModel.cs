@@ -73,6 +73,10 @@ namespace ChefsBook_UWP_App.ViewModels
                 credential.RetrievePassword();
 
                 var userDto = await _apiService.SignIn(credential.Password);
+
+                if (userDto == null)
+                    return null;
+
                 return new UserViewModel(userDto, credential.Password);
             }
             catch (Exception)

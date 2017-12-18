@@ -44,5 +44,19 @@ namespace ChefsBook_UWP_App.ViewModels
                     }));
             }
         }
+
+        private RelayCommand _addToCartCommand;
+        public RelayCommand AddToCartCommand
+        {
+            get
+            {
+                return _addToCartCommand
+                    ?? (_addToCartCommand = new RelayCommand(
+                    () =>
+                    {
+                        _apiService.AddRecipeToCart((RecipeDetailsDTO)Recipe);
+                    }));
+            }
+        }
     }
 }
