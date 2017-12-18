@@ -1,5 +1,4 @@
-﻿using ChefsBook.Core.Contracts;
-using ChefsBook_UWP_App.Services;
+﻿using ChefsBook_UWP_App.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;

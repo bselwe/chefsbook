@@ -35,6 +35,6 @@ namespace ChefsBook_UWP_App.ViewModels
         public EditRecipePageViewModel EditRecipePageVM => ServiceLocator.Current.GetInstance<EditRecipePageViewModel>();
         public SignInPageViewModel SignInPageVM => ServiceLocator.Current.GetInstance<SignInPageViewModel>();
         public AppViewModel AppVM => ServiceLocator.Current.GetInstance<AppViewModel>();
-        public CartPageViewModel CartPageVM => ServiceLocator.Current.GetInstance<CartPageViewModel>();
+        public CartPageViewModel CartPageVM => SimpleIoc.Default.GetInstanceWithoutCaching<CartPageViewModel>();
     }
 }
