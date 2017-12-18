@@ -19,17 +19,6 @@ namespace ChefsBook_UWP_App.ViewModels
         {
             _apiService = apiService;
             Task.Run(() => GetAllRecipes());
-            Task.Run(() => GetAllTags());
-        }
-
-        private async void GetAllTags()
-        {
-            var tags = await _apiService.GetAllTags();
-
-            await DispatcherHelper.RunAsync(() =>
-            {
-                _availableTags = tags;
-            });
         }
 
         private async void GetAllRecipes()
@@ -64,7 +53,7 @@ namespace ChefsBook_UWP_App.ViewModels
                     ?? (_reloadCommand = new RelayCommand(
                     () =>
                     {
-                        GetAllRecipes();
+                        Task.Run(() => GetAllRecipes());
                     }));
             }
         }
@@ -82,8 +71,6 @@ namespace ChefsBook_UWP_App.ViewModels
             get => _tagsSearchQuery;
             set => Set(ref _tagsSearchQuery, value);
         }
-
-        private List<TagDTO> _availableTags { get; set; }
 
         private RelayCommand _searchQuerySubmittedCommand;
         public RelayCommand SearchQuerySubmittedCommand
