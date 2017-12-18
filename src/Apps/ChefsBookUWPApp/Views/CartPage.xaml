@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="ChefsBook_UWP_App.Views.CartPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ChefsBook_UWP_App.Views"
+    xmlns:viewModels="using:ChefsBook_UWP_App.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=CartPageVM}"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <CommandBar Grid.Row="0">
+            <AppBarButton Icon="Delete" Label="Clear cart" Command="{Binding DeleteCartCommand}" />
+        </CommandBar>
+        <ListView Grid.Row="1" ItemsSource="{Binding Path=Items}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:IngredientViewModel">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" Margin="10,0,0,0" TextWrapping="WrapWholeWords"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Quantity}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

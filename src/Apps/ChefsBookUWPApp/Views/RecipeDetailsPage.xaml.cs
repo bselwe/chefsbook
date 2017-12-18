@@ -48,5 +48,11 @@ namespace ChefsBook_UWP_App.Views
             ViewModel.DeleteRecipeCommand.Execute(null);
             Frame.Navigate(typeof(RecipeCollectionPage), true);
         }
+
+        private void AddToCartAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.AddToCartCommand.Execute(null);
+            Frame.Navigate(typeof(CartPage), true);
+        }
     }
 }

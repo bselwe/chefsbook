@@ -15,6 +15,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <CommandBar Grid.Row="0">
+            <AppBarButton Label="Add to cart" Click="AddToCartAppBarButton_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE7BF;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
             <AppBarButton Icon="Edit" Label="Edit recipe" Click="EditRecipeAppBarButton_Click"/>
             <AppBarButton Icon="Delete" Label="Delete recipe" Click="DeleteRecipeAppBarButton_Click" />
         </CommandBar>
