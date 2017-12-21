@@ -9,7 +9,6 @@ namespace ChefsBook.Core.Repositories
     public interface IRecipesRepository
     {
         void Add(Recipe recipe);
-        void Remove(Recipe recipe);
         Task<List<Recipe>> AllAsync();
         Task<List<Recipe>> AllByUserAsync(Guid userId);
         Task<List<Recipe>> FilterAsync(Guid userId, string text, IList<string> tags);

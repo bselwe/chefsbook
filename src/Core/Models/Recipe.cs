@@ -18,6 +18,7 @@ namespace ChefsBook.Core.Models
         public TimeSpan? Duration { get; private set; }
         public int? Servings { get; private set; }
         public string Notes { get; private set; }
+        public bool IsDeleted { get; private set; }
         public IReadOnlyList<Ingredient> Ingredients => ingredients;
         public IReadOnlyList<Step> Steps => steps;
         public IReadOnlyList<RecipeTag> Tags => tags;
@@ -99,6 +100,11 @@ namespace ChefsBook.Core.Models
         public void RemoveTags()
         {
             this.tags.Clear();
+        }
+
+        public void Delete()
+        {
+            IsDeleted = true;
         }
     }
 }
