@@ -58,7 +58,7 @@ namespace ChefsBook.Core.Services
             if (recipe == null || recipe.UserId != userId)
                 return false;
 
-            recipesRepository.Remove(recipe);
+            recipe.Delete();
             await unitOfWork.CommitAsync();
             return true;
         }

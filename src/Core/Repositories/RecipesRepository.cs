@@ -21,16 +21,12 @@ namespace ChefsBook.Core.Repositories
             dbContext.Recipes.Add(recipe);
         }
 
-        public void Remove(Recipe recipe)
-        {
-            dbContext.Recipes.Remove(recipe);
-        }
-
         public Task<List<Recipe>> AllAsync()
         {
             return dbContext.Recipes
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
+                .Where(r => !r.IsDeleted)
                 .ToListAsync();
         }
 
@@ -39,7 +35,7 @@ namespace ChefsBook.Core.Repositories
             return dbContext.Recipes
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
-                .Where(r => r.UserId == userId)
+                .Where(r => !r.IsDeleted && r.UserId == userId)
                 .ToListAsync();
         }
 
@@ -49,7 +45,8 @@ namespace ChefsBook.Core.Repositories
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
                 .Where(r =>
-                    ((userId == null || r.UserId == userId) &&   
+                    (!r.IsDeleted &&
+                     (userId == null || r.UserId == userId) &&   
                      (text == null || 
                       text.Length == 0 || 
                       r.Title.ToLower().Contains(text.ToLower()) ||
@@ -67,7 +64,7 @@ namespace ChefsBook.Core.Repositories
                 .Include(r => r.Steps)
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
-                .FirstOrDefaultAsync(r => r.RecipeId == recipeId);
+                .FirstOrDefaultAsync(r => !r.IsDeleted && r.RecipeId == recipeId);
         }
     }
 }
