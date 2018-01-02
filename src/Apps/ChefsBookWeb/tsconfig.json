@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "rootDir": "js",
+    "outDir": "dist",
+    "jsx": "react",
+    "target": "es6",
+    "module": "es2015",
+    "moduleResolution": "node",
+
+    "sourceMap": true,
+    "removeComments": true,
+    "noImplicitAny": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
