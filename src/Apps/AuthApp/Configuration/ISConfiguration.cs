@@ -33,7 +33,9 @@ namespace ChefsBook.AuthApp.Configuration
                         StandardScopes.Profile,
                         StandardScopes.Email,
                         AuthConsts.ChefsBookManagementApiScope
-                    }
+                    },
+                    
+                    AllowedCorsOrigins = new List<string> { "http://localhost:8080" }
                 }
             };
         }
