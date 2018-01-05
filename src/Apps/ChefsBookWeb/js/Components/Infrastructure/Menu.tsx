@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { signOut } from "../../Actions/Account";
 import { ActionExitToApp } from "material-ui/svg-icons";
 import { RouteComponentProps } from "react-router";
+import { UserProfile } from "../Account/UserProfile";
 
 interface MenuDispatchProps {
     readonly signOut: () => void;
@@ -37,16 +38,14 @@ class MenuDisplay extends React.Component<MenuProps, MenuState> {
         return <div>
             <Drawer open={this.state.isOpen}>
                 <AppBar onLeftIconButtonClick={this.toggleMenu} />
-
                 <MenuItem onClick={this.props.signOut} insetChildren leftIcon={<ActionExitToApp />}>Sign out</MenuItem>
-
-                {/* <LanguageSelector /> */}
             </Drawer>
 
             <AppBar
                 title={"ChefsBook"}
                 style={{ zIndex: 100000 }}
                 onLeftIconButtonClick={this.toggleMenu}>
+                <UserProfile />
             </AppBar>
 
             <div style={{ paddingLeft: this.state.isOpen ? 256 : 0, width: "100%", boxSizing: "border-box" }}>

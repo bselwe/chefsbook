@@ -1,6 +1,7 @@
 import { createAction, handleAction, Action } from "redux-actions";
-import { createAsyncAction, StartTask, EndTask } from "./Infrastructure/AsyncActions";
-import { loginManager } from "../Infrastructure/LoginManager";
+import { createAsyncAction, StartTask, EndTask } from "./AsyncActions";
+import { loginManager } from "../Services/LoginManager";
+import { authClient } from "../Services/AuthClient";
 
 export const TrySignInWithGoogle = createAsyncAction<AppState, boolean, string>(
     "ACCOUNT/SIGN_IN_WITH_GOOGLE",
@@ -36,15 +37,26 @@ export const TrySignInWithGoogle = createAsyncAction<AppState, boolean, string>(
     }
 );
 
+export const FetchUserInfo = createAsyncAction("ACCOUNT/FETCH_USER_INFO",
+    authClient.fetchUserInfo,
+    (state: AppState, action): AppState => {
+        if (action.payload && action.payload.IsSuccess) {
+            return {
+                ...state,
+                user: action.payload.Response
+            };
+        }
+        return state;
+    }, s => s, s => s);
+
+export const trySignInWithGoogle = TrySignInWithGoogle.action;
+export const fetchUserInfo = FetchUserInfo.action;
+export const signOut = createAction("ACCOUNT/SIGN_OUT");
 const setSignedIn = createAction<boolean>("ACCOUNT/INTERNAL_SET_SIGNED_IN");
 
 loginManager.onChange(() => {
     setSignedIn(loginManager.isSigned);
 });
-
-export const signOut = createAction("ACCOUNT/SIGN_OUT");
-
-export const trySignInWithGoogle = TrySignInWithGoogle.action;
 
 export const accountReducers: ReduxActions.ReducerMap<AppState, any> = {
     [signOut.toString()](state: AppState): AppState {
@@ -61,5 +73,6 @@ export const accountReducers: ReduxActions.ReducerMap<AppState, any> = {
             isSigned: !!payload.payload
         };
     },
-    ...TrySignInWithGoogle.reducers
+    ...TrySignInWithGoogle.reducers,
+    ...FetchUserInfo.reducers
 };

@@ -18,9 +18,7 @@ namespace ChefsBook.AuthApp.Controllers
     {
         private readonly IAccountService accountService;
 
-        public AccountController(
-            IAccountService accountService
-        )
+        public AccountController(IAccountService accountService)
         {
             this.accountService = accountService;
         }

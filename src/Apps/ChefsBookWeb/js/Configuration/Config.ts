@@ -8,7 +8,7 @@ interface Configuration {
 const config: Configuration = {
     authEndpoint: "https://localhost:5000",
     authSecret: "secret",
-    apiEndpoint: "https://localhost:5001/api",
+    apiEndpoint: "https://localhost:5001",
     googleClientId: "1070857886466-nsvmqiisg2kdvkko1sk2v9e8dnuefbtp.apps.googleusercontent.com"
 };
 

@@ -5,6 +5,8 @@ declare interface AsyncState {
 declare interface AccountState {
     readonly isSigned: boolean;
     readonly signInError?: string;
+
+    readonly user?: Models.UserInfoDTO;
 }
 
 declare interface AppState extends

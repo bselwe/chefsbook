@@ -11,9 +11,17 @@ import { AppContainer } from "react-hot-loader";
 import store from "./Store/StoreConfigurator";
 import { Provider } from "react-redux";
 
+const muiTheme = getMuiTheme({
+    palette: {
+        primary1Color: "#3D4B64",
+        primary2Color: "#3D4B64",
+        primary3Color: "#3D4B64"
+    }
+});
+
 const render = () => ReactDOM.render(
     <AppContainer>
-        <MuiThemeProvider>
+        <MuiThemeProvider muiTheme={muiTheme}>
             <RouterDOM.BrowserRouter>
                 <Provider store={store}>
                     <App />

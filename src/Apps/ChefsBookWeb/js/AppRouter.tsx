@@ -12,7 +12,7 @@ export class AppRouter extends React.Component {
         return <Authentication>
             <Menu>
                 <Router.Switch>
-                    <Router.Route path={routes.WelcomePage} component={WelcomePage} />
+                    <Router.Route path={routes.WelcomePage} exact component={WelcomePage} />
                     <Router.Route component={NotFoundPage} />
                 </Router.Switch>
             </Menu>

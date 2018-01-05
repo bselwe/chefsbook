@@ -1,10 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Card, CardTitle, CardText, TextField, CardActions, RaisedButton } from "material-ui";
-import { AsyncDispatch } from "../../Store/AsyncActions";
 import { trySignInWithGoogle } from "../../Actions/Account";
 import { GoogleLogin, GoogleSuccessResponse } from "react-google-login";
 import config from "../../Configuration/Config";
+import { Dispatch } from "redux";
 
 interface AuthenticationProps {
     children?: React.ReactNode;
@@ -36,7 +36,7 @@ export class Login extends React.Component<LoginProps> {
                 <form>
                     <Card containerStyle={{ textAlign: "center", padding: "2rem 0" }}>
                         <CardTitle
-                            title="Chefsbook Manager"
+                            title="ChefsBook Manager"
                             subtitle={this.props.signInError}
                             subtitleStyle={{ marginTop: "12px" }} />
 
@@ -61,7 +61,7 @@ const mapStateToProps = (state: AccountState, props: AuthenticationProps): Authe
     };
 };
 
-const mapDispatchToProps = (dispatch: any): AuthenticationDispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<any>): AuthenticationDispatchProps => {
     return {
         signIn: (accessToken: string) =>
             dispatch(trySignInWithGoogle(accessToken))
