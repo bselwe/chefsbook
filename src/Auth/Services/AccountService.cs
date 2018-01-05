@@ -53,12 +53,14 @@ namespace ChefsBook.Auth.Services
                 Email = googleUser.Email,
                 UserName = googleUser.Email,
                 FirstName = googleUser.FirstName,
-                LastName = googleUser.LastName
+                LastName = googleUser.LastName,
+                Photo = googleUser.Photo
             };
 
             var result = await userManager.CreateAsync(user);
             if (result.Succeeded)
             {
+                await userManager.AddClaimAsync(user, new Claim(KnownClaims.Role, KnownRoles.User));
                 await userManager.AddLoginAsync(user, new UserLoginInfo(
                     GoogleConsts.GrantType,
                     googleUser.Id,
