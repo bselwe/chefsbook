@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ChefsBook.WebApiApp
@@ -42,10 +43,15 @@ namespace ChefsBook.WebApiApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new RequireHttpsAttribute());
-            });
+            services.AddCors();
+
+            services
+                .AddMvc(options =>
+                    options.Filters.Add(new RequireHttpsAttribute())
+                )
+                .AddJsonOptions(options =>
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                );
             
             services.AddDbContext<CoreDbContext>(opts =>
                 opts.UseSqlServer(databaseConnStr, cfg =>
@@ -86,6 +92,7 @@ namespace ChefsBook.WebApiApp
                 });
                 
             app.UseAuthentication();
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
         }
 

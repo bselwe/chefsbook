@@ -6,6 +6,8 @@ import { WelcomePage } from "./Pages/WelcomePage";
 import { NotFoundPage } from "./Pages/NotFoundPage";
 import { Authentication } from "./Components/Infrastructure/Authentication";
 import { Menu } from "./Components/Infrastructure/Menu";
+import { Recipes } from "./Components/Recipes/Recipes";
+import { RecipeDetails } from "./Components/Recipes/RecipeDetails";
 
 export class AppRouter extends React.Component {
     render() {
@@ -13,6 +15,8 @@ export class AppRouter extends React.Component {
             <Menu>
                 <Router.Switch>
                     <Router.Route path={routes.WelcomePage} exact component={WelcomePage} />
+                    <Router.Route path={routes.RecipesList} render={props => <Recipes {...props} />} />
+                    <Router.Route path={routes.RecipeDetails} render={props => <RecipeDetails {...props} />} />
                     <Router.Route component={NotFoundPage} />
                 </Router.Switch>
             </Menu>

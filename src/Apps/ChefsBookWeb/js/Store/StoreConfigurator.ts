@@ -5,16 +5,20 @@ import { Provider } from "react-redux";
 import logger from "redux-logger";
 
 import { handleActions } from "redux-actions";
-import { loginManager } from "../Infrastructure/LoginManager";
+import { loginManager } from "../Services/LoginManager";
 import { accountReducers } from "../Actions/Account";
+import { recipesReducers } from "../Actions/Recipes";
 
 const reducers = {
-    ...accountReducers
+    ...accountReducers,
+    ...recipesReducers
 };
 
 const initialState: AppState = {
     tasksCount: 0,
-    isSigned: loginManager.isSigned
+    isSigned: loginManager.isSigned,
+    recipes: [],
+    recipesDetails: {}
 };
 
 const reducer = handleActions<AppState>(reducers, initialState);
