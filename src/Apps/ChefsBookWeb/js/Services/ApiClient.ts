@@ -17,9 +17,14 @@ class ApiClient extends HttpClient {
             `/api/recipes`, dto);
     }
 
-    public updateRecipe = (dto: Models.UpdateRecipeDTO) => {
+    public updateRecipe = (recipeId: string, dto: Models.UpdateRecipeDTO) => {
         return this.put<{}>(
-            `/api/recipes`, dto);
+            `/api/recipes/${recipeId}`, dto);
+    }
+
+    public deleteRecipe = (recipeId: string) => {
+        return this.delete<{}>(
+            `/api/recipes/${recipeId}`);
     }
 
     public fetchTags = () => {

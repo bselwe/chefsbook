@@ -3,7 +3,7 @@ import * as React from "react";
 import * as Router from "react-router";
 import { connect, Dispatch } from "react-redux";
 
-import { fetchRecipe } from "../../Actions/Recipes";
+import { fetchRecipe, deleteRecipe } from "../../Actions/Recipes";
 import { RecipeDetailsComponent } from "./RecipeDetailsComponent";
 
 export interface RecipeDetailsStateProps {
@@ -12,6 +12,8 @@ export interface RecipeDetailsStateProps {
 
 export interface RecipeDetailsDispatchProps {
     readonly fetchRecipe: () => void;
+    readonly deleteRecipe: () => void;
+    readonly navigateToEditRecipe: () => void;
     readonly goBack: () => void;
 }
 
@@ -31,6 +33,11 @@ const mapDispatchToProps = (dispatch: Dispatch<any>, props: RecipeDetailsProps):
 
     return {
         fetchRecipe: () => dispatch(fetchRecipe(recipeId)),
+        deleteRecipe: async () => {
+            await dispatch(deleteRecipe(recipeId));
+            props.history.replace(`/recipes`);
+        },
+        navigateToEditRecipe: () => props.history.push(`/recipes/edit/${recipeId}`),
         goBack: props.history.goBack
     };
 };

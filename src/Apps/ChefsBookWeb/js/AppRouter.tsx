@@ -9,6 +9,7 @@ import { Menu } from "./Components/Infrastructure/Menu";
 import { Recipes } from "./Components/Recipes/Recipes";
 import { RecipeDetails } from "./Components/Recipes/RecipeDetails";
 import { CreateRecipe } from "./Components/Recipes/CreateRecipe";
+import { EditRecipe } from "./Components/Recipes/EditRecipe";
 
 export class AppRouter extends React.Component {
     render() {
@@ -17,7 +18,8 @@ export class AppRouter extends React.Component {
                 <Router.Switch>
                     <Router.Route path={routes.WelcomePage} exact component={WelcomePage} />
                     <Router.Route path={routes.RecipesList} exact render={props => <Recipes {...props} />} />
-                    <Router.Route path={routes.CreateRecipe} render={props => <CreateRecipe {...props} />} />
+                    <Router.Route path={routes.CreateRecipe} exact render={props => <CreateRecipe {...props} />} />
+                    <Router.Route path={routes.EditRecipe} render={props => <EditRecipe {...props} />} />
                     <Router.Route path={routes.RecipeDetails} render={props => <RecipeDetails {...props} />} />
                     <Router.Route component={NotFoundPage} />
                 </Router.Switch>

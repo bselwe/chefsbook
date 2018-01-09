@@ -103,7 +103,7 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
     private setStep = (index: number, description: string, duration?: string) => {
         let steps = this.state.steps;
         let step = steps[index];
-        step.Duration = duration;
+        step.Duration = duration && duration.length > 0 ? duration : undefined;
         step.Description = description;
         this.setState({ steps });
     }
@@ -112,7 +112,7 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
         let tag: Tag = { Id: generate(), Name: this.state.tagName };
         let tags = this.state.tags;
         tags.push(tag);
-        this.setState({ tags, tagName: "" });
+        this.setState({ tags: tags, tagName: "" });
     }
 
     private removeTag = (index: number) => {
@@ -144,9 +144,8 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
             <TextField
                 floatingLabelText="Duration"
                 style={{ display: "block" }}
-                defaultValue={this.state.duration}
                 onChange={(_, duration) => this.setState({ duration })}>
-                <InputMask mask="99:99:99" maskChar=" " />
+                <InputMask mask="99:99:99" maskChar=" " defaultValue={this.state.duration} />
             </TextField>
             <NumberTextField
                 floatingLabelText="Servings"
@@ -162,7 +161,7 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
                     openOnFocus={true}
                     filter={AutoComplete.fuzzyFilter}
                     dataSource={this.props.tags.map(tag => tag.Name)}
-                    value={this.state.tagName}
+                    searchText={this.state.tagName}
                     onUpdateInput={tagName => this.setState({ tagName })} />
 
                 <div style={{ display: "inline-block", marginLeft: "1rem" }}>
@@ -195,16 +194,18 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
                 <tbody>
                     {
                         this.state.ingredients.map((ingredient, i) => <tr key={ingredient.Id}>
-                            <td>
+                            <td style={{ verticalAlign: "bottom" }}>
                                 <TextField
                                     id={`${ingredient.Id}-quantity`}
                                     value={ingredient.Quantity}
+                                    inputStyle={{ display: "table-cell", verticalAlign: "bottom" }}
                                     onChange={(_, quantity) => this.setIngredient(i, quantity, ingredient.Name)} />
                             </td>
                             <td>
                                 <TextField
                                     id={`${ingredient.Id}-name`}
                                     value={ingredient.Name}
+                                    multiLine
                                     onChange={(_, name) => this.setIngredient(i, ingredient.Quantity, name)} />
                             </td>
                             <td>
@@ -232,19 +233,19 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
                 <tbody>
                     {
                         this.state.steps.map((step, i) => <tr key={step.Id}>
-                            <td>
+                            <td style={{ verticalAlign: "bottom" }}>
                                 <TextField
                                     type="text"
                                     hintText="HH:MM:SS"
-                                    defaultValue={step.Duration}
                                     onChange={(_, duration) => this.setStep(i, step.Description, duration)}>
-                                    <InputMask mask="99:99:99" maskChar=" " />
+                                    <InputMask mask="99:99:99" maskChar=" " defaultValue={step.Duration} />
                                 </TextField>
                             </td>
                             <td>
                                 <TextField
                                     id={`${step.Id}-description`}
                                     value={step.Description}
+                                    multiLine
                                     onChange={(_, description) => this.setStep(i, description, step.Duration)} />
                             </td>
                             <td>
@@ -259,6 +260,14 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
                     </tr>
                 </tbody>
             </table>
+
+            <TextField
+                floatingLabelText="Notes"
+                hintText="Any notes?"
+                style={{ display: "block", marginTop: "3rem" }}
+                value={this.state.notes}
+                multiLine
+                onChange={(_, notes) => this.setState({ notes })} />
 
             <RaisedButton label="Save" primary style={{ marginTop: "3rem" }} onClick={this.saveRecipe} />
         </div>;

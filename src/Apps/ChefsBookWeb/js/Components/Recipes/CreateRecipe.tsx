@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>, props: CreateRecipeProps): 
             await dispatch(fetchRecipes());
             props.history.replace(`/recipes`);
         },
-        fetchTags: async () => await dispatch(fetchTags()),
+        fetchTags: () => dispatch(fetchTags()),
         goBack: props.history.goBack
     };
 };

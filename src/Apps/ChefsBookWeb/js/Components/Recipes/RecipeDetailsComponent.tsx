@@ -1,11 +1,10 @@
 import * as React from "react";
 import * as Router from "react-router";
 import * as routes from "../../Routes";
-import { Card, CardText, CardMedia, CardTitle, Divider, Toolbar, ToolbarGroup, IconButton, ToolbarTitle } from "material-ui";
+import { Card, CardText, CardMedia, CardTitle, Divider, Toolbar, ToolbarGroup, IconButton, ToolbarTitle, RaisedButton } from "material-ui";
 import { RecipeDetailsStateProps, RecipeDetailsDispatchProps } from "./RecipeDetails";
 import * as moment from "moment";
 import { NavigationArrowBack } from "material-ui/svg-icons";
-import { RaisedButton } from "material-ui/RaisedButton";
 
 type RecipeDetailsComponentProps = RecipeDetailsStateProps & RecipeDetailsDispatchProps;
 
@@ -26,7 +25,8 @@ export class RecipeDetailsComponent extends React.Component<RecipeDetailsCompone
                     <ToolbarTitle text={`${servings}${separator}${duration}`} style={{ fontSize: "1rem" }} />
                 </ToolbarGroup>
                 <ToolbarGroup>
-                    <RaisedButton />
+                    <RaisedButton label="Edit" primary onClick={this.props.navigateToEditRecipe} style={{ marginRight: 0 }} />
+                    <RaisedButton label="Delete" secondary onClick={this.props.deleteRecipe} />
                     <IconButton tooltip={"Back"} onClick={this.props.goBack}>
                         <NavigationArrowBack />
                     </IconButton>

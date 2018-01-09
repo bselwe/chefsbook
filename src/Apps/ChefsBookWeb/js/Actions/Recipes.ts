@@ -32,16 +32,20 @@ const FetchRecipe = createAsyncAction("RECIPE/FETCH", apiClient.fetchRecipe,
 
 const CreateRecipe = createAsyncAction<AppState, Models.ApiResponse<{}, {}>, Models.NewRecipeDTO>("RECIPE/CREATE", apiClient.createRecipe);
 
-const UpdateRecipe = createAsyncAction<AppState, Models.ApiResponse<{}, {}>, Models.UpdateRecipeDTO>("RECIPE/UPDATE", apiClient.createRecipe);
+const UpdateRecipe = createAsyncAction<AppState, Models.ApiResponse<{}, {}>, string, Models.UpdateRecipeDTO>("RECIPE/UPDATE", apiClient.updateRecipe);
+
+const DeleteRecipe = createAsyncAction<AppState, Models.ApiResponse<{}, {}>, string>("RECIPE/DELETE", apiClient.deleteRecipe);
 
 export const fetchRecipes = FetchRecipes.action;
 export const fetchRecipe = FetchRecipe.action;
 export const createRecipe = CreateRecipe.action;
 export const updateRecipe = UpdateRecipe.action;
+export const deleteRecipe = DeleteRecipe.action;
 
 export const recipesReducers = {
     ...FetchRecipes.reducers,
     ...FetchRecipe.reducers,
     ...CreateRecipe.reducers,
-    ...UpdateRecipe.reducers
+    ...UpdateRecipe.reducers,
+    ...DeleteRecipe.reducers
 };
