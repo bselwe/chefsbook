@@ -22,6 +22,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Serialization;
 
 namespace ChefsBook.AuthApp
 {
@@ -49,10 +50,15 @@ namespace ChefsBook.AuthApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new RequireHttpsAttribute());
-            });
+            services.AddCors();
+            
+            services
+                .AddMvc(options =>
+                    options.Filters.Add(new RequireHttpsAttribute())
+                )
+                .AddJsonOptions(options =>
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                );
 
             services.AddDbContext<AuthDbContext>(opts =>
                 opts.UseSqlServer(databaseConnStr, cfg =>
@@ -79,6 +85,7 @@ namespace ChefsBook.AuthApp
 
             app.UseIdentityServer();
             app.UseAuthentication();
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
         }
 

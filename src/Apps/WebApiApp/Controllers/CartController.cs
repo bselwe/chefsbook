@@ -55,7 +55,7 @@ namespace ChefsBook.WebApiApp.Controllers
         }
 
         [HttpGet]
-        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<CartItemDTO>))]
+        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<IngredientDTO>))]
         public async Task<IActionResult> GetCart()
         {
             var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));

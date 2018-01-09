@@ -18,9 +18,7 @@ namespace ChefsBook.AuthApp.Controllers
     {
         private readonly IAccountService accountService;
 
-        public AccountController(
-            IAccountService accountService
-        )
+        public AccountController(IAccountService accountService)
         {
             this.accountService = accountService;
         }
@@ -35,7 +33,8 @@ namespace ChefsBook.AuthApp.Controllers
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email
+                Email = user.Email,
+                Photo = user.Photo
             };
 
             return Ok(userInfo);
