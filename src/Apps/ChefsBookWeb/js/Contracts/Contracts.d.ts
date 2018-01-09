@@ -88,6 +88,11 @@ declare module Models {
         Name: string;
     }
 
+    interface FilterRecipeDTO {
+        Text: string;
+        Tags: string[];
+    }
+
     interface ResponseSuccess<TResponse> {
         IsSuccess: true;
         StatusCode: number;

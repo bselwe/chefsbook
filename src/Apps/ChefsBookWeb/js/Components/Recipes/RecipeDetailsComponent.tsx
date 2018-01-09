@@ -25,8 +25,8 @@ export class RecipeDetailsComponent extends React.Component<RecipeDetailsCompone
                     <ToolbarTitle text={`${servings}${separator}${duration}`} style={{ fontSize: "1rem" }} />
                 </ToolbarGroup>
                 <ToolbarGroup>
-                    <RaisedButton label="Edit" primary onClick={this.props.navigateToEditRecipe} style={{ marginRight: 0 }} />
-                    <RaisedButton label="Delete" secondary onClick={this.props.deleteRecipe} />
+                    <RaisedButton label="Delete" secondary onClick={this.props.deleteRecipe} style={{ marginRight: "0.5rem" }} />
+                    <RaisedButton label="Edit" primary onClick={this.props.navigateToEditRecipe} style={{ marginLeft: 0 }} />
                     <IconButton tooltip={"Back"} onClick={this.props.goBack}>
                         <NavigationArrowBack />
                     </IconButton>

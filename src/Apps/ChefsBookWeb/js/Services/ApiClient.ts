@@ -7,6 +7,11 @@ class ApiClient extends HttpClient {
             `/api/recipes`);
     }
 
+    public filterRecipes = (dto: Models.FilterRecipeDTO) => {
+        return this.post<Models.RecipeDTO[]>(
+            `/api/recipes/filter`, dto);
+    }
+
     public fetchRecipe = (recipeId: string) => {
         return this.get<Models.RecipeDetailsDTO>(
             `/api/recipes/${recipeId}`);
