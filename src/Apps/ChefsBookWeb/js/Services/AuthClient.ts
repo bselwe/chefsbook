@@ -4,8 +4,7 @@ import { HttpClient } from "./HttpClient";
 class AuthClient extends HttpClient {
     public fetchUserInfo = () => {
         return this.get<Models.UserInfoDTO>(
-            `/api/account`
-        );
+            `/api/account`);
     }
 }
 

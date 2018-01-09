@@ -14,40 +14,40 @@ export type OnRejected<TState> = ActionCreator<TState, Action<RejectionParams>>;
 
 type AsyncAction<TState, TPayload, TActionFunction> = { action: TActionFunction, reducers: ReducerMap<TState, any>; };
 
-export function createAsyncAction<TState, TPayload>(
+export function createAsyncAction<TState extends AsyncState, TPayload>(
     actionType: string,
     payloadCreator: () => Promise<TPayload>,
-    onFulfilled: OnFulfilled<TState, TPayload>,
+    onFulfilled?: OnFulfilled<TState, TPayload>,
     onStart?: OnStart<TState>,
     onRejected?: OnRejected<TState>): AsyncAction<TState, TPayload, F0<TPayload>>;
 
-export function createAsyncAction<TState, TPayload, TParam1>(
+export function createAsyncAction<TState extends AsyncState, TPayload, TParam1>(
     actionType: string,
     payloadCreator: (param1: TParam1) => Promise<TPayload>,
-    onFulfilled: OnFulfilled<TState, TPayload>,
+    onFulfilled?: OnFulfilled<TState, TPayload>,
     onStart?: OnStart<TState>,
     onRejected?: OnRejected<TState>): AsyncAction<TState, TPayload, F1<TPayload, TParam1>>;
 
-export function createAsyncAction<TState, TPayload, TParam1, TParam2>(
+export function createAsyncAction<TState extends AsyncState, TPayload, TParam1, TParam2>(
     actionType: string,
     payloadCreator: (param1: TParam1, param2: TParam2) => Promise<TPayload>,
-    onFulfilled: OnFulfilled<TState, TPayload>,
+    onFulfilled?: OnFulfilled<TState, TPayload>,
     onStart?: OnStart<TState>,
     onRejected?: OnRejected<TState>): AsyncAction<TState, TPayload, F2<TPayload, TParam1, TParam2>>;
 
-export function createAsyncAction<TState, TPayload, TParam1, TParam2, TParam3>(
+export function createAsyncAction<TState extends AsyncState, TPayload, TParam1, TParam2, TParam3>(
     actionType: string,
     payloadCreator: (param1: TParam1, param2: TParam2, param3: TParam3) => Promise<TPayload>,
-    onFulfilled: OnFulfilled<TState, TPayload>,
+    onFulfilled?: OnFulfilled<TState, TPayload>,
     onStart?: OnStart<TState>,
     onRejected?: OnRejected<TState>): AsyncAction<TState, TPayload, F3<TPayload, TParam1, TParam2, TParam3>>;
 
-export function createAsyncAction<TState, TPayload>(
+export function createAsyncAction<TState extends AsyncState, TPayload>(
     actionType: string,
     payloadCreator: (...args: any[]) => Promise<TPayload>,
-    onFulfilled: OnFulfilled<TState, TPayload>,
-    onStart: OnStart<TState> = state => state,
-    onRejected: OnRejected<TState> = state => state
+    onFulfilled: OnFulfilled<TState, TPayload> = state => HandleFulfilled(state),
+    onStart: OnStart<TState> = state => HandlePending(state),
+    onRejected: OnRejected<TState> = state => HandleRejection(state)
 ): AsyncAction<TState, TPayload, FAny<TPayload>> {
     return {
         action: createAction(actionType, payloadCreator),
@@ -56,6 +56,27 @@ export function createAsyncAction<TState, TPayload>(
             [actionType + "_FULFILLED"]: onFulfilled,
             [actionType + "_REJECTED"]: onRejected
         }
+    };
+}
+
+function HandleFulfilled<TState extends AsyncState>(state: TState)  {
+    return {
+        ...state as any,
+        ...EndTask(state)
+    };
+}
+
+function HandlePending<TState extends AsyncState>(state: TState)  {
+    return {
+        ...state as any,
+        ...StartTask(state)
+    };
+}
+
+function HandleRejection<TState extends AsyncState>(state: TState)  {
+    return {
+        ...state as any,
+        ...EndTask(state)
     };
 }
 

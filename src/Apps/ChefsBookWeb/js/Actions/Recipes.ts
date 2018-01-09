@@ -11,18 +11,6 @@ const FetchRecipes = createAsyncAction("RECIPES/FETCH", apiClient.fetchRecipes,
             };
         }
         return state;
-    },
-    (state: AppState): AppState => {
-        return {
-            ...state,
-            ...StartTask(state)
-        };
-    },
-    (state: AppState): AppState => {
-        return {
-            ...state,
-            ...EndTask(state)
-        };
     }
 );
 
@@ -39,25 +27,21 @@ const FetchRecipe = createAsyncAction("RECIPE/FETCH", apiClient.fetchRecipe,
             };
         }
         return state;
-    },
-    (state: AppState): AppState => {
-        return {
-            ...state,
-            ...StartTask(state)
-        };
-    },
-    (state: AppState): AppState => {
-        return {
-            ...state,
-            ...EndTask(state)
-        };
     }
 );
 
+const CreateRecipe = createAsyncAction<AppState, Models.ApiResponse<{}, {}>, Models.NewRecipeDTO>("RECIPE/CREATE", apiClient.createRecipe);
+
+const UpdateRecipe = createAsyncAction<AppState, Models.ApiResponse<{}, {}>, Models.UpdateRecipeDTO>("RECIPE/UPDATE", apiClient.createRecipe);
+
 export const fetchRecipes = FetchRecipes.action;
 export const fetchRecipe = FetchRecipe.action;
+export const createRecipe = CreateRecipe.action;
+export const updateRecipe = UpdateRecipe.action;
 
 export const recipesReducers = {
     ...FetchRecipes.reducers,
-    ...FetchRecipe.reducers
+    ...FetchRecipe.reducers,
+    ...CreateRecipe.reducers,
+    ...UpdateRecipe.reducers
 };

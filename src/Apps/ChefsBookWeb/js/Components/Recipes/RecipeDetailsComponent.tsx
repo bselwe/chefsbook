@@ -5,6 +5,7 @@ import { Card, CardText, CardMedia, CardTitle, Divider, Toolbar, ToolbarGroup, I
 import { RecipeDetailsStateProps, RecipeDetailsDispatchProps } from "./RecipeDetails";
 import * as moment from "moment";
 import { NavigationArrowBack } from "material-ui/svg-icons";
+import { RaisedButton } from "material-ui/RaisedButton";
 
 type RecipeDetailsComponentProps = RecipeDetailsStateProps & RecipeDetailsDispatchProps;
 
@@ -25,6 +26,7 @@ export class RecipeDetailsComponent extends React.Component<RecipeDetailsCompone
                     <ToolbarTitle text={`${servings}${separator}${duration}`} style={{ fontSize: "1rem" }} />
                 </ToolbarGroup>
                 <ToolbarGroup>
+                    <RaisedButton />
                     <IconButton tooltip={"Back"} onClick={this.props.goBack}>
                         <NavigationArrowBack />
                     </IconButton>
@@ -82,7 +84,7 @@ export class RecipeDetailsComponent extends React.Component<RecipeDetailsCompone
                             </tbody>
                         </table>}
                     </div>
-                    {recipe.Notes && <div>
+                    {recipe.Notes && recipe.Notes.length > 0 && <div>
                         <CardTitle title="Notes" />
                         <Divider style={{ marginBottom: "1rem" }}/>
                         {recipe.Notes}

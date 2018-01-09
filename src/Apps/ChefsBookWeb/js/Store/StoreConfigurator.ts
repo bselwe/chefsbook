@@ -8,17 +8,20 @@ import { handleActions } from "redux-actions";
 import { loginManager } from "../Services/LoginManager";
 import { accountReducers } from "../Actions/Account";
 import { recipesReducers } from "../Actions/Recipes";
+import { tagsReducers } from "../Actions/Tags";
 
 const reducers = {
     ...accountReducers,
-    ...recipesReducers
+    ...recipesReducers,
+    ...tagsReducers
 };
 
 const initialState: AppState = {
     tasksCount: 0,
     isSigned: loginManager.isSigned,
     recipes: [],
-    recipesDetails: {}
+    recipesDetails: {},
+    tags: []
 };
 
 const reducer = handleActions<AppState>(reducers, initialState);

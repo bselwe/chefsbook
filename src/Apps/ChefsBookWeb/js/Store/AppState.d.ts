@@ -14,6 +14,10 @@ declare interface RecipesState {
     readonly recipesDetails: { [recipeId: string]: Models.RecipeDetailsDTO };
 }
 
+declare interface TagsState {
+    readonly tags: Models.TagDTO[];
+}
+
 declare interface AppState extends
-    AsyncState, AccountState, RecipesState {
+    AsyncState, AccountState, RecipesState, TagsState {
 }

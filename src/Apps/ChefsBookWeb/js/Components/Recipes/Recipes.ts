@@ -12,7 +12,8 @@ export interface RecipesStateProps {
 
 export interface RecipesDispatchProps {
     readonly fetchRecipes: () => void;
-    readonly navigateToRecipe: (recipeId: string) => void;
+    readonly navigateToCreateRecipe: () => void;
+    readonly navigateToRecipeDetails: (recipeId: string) => void;
 }
 
 interface RecipesProps extends Router.RouteComponentProps<{}> {
@@ -27,7 +28,8 @@ const mapStateToProps = (state: AppState, props: RecipesProps): RecipesStateProp
 const mapDispatchToProps = (dispatch: Dispatch<any>, props: RecipesProps): RecipesDispatchProps => {
     return {
         fetchRecipes: () => dispatch(fetchRecipes()),
-        navigateToRecipe: (recipeId: string) => props.history.push(`/recipe/${recipeId}`)
+        navigateToCreateRecipe: () => props.history.push(`/recipes/new`),
+        navigateToRecipeDetails: (recipeId: string) => props.history.push(`/recipe/${recipeId}`)
     };
 };
 

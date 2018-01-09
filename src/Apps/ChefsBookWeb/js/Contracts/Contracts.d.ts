@@ -12,7 +12,7 @@ declare module Models {
         Description: string;
         Image: string;
         Duration?: string;
-        Servings?: string;
+        Servings?: number;
         Notes: string;
         Tags: TagDTO[];
     }
@@ -20,10 +20,6 @@ declare module Models {
     interface RecipeDetailsDTO extends RecipeDTO {
         Ingredients: IngredientDTO[];
         Steps: StepDTO[];
-    }
-
-    interface TagDTO {
-        Name: string;
     }
 
     interface IngredientDTO {
@@ -34,6 +30,62 @@ declare module Models {
     interface StepDTO {
         Duration?: string;
         Description: string;
+    }
+
+    interface TagDTO {
+        Name: string;
+    }
+
+    interface NewRecipeDTO {
+        Title: string;
+        Description: string;
+        Image: string;
+        Duration?: string;
+        Servings?: number;
+        Notes: string;
+        Ingredients: NewRecipeIngredientDTO[];
+        Steps: NewRecipeStepDTO[];
+        Tags: NewRecipeTagDTO[];
+    }
+
+    interface NewRecipeIngredientDTO {
+        Name: string;
+        Quantity: string;
+    }
+
+    interface NewRecipeStepDTO {
+        Duration?: string;
+        Description: string;
+    }
+
+    interface NewRecipeTagDTO {
+        Name: string;
+    }
+
+    interface UpdateRecipeDTO {
+        Title: string;
+        Description: string;
+        Image: string;
+        Duration?: string;
+        Servings?: number;
+        Notes: string;
+        Ingredients: UpdateRecipeIngredientDTO[];
+        Steps: UpdateRecipeStepDTO[];
+        Tags: UpdateRecipeTagDTO[];
+    }
+
+    interface UpdateRecipeIngredientDTO {
+        Name: string;
+        Quantity: string;
+    }
+
+    interface UpdateRecipeStepDTO {
+        Duration?: string;
+        Description: string;
+    }
+
+    interface UpdateRecipeTagDTO {
+        Name: string;
     }
 
     interface ResponseSuccess<TResponse> {
