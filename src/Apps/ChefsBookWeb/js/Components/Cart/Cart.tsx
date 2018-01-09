@@ -30,7 +30,7 @@ export class CartComponent extends React.Component<CartComponentProps> {
                     <ToolbarTitle text="Cart" />
                 </ToolbarGroup>
                 <ToolbarGroup>
-                    <RaisedButton label="Delete cart" secondary onClick={this.props.deleteCart} style={{ margin: 0 }} />
+                    <RaisedButton label="Clear cart" secondary onClick={this.props.deleteCart} style={{ margin: 0 }} />
                 </ToolbarGroup>
             </Toolbar>
 
