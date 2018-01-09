@@ -5,7 +5,7 @@ import * as routes from "../../Routes";
 import { MenuItem, AppBar, Drawer, MenuItemProps } from "material-ui";
 import { connect } from "react-redux";
 import { signOut } from "../../Actions/Account";
-import { ActionExitToApp, MapsRestaurant } from "material-ui/svg-icons";
+import { ActionExitToApp, MapsRestaurant, ActionShoppingBasket } from "material-ui/svg-icons";
 import { RouteComponentProps } from "react-router";
 import { UserProfile } from "../Account/UserProfile";
 
@@ -40,6 +40,7 @@ class MenuDisplay extends React.Component<MenuProps, MenuState> {
                 <AppBar onLeftIconButtonClick={this.toggleMenu} />
 
                 <MenuLink to={routes.RecipesList} primaryText={"Recipes"} leftIcon={<MapsRestaurant />} />
+                <MenuLink to={routes.Cart} primaryText={"Cart"} leftIcon={<ActionShoppingBasket />} />
                 <MenuItem onClick={this.props.signOut} insetChildren leftIcon={<ActionExitToApp />}>Sign out</MenuItem>
             </Drawer>
 

@@ -18,6 +18,10 @@ declare interface TagsState {
     readonly tags: Models.TagDTO[];
 }
 
+declare interface CartState {
+    readonly cart: Models.IngredientDTO[];
+}
+
 declare interface AppState extends
-    AsyncState, AccountState, RecipesState, TagsState {
+    AsyncState, AccountState, RecipesState, TagsState, CartState {
 }

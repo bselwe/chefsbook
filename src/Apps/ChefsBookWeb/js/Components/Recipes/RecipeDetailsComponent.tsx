@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as Router from "react-router";
 import * as routes from "../../Routes";
-import { Card, CardText, CardMedia, CardTitle, Divider, Toolbar, ToolbarGroup, IconButton, ToolbarTitle, RaisedButton } from "material-ui";
+import { Card, CardText, CardMedia, CardTitle, Divider, Toolbar, ToolbarGroup, IconButton, ToolbarTitle, RaisedButton, FlatButton } from "material-ui";
 import { RecipeDetailsStateProps, RecipeDetailsDispatchProps } from "./RecipeDetails";
 import * as moment from "moment";
-import { NavigationArrowBack } from "material-ui/svg-icons";
+import { NavigationArrowBack, ActionShoppingBasket } from "material-ui/svg-icons";
 
 type RecipeDetailsComponentProps = RecipeDetailsStateProps & RecipeDetailsDispatchProps;
 
@@ -39,10 +39,18 @@ export class RecipeDetailsComponent extends React.Component<RecipeDetailsCompone
                 style={{ height: 400, background: `url('${recipe.Image}') no-repeat center center`, backgroundSize: "100% auto" }}>
             </CardMedia>
 
-            {recipe.Tags && recipe.Tags.length > 0 ?
-            <CardText style={{ textAlign: "right", paddingBottom: 0 }}>
-                {"Tags: " + recipe.Tags.map(tag => tag.Name).join(", ")}
-            </CardText> : null}
+            <CardText className="clearfix" style={{ paddingBottom: "0.5rem" }}>
+                <div style={{ float: "left" }}>
+                    <FlatButton
+                        label="Add to cart"
+                        icon={<ActionShoppingBasket />}
+                        onClick={() => this.props.addToCart(recipe.Id)} />
+                </div>
+                {recipe.Tags && recipe.Tags.length > 0 &&
+                <div style={{ float: "right" }}>
+                    {"Tags: " + recipe.Tags.map(tag => tag.Name).join(", ")}
+                </div>}
+            </CardText>
 
             <CardText style={{ display: "flex", margin: "0 1rem" }}>
                 <div style={{ flex: "3 0", marginRight: "2rem" }}>

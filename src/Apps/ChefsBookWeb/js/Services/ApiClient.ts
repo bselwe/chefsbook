@@ -36,6 +36,21 @@ class ApiClient extends HttpClient {
         return this.get<Models.TagDTO[]>(
             `/api/tags`);
     }
+
+    public fetchCart = () => {
+        return this.get<Models.IngredientDTO[][]>(
+            `/api/cart`);
+    }
+
+    public addToCart = (recipeId: string) => {
+        return this.post<{}>(
+            `/api/cart/${recipeId}`);
+    }
+
+    public deleteCart = () => {
+        return this.delete<{}>(
+            `/api/cart`);
+    }
 }
 
 export const apiClient = new ApiClient(config.apiEndpoint);

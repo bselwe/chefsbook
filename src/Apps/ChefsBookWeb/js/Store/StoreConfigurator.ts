@@ -9,11 +9,13 @@ import { loginManager } from "../Services/LoginManager";
 import { accountReducers } from "../Actions/Account";
 import { recipesReducers } from "../Actions/Recipes";
 import { tagsReducers } from "../Actions/Tags";
+import { cartReducers } from "../Actions/Cart";
 
 const reducers = {
     ...accountReducers,
     ...recipesReducers,
-    ...tagsReducers
+    ...tagsReducers,
+    ...cartReducers
 };
 
 const initialState: AppState = {
@@ -21,7 +23,8 @@ const initialState: AppState = {
     isSigned: loginManager.isSigned,
     recipes: [],
     recipesDetails: {},
-    tags: []
+    tags: [],
+    cart: []
 };
 
 const reducer = handleActions<AppState>(reducers, initialState);

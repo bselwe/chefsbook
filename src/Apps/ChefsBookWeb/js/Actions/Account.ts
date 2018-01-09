@@ -67,7 +67,8 @@ export const accountReducers: ReduxActions.ReducerMap<AppState, any> = {
             isSigned: false,
             recipes: [],
             recipesDetails: {},
-            tags: []
+            tags: [],
+            cart: []
         };
     },
     [setSignedIn.toString()](state: AppState, payload: Action<boolean>): AppState {
