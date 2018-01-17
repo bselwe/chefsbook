@@ -39,9 +39,9 @@ namespace ChefsBook.Core.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Recipe>> FilterAsync(Guid userId, string text, IList<string> tags)
+        public Task<List<Recipe>> FilterAsync(Guid userId, string text, IList<string> tags)
         {
-            var xList = await dbContext.Recipes
+            return dbContext.Recipes
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
                 .Where(r =>
@@ -55,10 +55,6 @@ namespace ChefsBook.Core.Repositories
                       tags.Count == 0 || 
                       r.Tags.Select(t => t.Tag.Name.ToLower()).Intersect(tags.Select(t => t.ToLower())).Any())))
                 .ToListAsync();
-
-            return xList.ConvertAll( x => Recipe.Create(
-                        x.UserId, x.Title, x.Description, x.Image, x.Duration, x.Servings, x.Notes,
-                        x.Ingredients.OrderBy(i => i.SequenceNumber).ToList(), x.Steps.OrderBy(s => s.SequenceNumber).ToList()));
         }
 
         public async Task<Recipe> FindAsync(Guid recipeId)
