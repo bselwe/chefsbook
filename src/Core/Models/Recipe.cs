@@ -52,10 +52,20 @@ namespace ChefsBook.Core.Models
             };
 
             if (ingredients != null)
-                recipe.ingredients.AddRange(ingredients);
+            {
+                for (int i = 0; i < ingredients.Count; i++)
+                {
+                    recipe.ingredients.Add(Ingredient.Create(ingredients[i].Name, ingredients[i].Quantity, i));
+                }
+            }
 
             if (steps != null)
-                recipe.steps.AddRange(steps);
+            {
+                for (int i = 0; i < steps.Count; i++)
+                {
+                    recipe.steps.Add(Step.Create(steps[i].Duration, steps[i].Description, i));
+                }
+            }
 
             return recipe;
         }
@@ -80,10 +90,20 @@ namespace ChefsBook.Core.Models
             this.steps.Clear();
 
             if (ingredients != null)
-                this.ingredients.AddRange(ingredients);
+            {
+                for (int i = 0; i < ingredients.Count; i++)
+                {
+                    this.ingredients.Add(Ingredient.Create(ingredients[i].Name, ingredients[i].Quantity, i));
+                }
+            }
 
             if (steps != null)
-                this.steps.AddRange(steps);
+            {
+                for (int i = 0; i < steps.Count; i++)
+                {
+                    this.steps.Add(Step.Create(steps[i].Duration, steps[i].Description, i));
+                }
+            }
         }
 
         public void AddTags(IList<RecipeTag> tags)
