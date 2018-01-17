@@ -57,14 +57,18 @@ namespace ChefsBook.Core.Repositories
                 .ToListAsync();
         }
 
-        public Task<Recipe> FindAsync(Guid recipeId)
+        public async Task<Recipe> FindAsync(Guid recipeId)
         {
-            return dbContext.Recipes
+            var x = await dbContext.Recipes
                 .Include(r => r.Ingredients)
                 .Include(r => r.Steps)
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
                 .FirstOrDefaultAsync(r => !r.IsDeleted && r.RecipeId == recipeId);
+
+            return Recipe.Create(
+                    x.UserId, x.Title, x.Description, x.Image, x.Duration, x.Servings, x.Notes,
+                    x.Ingredients.OrderBy(i => i.SequenceNumber).ToList(), x.Steps.OrderBy(s => s.SequenceNumber).ToList());
         }
     }
 }
