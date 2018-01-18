@@ -27,11 +27,11 @@ namespace ChefsBook.WebApiApp.Tests
         {
             // Arrange
             var recipesService = Substitute.For<IRecipesService>();
-            recipesService.AllAsync().Returns(new List<Recipe>());
+            recipesService.AllPublicAsync().Returns(new List<Recipe>());
             var controller = new RecipesController(recipesService, AutoMapper.Mapper.Instance);
 
             // Act
-            var result = await controller.GetRecipes();
+            var result = await controller.GetUserPublicRecipes(Guid.NewGuid());
 
             // Assert
             Assert.True(result.GetType().IsAssignableFrom(typeof(OkObjectResult)));
@@ -44,11 +44,11 @@ namespace ChefsBook.WebApiApp.Tests
             // Arrange
             var testRecipes = GenerateRecipes();
             var recipesService = Substitute.For<IRecipesService>();
-            recipesService.AllAsync().Returns(testRecipes);
+            recipesService.AllPublicAsync().Returns(testRecipes);
             var controller = new RecipesController(recipesService, AutoMapper.Mapper.Instance);
 
             // Act
-            var result = await controller.GetRecipes();
+            var result = await controller.GetUserPublicRecipes(Guid.NewGuid());
 
             // Assert
             Assert.True(result.GetType().IsAssignableFrom(typeof(OkObjectResult)));
@@ -91,7 +91,7 @@ namespace ChefsBook.WebApiApp.Tests
             // Arrange
             var recipesService = Substitute.For<IRecipesService>();
             recipesService
-                .CreateAsync(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
+                .CreateAsync(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
                 .Returns(Task.CompletedTask);
             var controller = new RecipesController(recipesService, AutoMapper.Mapper.Instance);
             var recipe = new NewRecipeDTO { 
@@ -119,7 +119,7 @@ namespace ChefsBook.WebApiApp.Tests
             // Arrange
             var recipesService = Substitute.For<IRecipesService>();
             recipesService
-                .CreateAsync(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
+                .CreateAsync(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan?>(), Arg.Any<int?>(), Arg.Any<string>(), Arg.Any<IList<Ingredient>>(), Arg.Any<IList<Step>>(), Arg.Any<IList<Tag>>())
                 .Returns(Task.CompletedTask);
             var controller = new RecipesController(recipesService, AutoMapper.Mapper.Instance);
             var recipe = new NewRecipeDTO();
@@ -138,6 +138,7 @@ namespace ChefsBook.WebApiApp.Tests
                 Recipe.Create(
                     Guid.NewGuid(),
                     "Naleśniki", 
+                    true,
                     "Naleśniki z serem", 
                     null,
                     TimeSpan.FromMinutes(30), 
@@ -148,7 +149,8 @@ namespace ChefsBook.WebApiApp.Tests
                 ),
                 Recipe.Create(
                     Guid.NewGuid(),
-                    "Jajecznica", 
+                    "Jajecznica",
+                    true, 
                     null,
                     null, 
                     null, 
@@ -160,6 +162,7 @@ namespace ChefsBook.WebApiApp.Tests
                 Recipe.Create(
                     Guid.NewGuid(),
                     "Spaghetti", 
+                    false,
                     "Spaghetti bolognese", 
                     null,
                     TimeSpan.FromMinutes(45), 

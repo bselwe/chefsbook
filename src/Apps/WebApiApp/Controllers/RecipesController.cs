@@ -6,7 +6,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using ChefsBook.Auth.Security;
-using ChefsBook.Core;
 using ChefsBook.Core.Contracts;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Services;
@@ -31,12 +30,28 @@ namespace ChefsBook.WebApiApp.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
-        [SwaggerResponse((int) HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
-        public async Task<IActionResult> GetRecipes()
+        [HttpGet("me")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
+        public async Task<IActionResult> GetUserRecipes()
         {
             var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
+
+            if (userId == null)
+                return NotFound();
+
             var recipes = await recipesService.AllByUserAsync(userId);
+            var mappedRecipes = mapper.Map<List<RecipeDTO>>(recipes);
+            return Ok(mappedRecipes);
+        }
+
+        [HttpGet("public/{userId}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
+        public async Task<IActionResult> GetUserPublicRecipes(Guid userId)
+        {
+            if (userId == null)
+                return NotFound();
+
+            var recipes = await recipesService.AllPublicByUserAsync(userId);
             var mappedRecipes = mapper.Map<List<RecipeDTO>>(recipes);
             return Ok(mappedRecipes);
         }
@@ -49,7 +64,7 @@ namespace ChefsBook.WebApiApp.Controllers
             var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
             var recipe = await recipesService.FindAsync(id);
 
-            if (recipe == null || recipe.UserId != userId)
+            if (recipe == null || (recipe.IsPrivate && recipe.UserId != userId))
                 return NotFound();
             
             var mappedRecipe = mapper.Map<RecipeDetailsDTO>(recipe);
@@ -61,12 +76,13 @@ namespace ChefsBook.WebApiApp.Controllers
         [SwaggerResponse((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> FilterRecipes([FromBody] FilterRecipeDTO filter)
         {
-            var userId = Guid.Parse(User.FindFirstValue(KnownClaims.UserId));
+            var recipes = new List<Recipe>();
 
-            if (string.IsNullOrEmpty(filter.Text) && filter.Tags == null)
-                return BadRequest();
-
-            var recipes = await recipesService.FilterAsync(userId, filter.Text, filter.Tags);
+            if (string.IsNullOrEmpty(filter.Text) && (filter.Tags == null || filter.Tags.Count == 0))
+                recipes = await recipesService.AllPublicAsync();
+            else
+                recipes = await recipesService.FilterAsync(filter.Text, filter.Tags);
+            
             var mappedRecipes = mapper.Map<List<RecipeDTO>>(recipes);
             return Ok(mappedRecipes);
         }
@@ -87,6 +103,7 @@ namespace ChefsBook.WebApiApp.Controllers
             await recipesService.CreateAsync(
                 userId,
                 recipe.Title,
+                recipe.IsPrivate,
                 recipe.Description,
                 recipe.Image,
                 recipe.Duration,
@@ -118,6 +135,7 @@ namespace ChefsBook.WebApiApp.Controllers
                 id,
                 userId,
                 recipe.Title,
+                recipe.IsPrivate,
                 recipe.Description,
                 recipe.Image,
                 recipe.Duration,

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChefsBook.Core.Models;
 using ChefsBook.Core.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChefsBook.Core.Services
 {
@@ -25,10 +24,10 @@ namespace ChefsBook.Core.Services
         }
 
         public async Task CreateAsync(
-            Guid userId, string title, string description, string image, TimeSpan? duration, int? servings, string notes,
+            Guid userId, string title, bool isPrivate, string description, string image, TimeSpan? duration, int? servings, string notes,
             IList<Ingredient> ingredients, IList<Step> steps, IList<Tag> tags)
         {
-            var recipe = Recipe.Create(userId, title, description, image, duration, servings, notes, ingredients, steps);
+            var recipe = Recipe.Create(userId, title, isPrivate, description, image, duration, servings, notes, ingredients, steps);
             var recipeTags = await CreateRecipeTags(recipe, tags);
             recipe.AddTags(recipeTags);
 
@@ -37,7 +36,7 @@ namespace ChefsBook.Core.Services
         }
 
         public async Task<bool> UpdateAsync(
-            Guid recipeId, Guid userId, string title, string description, string image, TimeSpan? duration, int? servings, string notes,
+            Guid recipeId, Guid userId, string title, bool isPrivate, string description, string image, TimeSpan? duration, int? servings, string notes,
             IList<Ingredient> ingredients, IList<Step> steps, IList<Tag> tags)
         {
             var recipe = await recipesRepository.FindAsync(recipeId);
@@ -45,7 +44,7 @@ namespace ChefsBook.Core.Services
                 return false;
 
             var recipeTags = await CreateRecipeTags(recipe, tags);
-            recipe.Update(title, description, image, duration, servings, notes, ingredients, steps);
+            recipe.Update(title, isPrivate, description, image, duration, servings, notes, ingredients, steps);
             recipe.UpdateTags(recipeTags);
             
             await unitOfWork.CommitAsync();
@@ -63,19 +62,24 @@ namespace ChefsBook.Core.Services
             return true;
         }
 
-        public Task<List<Recipe>> AllAsync()
+        public Task<List<Recipe>> AllPublicAsync()
         {
-            return recipesRepository.AllAsync();
+            return recipesRepository.AllPublicAsync();
         }
 
+        public Task<List<Recipe>> AllPublicByUserAsync(Guid userId)
+        {
+            return recipesRepository.AllPublicByUserAsync(userId);
+        }
+        
         public Task<List<Recipe>> AllByUserAsync(Guid userId)
         {
             return recipesRepository.AllByUserAsync(userId);
         }
 
-        public Task<List<Recipe>> FilterAsync(Guid userId, string text, IList<string> tags)
+        public Task<List<Recipe>> FilterAsync(string text, IList<string> tags)
         {
-           return recipesRepository.FilterAsync(userId, text, tags);
+           return recipesRepository.FilterAsync(text, tags);
         }
 
         public Task<Recipe> FindAsync(Guid recipeId)

@@ -13,6 +13,7 @@ namespace ChefsBook.Core.Models
         public Guid RecipeId { get; private set; }
         public Guid UserId { get; private set; }
         public string Title { get; private set; }
+        public bool IsPrivate { get; private set; }
         public string Description { get; private set; }
         public string Image { get; private set; }
         public TimeSpan? Duration { get; private set; }
@@ -26,7 +27,7 @@ namespace ChefsBook.Core.Models
         private Recipe() { }
 
         public static Recipe Create(
-            Guid userId, string title, string description, string image, TimeSpan? duration, int? servings, string notes, 
+            Guid userId, string title, bool isPrivate, string description, string image, TimeSpan? duration, int? servings, string notes, 
             IList<Ingredient> ingredients, IList<Step> steps)
         {
             if (userId == null)
@@ -44,6 +45,7 @@ namespace ChefsBook.Core.Models
                 RecipeId = Guid.NewGuid(),
                 UserId = userId,
                 Title = title,
+                IsPrivate = isPrivate,
                 Description = description,
                 Image = image,
                 Duration = duration,
@@ -71,7 +73,7 @@ namespace ChefsBook.Core.Models
         }
 
         public void Update(
-            string title, string description, string image, TimeSpan? duration, int? servings, string notes,
+            string title, bool isPrivate, string description, string image, TimeSpan? duration, int? servings, string notes,
             IList<Ingredient> ingredients, IList<Step> steps)
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -80,6 +82,7 @@ namespace ChefsBook.Core.Models
             }
 
             Title = title;
+            IsPrivate = isPrivate;
             Description = description;
             Image = image;
             Duration = duration;

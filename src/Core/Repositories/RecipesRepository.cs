@@ -21,12 +21,21 @@ namespace ChefsBook.Core.Repositories
             dbContext.Recipes.Add(recipe);
         }
 
-        public Task<List<Recipe>> AllAsync()
+        public Task<List<Recipe>> AllPublicAsync()
         {
             return dbContext.Recipes
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
-                .Where(r => !r.IsDeleted)
+                .Where(r => !r.IsDeleted && !r.IsPrivate)
+                .ToListAsync();
+        }
+
+        public Task<List<Recipe>> AllPublicByUserAsync(Guid userId)
+        {
+            return dbContext.Recipes
+                .Include(r => r.Tags)
+                .ThenInclude(t => t.Tag)
+                .Where(r => userId == r.UserId && !r.IsDeleted && !r.IsPrivate)
                 .ToListAsync();
         }
 
@@ -35,18 +44,18 @@ namespace ChefsBook.Core.Repositories
             return dbContext.Recipes
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
-                .Where(r => !r.IsDeleted && r.UserId == userId)
+                .Where(r => r.UserId == userId && !r.IsDeleted)
                 .ToListAsync();
         }
 
-        public Task<List<Recipe>> FilterAsync(Guid userId, string text, IList<string> tags)
+        public Task<List<Recipe>> FilterAsync(string text, IList<string> tags)
         {
             return dbContext.Recipes
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
                 .Where(r =>
                     (!r.IsDeleted &&
-                     (userId == null || r.UserId == userId) &&   
+                     !r.IsPrivate &&   
                      (text == null || 
                       text.Length == 0 || 
                       r.Title.ToLower().Contains(text.ToLower()) ||
@@ -67,7 +76,7 @@ namespace ChefsBook.Core.Repositories
                 .FirstOrDefaultAsync(r => !r.IsDeleted && r.RecipeId == recipeId);
 
             return Recipe.Create(
-                    x.UserId, x.Title, x.Description, x.Image, x.Duration, x.Servings, x.Notes,
+                    x.UserId, x.Title, x.IsPrivate, x.Description, x.Image, x.Duration, x.Servings, x.Notes,
                     x.Ingredients.OrderBy(i => i.SequenceNumber).ToList(), x.Steps.OrderBy(s => s.SequenceNumber).ToList());
         }
     }
