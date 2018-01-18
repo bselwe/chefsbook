@@ -7,6 +7,7 @@ namespace ChefsBook.Core.Contracts
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
+        public bool IsPrivate { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
         public TimeSpan? Duration { get; set; }
