@@ -30,6 +30,14 @@ namespace ChefsBook.Core.Models
             Guid userId, string title, bool isPrivate, string description, string image, TimeSpan? duration, int? servings, string notes, 
             IList<Ingredient> ingredients, IList<Step> steps)
         {
+            return Recipe.Create(Guid.NewGuid(), userId, title, isPrivate, description, image, duration, 
+                servings, notes, ingredients, steps);
+        }
+
+        public static Recipe Create(
+            Guid recipeId, Guid userId, string title, bool isPrivate, string description, string image, TimeSpan? duration, int? servings,
+            string notes, IList<Ingredient> ingredients, IList<Step> steps)
+        {
             if (userId == null)
             {
                 throw new ArgumentException("Recipe's user id cannot be null.");
@@ -42,7 +50,7 @@ namespace ChefsBook.Core.Models
 
             var recipe = new Recipe
             {
-                RecipeId = Guid.NewGuid(),
+                RecipeId = recipeId,
                 UserId = userId,
                 Title = title,
                 IsPrivate = isPrivate,

@@ -76,8 +76,8 @@ namespace ChefsBook.Core.Repositories
                 .FirstOrDefaultAsync(r => !r.IsDeleted && r.RecipeId == recipeId);
 
             return Recipe.Create(
-                    x.RecipeId, x.Title, x.IsPrivate, x.Description, x.Image, x.Duration, x.Servings, x.Notes,
-                    x.Ingredients.OrderBy(i => i.SequenceNumber).ToList(), x.Steps.OrderBy(s => s.SequenceNumber).ToList());
+                x.RecipeId, x.UserId, x.Title, x.IsPrivate, x.Description, x.Image, x.Duration, x.Servings, x.Notes,
+                x.Ingredients.OrderBy(i => i.SequenceNumber).ToList(), x.Steps.OrderBy(s => s.SequenceNumber).ToList());
         }
     }
 }
