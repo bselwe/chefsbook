@@ -31,6 +31,7 @@ namespace ChefsBook.AuthApp.Controllers
 
             var userInfo = new UserInfoDTO()
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
