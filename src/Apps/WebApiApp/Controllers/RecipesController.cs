@@ -44,7 +44,7 @@ namespace ChefsBook.WebApiApp.Controllers
             return Ok(mappedRecipes);
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("public/{userId}")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<RecipeDTO>))]
         public async Task<IActionResult> GetUserPublicRecipes(Guid userId)
         {
