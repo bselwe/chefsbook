@@ -6,6 +6,7 @@ namespace ChefsBook.Core.Contracts
     public class RecipeDTO
     {
         public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public string Title { get; set; }
         public bool IsPrivate { get; set; }
         public string Description { get; set; }
