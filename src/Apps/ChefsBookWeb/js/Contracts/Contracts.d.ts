@@ -1,5 +1,6 @@
 declare module Models {
     interface UserInfoDTO {
+        Id: string;
         FirstName: string;
         LastName: string;
         Email: string;
@@ -9,6 +10,7 @@ declare module Models {
     interface RecipeDTO {
         IsPrivate: boolean;
         Id: string;
+        UserId: string;
         Title: string;
         Description: string;
         Image: string;
