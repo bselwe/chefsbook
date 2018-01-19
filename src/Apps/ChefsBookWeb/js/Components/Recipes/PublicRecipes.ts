@@ -3,44 +3,40 @@ import * as React from "react";
 import * as Router from "react-router";
 import { connect, Dispatch } from "react-redux";
 
-import { fetchRecipes, filterRecipes } from "../../Actions/Recipes";
-import { RecipesComponent } from "./RecipesComponent";
+import { fetchUserRecipes, filterRecipes } from "../../Actions/Recipes";
+import { PublicRecipesComponent } from "./PublicRecipesComponent";
 import { fetchTags } from "../../Actions/Tags";
 
-export interface RecipesStateProps {
+export interface PublicRecipesStateProps {
     readonly recipes: Models.RecipeDTO[];
     readonly tags: Models.TagDTO[];
 }
 
-export interface RecipesDispatchProps {
-    readonly fetchRecipes: () => void;
+export interface PublicRecipesDispatchProps {
     readonly fetchTags: () => void;
     readonly filterRecipes: (text: string, tags: string[]) => void;
-    readonly navigateToCreateRecipe: () => void;
     readonly navigateToRecipeDetails: (recipeId: string) => void;
 }
 
-interface RecipesProps extends Router.RouteComponentProps<{}> {
+interface PublicRecipesProps extends Router.RouteComponentProps<{}> {
 }
 
-const mapStateToProps = (state: AppState, props: RecipesProps): RecipesStateProps => {
+const mapStateToProps = (state: AppState, props: PublicRecipesProps): PublicRecipesStateProps => {
     return {
         recipes: state.recipes,
         tags: state.tags
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>, props: RecipesProps): RecipesDispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<any>, props: PublicRecipesProps): PublicRecipesDispatchProps => {
     return {
-        fetchRecipes: () => dispatch(fetchRecipes()),
         fetchTags: () => dispatch(fetchTags()),
         filterRecipes: (text: string, tags: string[]) => dispatch(filterRecipes({ Text: text, Tags: tags })),
-        navigateToCreateRecipe: () => props.history.push(`/recipes/new`),
         navigateToRecipeDetails: (recipeId: string) => props.history.push(`/recipe/${recipeId}`)
     };
 };
 
-export const Recipes = connect(
+export const PublicRecipes = connect(
     mapStateToProps,
-    mapDispatchToProps as any as RecipesDispatchProps
-)(RecipesComponent);
+    mapDispatchToProps as any as PublicRecipesDispatchProps
+)(PublicRecipesComponent);

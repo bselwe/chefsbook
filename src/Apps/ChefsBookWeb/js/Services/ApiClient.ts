@@ -2,9 +2,9 @@ import config from "../Configuration/Config";
 import { HttpClient } from "./HttpClient";
 
 class ApiClient extends HttpClient {
-    public fetchRecipes = () => {
+    public fetchUserRecipes = () => {
         return this.get<Models.RecipeDTO[]>(
-            `/api/recipes`);
+            `/api/recipes/me`);
     }
 
     public filterRecipes = (dto: Models.FilterRecipeDTO) => {

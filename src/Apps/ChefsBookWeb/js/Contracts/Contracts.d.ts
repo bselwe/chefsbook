@@ -7,6 +7,7 @@ declare module Models {
     }
 
     interface RecipeDTO {
+        IsPrivate: boolean;
         Id: string;
         Title: string;
         Description: string;
@@ -37,6 +38,7 @@ declare module Models {
     }
 
     interface NewRecipeDTO {
+        IsPrivate: boolean;
         Title: string;
         Description: string;
         Image: string;
@@ -63,6 +65,7 @@ declare module Models {
     }
 
     interface UpdateRecipeDTO {
+        IsPrivate: boolean;
         Title: string;
         Description: string;
         Image: string;
