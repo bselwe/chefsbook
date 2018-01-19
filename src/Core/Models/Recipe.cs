@@ -34,7 +34,7 @@ namespace ChefsBook.Core.Models
                 servings, notes, ingredients, steps);
         }
 
-        public static Recipe Create(
+        private static Recipe Create(
             Guid recipeId, Guid userId, string title, bool isPrivate, string description, string image, TimeSpan? duration, int? servings,
             string notes, IList<Ingredient> ingredients, IList<Step> steps)
         {

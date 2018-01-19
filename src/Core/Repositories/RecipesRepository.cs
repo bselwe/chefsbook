@@ -68,16 +68,17 @@ namespace ChefsBook.Core.Repositories
 
         public async Task<Recipe> FindAsync(Guid recipeId)
         {
-            var x = await dbContext.Recipes
+            var recipe = await dbContext.Recipes
                 .Include(r => r.Ingredients)
                 .Include(r => r.Steps)
                 .Include(r => r.Tags)
                 .ThenInclude(t => t.Tag)
                 .FirstOrDefaultAsync(r => !r.IsDeleted && r.RecipeId == recipeId);
+            
+            recipe.Update(recipe.Title, recipe.IsPrivate, recipe.Description, recipe.Image, recipe.Duration, recipe.Servings, recipe.Notes,
+                recipe.Ingredients.OrderBy(i => i.SequenceNumber).ToList(), recipe.Steps.OrderBy(s => s.SequenceNumber).ToList());
 
-            return Recipe.Create(
-                x.RecipeId, x.UserId, x.Title, x.IsPrivate, x.Description, x.Image, x.Duration, x.Servings, x.Notes,
-                x.Ingredients.OrderBy(i => i.SequenceNumber).ToList(), x.Steps.OrderBy(s => s.SequenceNumber).ToList());
+            return recipe;
         }
     }
 }
