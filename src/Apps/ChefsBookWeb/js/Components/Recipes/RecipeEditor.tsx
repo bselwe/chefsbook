@@ -16,6 +16,7 @@ type Step = Models.UpdateRecipeStepDTO & { Id: string };
 type Tag = Models.UpdateRecipeTagDTO & { Id: string };
 
 interface RecipeEditorInfoState {
+    readonly isPrivate: boolean;
     readonly title: string;
     readonly description: string;
     readonly image: string;
@@ -39,6 +40,7 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
         super(props);
 
         this.state = {
+            isPrivate: props.recipe.IsPrivate,
             title: props.recipe.Title,
             description: props.recipe.Description,
             image: props.recipe.Image,
@@ -54,6 +56,7 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
 
     private saveRecipe = () => {
         let recipe: Models.UpdateRecipeDTO = {
+            IsPrivate: this.state.isPrivate,
             Title: this.state.title,
             Description: this.state.description,
             Image: this.state.image,
@@ -64,6 +67,8 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
             Steps: this.state.steps.map(step => ({ Duration: step.Duration, Description: step.Description })),
             Tags: this.state.tags.map(tag => ({ Name: tag.Name }))
         };
+
+        console.warn(recipe);
 
         this.props.saveRecipe(recipe);
     }
@@ -123,6 +128,12 @@ export class RecipeEditor extends React.Component<RecipeEditorInfoProps, RecipeE
 
     render() {
         return <div style={{ margin: "0 1rem" }}>
+            <Checkbox
+                label="Private recipe"
+                labelPosition="right"
+                checked={this.state.isPrivate}
+                onCheck={() => this.setState({ isPrivate: !this.state.isPrivate })}
+                style={{ margin: "1rem 0" }} />
             <TextField
                 floatingLabelText="Title*"
                 hintText="What's the name of your recipe?"

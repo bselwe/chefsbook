@@ -1,10 +1,11 @@
 import * as React from "react";
 import * as Router from "react-router";
+import * as routes from "../../Routes";
 
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { Card, Toolbar, ToolbarGroup, ToolbarTitle, CardHeader, CardText, IconButton } from "material-ui";
-import { createRecipe, fetchRecipes } from "../../Actions/Recipes";
+import { createRecipe, fetchUserRecipes } from "../../Actions/Recipes";
 import { NavigationArrowBack } from "material-ui/svg-icons";
 import { fetchTags } from "../../Actions/Tags";
 import { RecipeEditor } from "./RecipeEditor";
@@ -35,6 +36,7 @@ class CreateRecipeComponent extends React.Component<CreateRecipeComponentProps> 
 
     render() {
         let recipe: Models.NewRecipeDTO = {
+            IsPrivate: true,
             Title: "",
             Description: "",
             Image: "",
@@ -73,8 +75,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>, props: CreateRecipeProps): 
     return {
         createRecipe: async (recipe: Models.NewRecipeDTO) => {
             await dispatch(createRecipe(recipe));
-            await dispatch(fetchRecipes());
-            props.history.replace(`/recipes`);
+            await dispatch(fetchUserRecipes());
+            props.history.replace(routes.MyRecipes);
         },
         fetchTags: () => dispatch(fetchTags()),
         goBack: props.history.goBack

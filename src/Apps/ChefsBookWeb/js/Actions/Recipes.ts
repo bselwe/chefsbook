@@ -1,7 +1,7 @@
 import { createAsyncAction, StartTask, EndTask } from "./AsyncActions";
 import { apiClient } from "../Services/ApiClient";
 
-const FetchRecipes = createAsyncAction("RECIPES/FETCH", apiClient.fetchRecipes,
+const FetchUserRecipes = createAsyncAction("RECIPES/ME/FETCH", apiClient.fetchUserRecipes,
     (state: AppState, action): AppState => {
         if (action.payload && action.payload.IsSuccess) {
             return {
@@ -49,7 +49,7 @@ const UpdateRecipe = createAsyncAction<AppState, Models.ApiResponse<{}, {}>, str
 
 const DeleteRecipe = createAsyncAction<AppState, Models.ApiResponse<{}, {}>, string>("RECIPE/DELETE", apiClient.deleteRecipe);
 
-export const fetchRecipes = FetchRecipes.action;
+export const fetchUserRecipes = FetchUserRecipes.action;
 export const filterRecipes = FilterRecipes.action;
 export const fetchRecipe = FetchRecipe.action;
 export const createRecipe = CreateRecipe.action;
@@ -57,7 +57,7 @@ export const updateRecipe = UpdateRecipe.action;
 export const deleteRecipe = DeleteRecipe.action;
 
 export const recipesReducers = {
-    ...FetchRecipes.reducers,
+    ...FetchUserRecipes.reducers,
     ...FilterRecipes.reducers,
     ...FetchRecipe.reducers,
     ...CreateRecipe.reducers,
