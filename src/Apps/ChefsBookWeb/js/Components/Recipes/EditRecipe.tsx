@@ -4,7 +4,7 @@ import * as Router from "react-router";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { Card, Toolbar, ToolbarGroup, ToolbarTitle, CardHeader, CardText, IconButton, RefreshIndicator } from "material-ui";
-import { updateRecipe, fetchRecipes, fetchRecipe } from "../../Actions/Recipes";
+import { updateRecipe, fetchUserRecipes, fetchRecipe } from "../../Actions/Recipes";
 import { NavigationArrowBack } from "material-ui/svg-icons";
 import { fetchTags } from "../../Actions/Tags";
 import { RecipeEditor } from "./RecipeEditor";
@@ -38,6 +38,7 @@ class EditRecipeComponent extends React.Component<EditRecipeComponentProps> {
 
     private mapRecipe = (recipe: Models.RecipeDetailsDTO): Models.UpdateRecipeDTO => {
         return {
+            IsPrivate: recipe.IsPrivate,
             Title: recipe.Title,
             Description: recipe.Description,
             Image: recipe.Image,
@@ -88,7 +89,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>, props: EditRecipeProps): Ed
     return {
         updateRecipe: async (recipe: Models.NewRecipeDTO) => {
             await dispatch(updateRecipe(recipeId, recipe));
-            await dispatch(fetchRecipes());
+            await dispatch(fetchUserRecipes());
             props.history.goBack();
         },
         fetchRecipe: () => dispatch(fetchRecipe(recipeId)),

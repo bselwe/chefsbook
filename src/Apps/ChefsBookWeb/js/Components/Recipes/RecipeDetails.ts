@@ -1,8 +1,9 @@
 
 import * as React from "react";
 import * as Router from "react-router";
-import { connect, Dispatch } from "react-redux";
+import * as routes from "../../Routes";
 
+import { connect, Dispatch } from "react-redux";
 import { fetchRecipe, deleteRecipe } from "../../Actions/Recipes";
 import { RecipeDetailsComponent } from "./RecipeDetailsComponent";
 import { addToCart } from "../../Actions/Cart";
@@ -37,7 +38,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>, props: RecipeDetailsProps):
         fetchRecipe: () => dispatch(fetchRecipe(recipeId)),
         deleteRecipe: async () => {
             await dispatch(deleteRecipe(recipeId));
-            props.history.replace(`/recipes`);
+            props.history.replace(routes.MyRecipes);
         },
         addToCart: (recipeId: string) => dispatch(addToCart(recipeId)),
         navigateToEditRecipe: () => props.history.push(`/recipes/edit/${recipeId}`),

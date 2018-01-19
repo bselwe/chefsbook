@@ -1,5 +1,7 @@
 import * as React from "react";
 import { GridList, GridTile } from "material-ui";
+import { IconButton } from "material-ui/IconButton";
+import { ActionLock } from "material-ui/svg-icons";
 
 interface RecipesListProps {
     readonly recipes: Models.RecipeDTO[];
@@ -28,6 +30,7 @@ export class RecipesList extends React.Component<RecipesListProps> {
                         title={this.getRecipeTitle(recipe)}
                         subtitle={recipe.Description}
                         style={{ cursor: "pointer" }}
+                        actionIcon={recipe.IsPrivate ? <ActionLock color="white" style={{ marginRight: "1rem", paddingLeft: "1rem" }} /> : <div></div>}
                         onClick={(_) => this.props.navigateToRecipeDetails(recipe.Id)}>
                         <img src={recipe.Image} />
                     </GridTile>
