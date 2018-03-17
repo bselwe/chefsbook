@@ -5,15 +5,15 @@
     xmlns:local="using:ChefsBook_UWP_App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=AppVM}"
     mc:Ignorable="d">
 
     <Grid>
         <NavigationView 
-            Loaded="NavigationView_Loaded" 
+            x:Name="NavigationMenu"
             Margin="0,12,0,0" 
-            SelectionChanged="NavigationView_SelectionChanged"
-            x:Name="navigationMenu"
-            IsTabStop="False"
+            Loaded="NavigationMenu_Loaded" 
+            SelectionChanged="NavigationMenu_SelectionChanged"
             IsSettingsVisible="False" 
             AlwaysShowHeader="False">
             <NavigationView.HeaderTemplate>
@@ -31,11 +31,26 @@
                 <NavigationViewItemSeparator/>
                 <NavigationViewItem Content="Recipes" Tag="RecipeCollectionPage">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE7BC;" />
+                        <FontIcon Glyph="&#xE7BC;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Cart" Tag="CartPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7BF;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
-            <Frame x:Name="contentFrame" Navigating="OnNavigatingToPage">
+
+            <NavigationView.PaneFooter>
+                <NavigationViewItem Content="{Binding User.Name}">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE77B;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.PaneFooter>
+
+
+            <Frame x:Name="ContentFrame" Navigating="OnNavigatingToPage">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
                         <NavigationThemeTransition>

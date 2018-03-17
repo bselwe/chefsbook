@@ -1,6 +1,8 @@
-﻿using ChefsBook_UWP_App.Views;
+﻿using ChefsBook_UWP_App.Services.Models;
+using ChefsBook_UWP_App.ViewModels;
+using ChefsBook_UWP_App.Views;
+using Microsoft.Practices.ServiceLocation;
 using System;
-using System.Collections.Generic;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,6 +18,7 @@ namespace ChefsBook_UWP_App
     public sealed partial class AppRootPage : Page
     {
         private const string viewsNamespace = "ChefsBook_UWP_App.Views";
+        private AppViewModel ViewModel { get; set; } = ServiceLocator.Current.GetInstance<AppViewModel>();
 
         public AppRootPage()
         {
@@ -23,21 +26,29 @@ namespace ChefsBook_UWP_App
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
         }
 
-        public Frame AppFrame { get { return contentFrame; } }
-
-        private void NavigationView_Loaded(object sender, RoutedEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            AppFrame.Navigate(typeof(HomePage));
+            base.OnNavigatedTo(e);
+
+            if (e.Parameter == null)
+                return;
+
+            ViewModel.User = (UserViewModel)e.Parameter;
         }
 
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void NavigationMenu_Loaded(object sender, RoutedEventArgs e)
+        {
+            ContentFrame.Navigate(typeof(HomePage));
+        }
+
+        private void NavigationMenu_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (!args.IsSettingsSelected)
             {
                 var selectedItem = (NavigationViewItem)args.SelectedItem;
                 string pageName = viewsNamespace + "." + ((string)selectedItem.Tag);
                 Type pageType = Type.GetType(pageName);
-                AppFrame.Navigate(pageType);
+                ContentFrame.Navigate(pageType);
             }
         }
 
@@ -49,7 +60,7 @@ namespace ChefsBook_UWP_App
         {
             if (e.NavigationMode == NavigationMode.Back)
             {
-                foreach (var menuItemObject in navigationMenu.MenuItems)
+                foreach (var menuItemObject in NavigationMenu.MenuItems)
                 {
                     var menuItem = menuItemObject as NavigationViewItem;
 
@@ -60,7 +71,7 @@ namespace ChefsBook_UWP_App
                     Type pageType = Type.GetType(pageName);
                     if (pageType == e.SourcePageType)
                     {
-                        navigationMenu.SelectedItem = menuItemObject;
+                        NavigationMenu.SelectedItem = menuItemObject;
                         break;
                     }
                 }
@@ -78,13 +89,13 @@ namespace ChefsBook_UWP_App
 
         private void BackRequested(ref bool handled)
         {
-            if (AppFrame == null)
+            if (ContentFrame == null)
                 return;
 
-            if (AppFrame.CanGoBack && !handled)
+            if (ContentFrame.CanGoBack && !handled)
             {
                 handled = true;
-                AppFrame.GoBack();
+                ContentFrame.GoBack();
             }
         }
 

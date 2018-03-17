@@ -8,22 +8,23 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace ChefsBook.MigrationsApp.Migrations
+namespace ChefsBook.MigrationsApp.Migrations.CoreDb
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171217184256_AddUserIdToRecipe")]
+    partial class AddUserIdToRecipe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("core")
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("ChefsBook.Core.Models.Ingredient", b =>
                 {
-                    b.Property<Guid>("IngredientId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
@@ -32,7 +33,7 @@ namespace ChefsBook.MigrationsApp.Migrations
 
                     b.Property<Guid?>("RecipeId");
 
-                    b.HasKey("IngredientId");
+                    b.HasKey("Id");
 
                     b.HasIndex("RecipeId");
 
@@ -41,7 +42,7 @@ namespace ChefsBook.MigrationsApp.Migrations
 
             modelBuilder.Entity("ChefsBook.Core.Models.Recipe", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RecipeId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description")
@@ -60,7 +61,9 @@ namespace ChefsBook.MigrationsApp.Migrations
                     b.Property<string>("Title")
                         .HasMaxLength(200);
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("RecipeId");
 
                     b.ToTable("Recipes");
                 });
@@ -80,7 +83,7 @@ namespace ChefsBook.MigrationsApp.Migrations
 
             modelBuilder.Entity("ChefsBook.Core.Models.Step", b =>
                 {
-                    b.Property<Guid>("StepId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
@@ -89,7 +92,7 @@ namespace ChefsBook.MigrationsApp.Migrations
 
                     b.Property<Guid?>("RecipeId");
 
-                    b.HasKey("StepId");
+                    b.HasKey("Id");
 
                     b.HasIndex("RecipeId");
 

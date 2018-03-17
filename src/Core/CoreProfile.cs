@@ -9,8 +9,12 @@ namespace ChefsBook.Core
     {
         public CoreProfile()
         {
-            CreateMap<Recipe, RecipeDTO>();
-            CreateMap<Recipe, RecipeDetailsDTO>();
+            CreateMap<Recipe, RecipeDTO>()
+                .ForMember(dest => dest.Id, c => c.MapFrom(src => src.RecipeId));
+
+            CreateMap<Recipe, RecipeDetailsDTO>()
+                .ForMember(dest => dest.Id, c => c.MapFrom(src => src.RecipeId));
+
             CreateMap<Ingredient, IngredientDTO>();
             CreateMap<Step, StepDTO>();
             CreateMap<Tag, TagDTO>();

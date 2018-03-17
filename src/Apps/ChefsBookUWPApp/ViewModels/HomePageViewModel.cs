@@ -6,11 +6,11 @@ namespace ChefsBook_UWP_App.ViewModels
 {
     public class HomePageViewModel : ViewModelBase
     {
-        private readonly IRecipeApiService _recipeApiService;
+        private readonly IApiService _apiService;
 
-        public HomePageViewModel(IRecipeApiService recipeApiService)
+        public HomePageViewModel(IApiService apiService)
         {
-            _recipeApiService = recipeApiService;
+            _apiService = apiService;
         }
 
         private RelayCommand _loadSampleDataCommand;
@@ -22,7 +22,7 @@ namespace ChefsBook_UWP_App.ViewModels
                     ?? (_loadSampleDataCommand = new RelayCommand(
                     () =>
                     {
-                        _recipeApiService.LoadSampleData();
+                        _apiService.LoadSampleData();
                     }));
             }
         }

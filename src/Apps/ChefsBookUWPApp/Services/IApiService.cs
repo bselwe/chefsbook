@@ -1,12 +1,15 @@
-﻿using ChefsBook.Core.Contracts;
+﻿using ChefsBook.Auth.Contracts;
+using ChefsBook.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ChefsBook_UWP_App.Services
 {
-    public interface IRecipeApiService
+    public interface IApiService
     {
+        Task<UserInfoDTO> SignIn(string accessToken);
+
         Task LoadSampleData();
         Task<List<RecipeDTO>> GetAllRecipes();
         Task<RecipeDetailsDTO> GetRecipe(Guid id);
@@ -16,5 +19,9 @@ namespace ChefsBook_UWP_App.Services
 
         Task<List<TagDTO>> GetAllTags();
         Task<List<RecipeDetailsDTO>> FilterRecipes(FilterRecipeDTO filter);
+
+        Task<List<List<IngredientDTO>>> GetCart();
+        Task AddRecipeToCart(RecipeDetailsDTO recipe);
+        Task DeleteCart();
     }
 }

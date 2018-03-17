@@ -13,22 +13,28 @@ namespace ChefsBook_UWP_App.ViewModels
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                SimpleIoc.Default.Register<IRecipeApiService, FakeRecipeApiService>();
+                SimpleIoc.Default.Register<IApiService, FakeApiService>();
             }
             else
             {
-                SimpleIoc.Default.Register<IRecipeApiService, RecipeApiService>();
+                SimpleIoc.Default.Register<IApiService, ApiService>();
             }
 
             SimpleIoc.Default.Register<HomePageViewModel>();
             SimpleIoc.Default.Register<RecipeCollectionPageViewModel>();
             SimpleIoc.Default.Register<RecipeDetailsPageViewModel>();
             SimpleIoc.Default.Register<EditRecipePageViewModel>();
+            SimpleIoc.Default.Register<SignInPageViewModel>();
+            SimpleIoc.Default.Register<AppViewModel>();
+            SimpleIoc.Default.Register<CartPageViewModel>();
         }
 
         public HomePageViewModel HomePageVM => ServiceLocator.Current.GetInstance<HomePageViewModel>();
         public RecipeCollectionPageViewModel RecipeCollectionPageVM => ServiceLocator.Current.GetInstance<RecipeCollectionPageViewModel>();
         public RecipeDetailsPageViewModel RecipeDetailsPageVM => ServiceLocator.Current.GetInstance<RecipeDetailsPageViewModel>();
         public EditRecipePageViewModel EditRecipePageVM => ServiceLocator.Current.GetInstance<EditRecipePageViewModel>();
+        public SignInPageViewModel SignInPageVM => ServiceLocator.Current.GetInstance<SignInPageViewModel>();
+        public AppViewModel AppVM => ServiceLocator.Current.GetInstance<AppViewModel>();
+        public CartPageViewModel CartPageVM => SimpleIoc.Default.GetInstanceWithoutCaching<CartPageViewModel>();
     }
 }

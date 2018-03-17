@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +13,14 @@ namespace ChefsBook_UWP_App.Services
 {
     public class ApiHelper
     {
-        private readonly string _baseUrl = @"http://localhost:5000/api/";
+        private readonly string _baseUrl;
+        private readonly string _accessToken;
+
+        public ApiHelper(string baseUrl = "", string accessToken = "")
+        {
+            _baseUrl = baseUrl;
+            _accessToken = accessToken;
+        }
 
         public async Task<T> GetAsync<T>(string endpoint)
         {
@@ -23,9 +31,18 @@ namespace ChefsBook_UWP_App.Services
             }
         }
 
+        public async Task PostAsync(string endpoint)
+        {
+            using (var client = CreateHttpClient())
+            {
+                var response = await client.PostAsync(endpoint, new JsonStringContent(""));
+                HandleResponse(response);
+            }
+        }
+
         public async Task PostAsync(string endpoint, object content)
         {
-            using (HttpClient client = CreateHttpClient())
+            using (var client = CreateHttpClient())
             {
                 var response = await client.PostAsync(endpoint, new JsonStringContent(content));
                 HandleResponse(response);
@@ -34,7 +51,7 @@ namespace ChefsBook_UWP_App.Services
 
         public async Task<T> PostAsync<T>(string endpoint, object content)
         {
-            using (HttpClient client = CreateHttpClient())
+            using (var client = CreateHttpClient())
             {
                 var response = await client.PostAsync(endpoint, new JsonStringContent(content));
                 return await HandleResponse<T>(response);
@@ -43,7 +60,7 @@ namespace ChefsBook_UWP_App.Services
 
         public async Task PutAsync(string endpoint, object content)
         {
-            using (HttpClient client = CreateHttpClient())
+            using (var client = CreateHttpClient())
             {
                 var response = await client.PutAsync(endpoint, new JsonStringContent(content));
                 HandleResponse(response);
@@ -52,7 +69,7 @@ namespace ChefsBook_UWP_App.Services
 
         public async Task DeleteAsync(string endpoint)
         {
-            using (HttpClient client = CreateHttpClient())
+            using (var client = CreateHttpClient())
             {
                 var response = await client.DeleteAsync(endpoint);
                 HandleResponse(response);
@@ -97,6 +114,8 @@ namespace ChefsBook_UWP_App.Services
             {
                 BaseAddress = new Uri(_baseUrl)
             };
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
+
             return client;
         }
 

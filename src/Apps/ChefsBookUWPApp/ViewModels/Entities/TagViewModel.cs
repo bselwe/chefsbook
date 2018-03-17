@@ -1,6 +1,5 @@
 ﻿using ChefsBook.Core.Contracts;
 using GalaSoft.MvvmLight;
-using System;
 
 namespace ChefsBook_UWP_App.ViewModels
 {

@@ -9,7 +9,8 @@
       "packages": true,
       "**/Logs": true,
       "deploy": true,
-      ".vs": true
+      ".vs": true,
+      "**/*.rsa": true
     }
   }
   

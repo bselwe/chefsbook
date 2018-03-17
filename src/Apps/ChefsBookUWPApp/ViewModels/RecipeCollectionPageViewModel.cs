@@ -13,36 +13,27 @@ namespace ChefsBook_UWP_App.ViewModels
 {
     public class RecipeCollectionPageViewModel : ViewModelBase
     {
-        private readonly IRecipeApiService _recipeApiService;
+        private readonly IApiService _apiService;
 
-        public RecipeCollectionPageViewModel(IRecipeApiService recipeApiService)
+        public RecipeCollectionPageViewModel(IApiService apiService)
         {
-            _recipeApiService = recipeApiService;
+            _apiService = apiService;
             Task.Run(() => GetAllRecipes());
-            Task.Run(() => GetAllTags());
-        }
-
-        private async void GetAllTags()
-        {
-            var tags = await _recipeApiService.GetAllTags();
-
-            await DispatcherHelper.RunAsync(() =>
-            {
-                _availableTags = tags;
-            });
         }
 
         private async void GetAllRecipes()
         {
-            var recipes = await _recipeApiService.GetAllRecipes();
+            var recipes = await _apiService.GetAllRecipes();
+
+            var updatedRecipes = new ObservableCollection<RecipeTileViewModel>();
+            foreach (var recipe in recipes)
+            {
+                updatedRecipes.Add(new RecipeTileViewModel(recipe));
+            }
 
             await DispatcherHelper.RunAsync(() =>
             {
-                Recipes.Clear();
-                foreach (var recipe in recipes)
-                {
-                    Recipes.Add(new RecipeTileViewModel(recipe));
-                }
+                Recipes = updatedRecipes;
             });
         }
 
@@ -62,7 +53,7 @@ namespace ChefsBook_UWP_App.ViewModels
                     ?? (_reloadCommand = new RelayCommand(
                     () =>
                     {
-                        GetAllRecipes();
+                        Task.Run(() => GetAllRecipes());
                     }));
             }
         }
@@ -80,8 +71,6 @@ namespace ChefsBook_UWP_App.ViewModels
             get => _tagsSearchQuery;
             set => Set(ref _tagsSearchQuery, value);
         }
-
-        private List<TagDTO> _availableTags { get; set; }
 
         private RelayCommand _searchQuerySubmittedCommand;
         public RelayCommand SearchQuerySubmittedCommand
@@ -106,7 +95,7 @@ namespace ChefsBook_UWP_App.ViewModels
                 filterDTO.Tags.Add(tagName);
             }
 
-            var result = await _recipeApiService.FilterRecipes(filterDTO);
+            var result = await _apiService.FilterRecipes(filterDTO);
 
             Recipes = new ObservableCollection<RecipeTileViewModel>(
                 result.ConvertAll(r => new RecipeTileViewModel(r as RecipeDTO)));

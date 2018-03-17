@@ -7,7 +7,12 @@ WORKDIR /app/Apps/WebApiApp
 RUN dotnet restore
 RUN dotnet build
 
-EXPOSE 5000/tcp
+EXPOSE 5001/tcp
+
+WORKDIR /app/Apps/Data
+
+RUN cp localhost.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
 
 WORKDIR /app/Apps/MigrationsApp
 

@@ -4,13 +4,14 @@ namespace ChefsBook.Core.Models
 {
     public class Ingredient
     {
-        public Guid IngredientId { get; private set; }
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
         public string Quantity { get; private set; }
+        public int SequenceNumber { get; private set; }
 
         private Ingredient() { }
 
-        public static Ingredient Create(string name, string quantity)
+        public static Ingredient Create(string name, string quantity, int sequenceNumber = 0)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -19,9 +20,10 @@ namespace ChefsBook.Core.Models
 
             return new Ingredient
             {
-                IngredientId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 Name = name,
-                Quantity = quantity
+                Quantity = quantity,
+                SequenceNumber = sequenceNumber
             };
         }
     }
